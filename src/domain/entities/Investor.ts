@@ -1,16 +1,29 @@
+import { Email } from '../value-objects/Email';
 import { RiskProfile } from '../value-objects/RiskProfile';
 
 class Investor {
-  private readonly name: string;
-  private readonly cpf: string;
-  private readonly email: string;
-  private readonly riskProfile: RiskProfile;
+  name: string;
+  private readonly _cpf: string;
+  private _email: Email;
+  riskProfile: RiskProfile;
 
-  constructor(name: string, cpf: string, email: string, riskProfile: RiskProfile) {
+  constructor(name: string, cpf: string, email: Email, riskProfile: RiskProfile) {
     this.name = name;
-    this.cpf = cpf;
-    this.email = email;
+    this._cpf = cpf;
+    this._email = email;
     this.riskProfile = riskProfile;
+  }
+
+  setEmail(newEmail: Email): void {
+    this._email = newEmail;
+  }
+
+  get email(): string {
+    return this._email.getValue();
+  }
+
+  get cpf(): string {
+    return this._cpf;
   }
 
   introduce(): string {
@@ -20,8 +33,8 @@ class Investor {
   personalInfo(): string {
     return `
       Nome: ${this.name} 
-      CPF: ${this.cpf}
-      Email: ${this.email} 
+      CPF: ${this._cpf}
+      Email: ${this._email.getValue()} 
       Risco: ${this.riskProfile}
     `;
   }
