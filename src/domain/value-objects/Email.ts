@@ -1,4 +1,4 @@
-export class Email {
+class Email {
   private readonly value: string;
 
   constructor(value: string) {
@@ -16,3 +16,5 @@ export class Email {
     return this.value;
   }
 }
+
+export { Email };

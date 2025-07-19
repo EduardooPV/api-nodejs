@@ -1,10 +1,10 @@
-import { Investor } from './domain/entities/Investor';
-import { Email } from './domain/value-objects/Email';
-import { RiskProfile } from './domain/value-objects/RiskProfile';
+import { FixedIncome } from './domain/entities/FixedIncome';
+import { RiskLevel } from './domain/value-objects/RiskLevel';
 
-const email = new Email('lorem@asduh.com');
-const duds = new Investor('Duds', '12312312312', email, RiskProfile.Moderate);
+const fixedIncomeProduct = new FixedIncome('CDB', RiskLevel.Moderate, 1000, new Date());
 
-console.log(duds.cpf);
-console.log(duds.introduce());
-console.log(duds.personalInfo());
+console.log(fixedIncomeProduct.getDetails());
+
+const fundsProduct = new FixedIncome('AMW', RiskLevel.High, 1000, new Date());
+
+console.log(fundsProduct.getDetails());
