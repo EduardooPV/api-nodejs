@@ -1,5 +1,7 @@
-function greet(name: string): string {
-  return `Olá, ${name}`;
-}
+import { Investor } from './domain/entities/Investor';
+import { RiskProfile } from './domain/value-objects/RiskProfile';
 
-console.log(greet('Dudu'));
+const duds = new Investor('Duds', '12312312312', 'duds@gmail.com', RiskProfile.Moderate);
+
+console.log(duds.introduce());
+console.log(duds.personalInfo());
