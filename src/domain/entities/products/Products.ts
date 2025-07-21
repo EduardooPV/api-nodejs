@@ -1,4 +1,4 @@
-import { RiskLevel } from '../value-objects/RiskLevel';
+import { RiskLevel } from '../../value-objects/RiskLevel';
 
 abstract class Product {
   protected name: string;

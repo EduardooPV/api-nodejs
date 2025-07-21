@@ -1,10 +1,14 @@
-import { FixedIncome } from './domain/entities/FixedIncome';
-import { RiskLevel } from './domain/value-objects/RiskLevel';
+import { ImmediateOrder } from './domain/entities/orders/ImmediateOrder';
+import { RecurringOrder } from './domain/entities/orders/RecurringOrder';
+import { ScheduledOrder } from './domain/entities/orders/ScheduledOrder';
+import { IOrder } from './domain/interfaces/Order';
 
-const fixedIncomeProduct = new FixedIncome('CDB', RiskLevel.Moderate, 1000, new Date());
+function processOrder(order: IOrder): string {
+  return order.execute();
+}
 
-console.log(fixedIncomeProduct.getDetails());
+console.log(processOrder(new RecurringOrder()));
 
-const fundsProduct = new FixedIncome('AMW', RiskLevel.High, 1000, new Date());
+console.log(processOrder(new ScheduledOrder()));
 
-console.log(fundsProduct.getDetails());
+console.log(processOrder(new ImmediateOrder()));
