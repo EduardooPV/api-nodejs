@@ -1,6 +1,6 @@
-import { IOrder } from '../../interfaces/Order';
+import { IExecutableOrder } from '../../interfaces/ExecutableOrder';
 
-class ImmediateOrder implements IOrder {
+class ImmediateOrder implements IExecutableOrder {
   execute(): string {
     return `Executando ordem imediata`;
   }

@@ -1,6 +1,6 @@
-import { IOrder } from '../../interfaces/Order';
+import { IExecutableOrder } from '../../interfaces/ExecutableOrder';
 
-class RecurringOrder implements IOrder {
+class RecurringOrder implements IExecutableOrder {
   execute(): string {
     return `Executando ordem recorrente`;
   }

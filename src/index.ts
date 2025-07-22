@@ -1,14 +1,22 @@
-import { ImmediateOrder } from './domain/entities/orders/ImmediateOrder';
-import { RecurringOrder } from './domain/entities/orders/RecurringOrder';
-import { ScheduledOrder } from './domain/entities/orders/ScheduledOrder';
+import { ConsoleLogger } from './domain/entities/ConsoleLogger';
+import { ConsoleNotifier } from './domain/entities/ConsoleNotifier';
+import { OrderValidator } from './domain/entities/OrderValidator';
 import { IOrder } from './domain/interfaces/Order';
+import { OrderService } from './domain/service/OrderService';
 
-function processOrder(order: IOrder): string {
-  return order.execute();
-}
+const logger = new ConsoleLogger();
+const notifier = new ConsoleNotifier();
+const validator = new OrderValidator();
 
-console.log(processOrder(new RecurringOrder()));
+const orderService = new OrderService(logger, notifier, validator);
 
-console.log(processOrder(new ScheduledOrder()));
+const fakeOrder: IOrder = {
+  id: '321',
+  userId: '123',
+  amount: 30,
+  execute: () => {
+    console.log('Execução da ordem...');
+  },
+};
 
-console.log(processOrder(new ImmediateOrder()));
+orderService.execute(fakeOrder);

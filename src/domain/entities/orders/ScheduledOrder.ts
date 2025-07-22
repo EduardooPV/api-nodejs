@@ -1,6 +1,6 @@
-import { IOrder } from '../../interfaces/Order';
+import { IExecutableOrder } from '../../interfaces/ExecutableOrder';
 
-class ScheduledOrder implements IOrder {
+class ScheduledOrder implements IExecutableOrder {
   execute(): string {
     return `Executando ordem para o futuro`;
   }
