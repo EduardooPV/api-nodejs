@@ -9,7 +9,7 @@ export default [
     languageOptions: {
       parser: parserTs,
       parserOptions: {
-        project: './tsconfig.json',
+        project: ['./tsconfig.json', './tsconfig.eslint.json'],
         sourceType: 'module',
       },
     },
@@ -19,7 +19,6 @@ export default [
     },
     rules: {
       'prettier/prettier': 'error',
-      'no-console': 'warn',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/explicit-function-return-type': 'error',
       '@typescript-eslint/explicit-module-boundary-types': 'error',

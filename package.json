@@ -4,9 +4,11 @@
   "main": "index.js",
   "module": "commonjs",
   "scripts": {
-    "dev": "ts-node src/index.ts",
+    "dev": "ts-node src/main/main.ts",
     "build": "tsc",
-    "start": "node dist/index.js",
+    "start": "node dist/main/main.js",
+    "unit:test": "jest",
+    "unit:test:watch": "jest --watch",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write .",
     "prepare": "husky install"
@@ -23,6 +25,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.0.14",
     "@typescript-eslint/eslint-plugin": "^8.37.0",
     "@typescript-eslint/parser": "^8.37.0",
@@ -30,8 +33,11 @@
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.5.1",
     "husky": "^8.0.3",
+    "jest": "^30.0.5",
+    "jiti": "^2.5.1",
     "lint-staged": "^16.1.2",
     "prettier": "^3.6.2",
+    "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }
