@@ -4,7 +4,7 @@
   "main": "index.js",
   "module": "commonjs",
   "scripts": {
-    "dev": "ts-node src/main/main.ts",
+    "dev": "nodemon src/main/main.ts",
     "build": "tsc",
     "start": "node dist/main/main.js",
     "unit:test": "jest",
@@ -26,7 +26,7 @@
   "description": "",
   "devDependencies": {
     "@types/jest": "^30.0.0",
-    "@types/node": "^24.0.14",
+    "@types/node": "^24.1.0",
     "@typescript-eslint/eslint-plugin": "^8.37.0",
     "@typescript-eslint/parser": "^8.37.0",
     "eslint": "^9.31.0",
@@ -36,9 +36,15 @@
     "jest": "^30.0.5",
     "jiti": "^2.5.1",
     "lint-staged": "^16.1.2",
+    "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
+    "prisma": "^6.12.0",
     "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.12.0",
+    "dotenv": "^17.2.1"
   }
 }
