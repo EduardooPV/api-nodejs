@@ -14,7 +14,7 @@ const server = http.createServer(async (request, response) => {
   const formattedDate = formatDateTime(now);
   console.log(`[${formattedDate}] Incoming Request: ${method} ${url}`);
 
-  await router(request, response);
+  router.resolve(request, response);
   return;
 });
 
