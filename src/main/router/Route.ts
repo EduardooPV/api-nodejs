@@ -5,5 +5,5 @@ export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 export interface RouteDefinition {
   path: string;
   method: HttpMethod;
-  handler: (req: IncomingMessage, res: ServerResponse) => void;
+  handler: (req: IncomingMessage, res: ServerResponse, params?: Record<string, string>) => void;
 }
