@@ -1,8 +1,18 @@
 import { IncomingMessage } from 'http';
-import { parse } from 'url';
 
 export function parseQueryParams<T = unknown>(request: IncomingMessage): Partial<T> {
-  const url = typeof request.url === 'string' ? request.url : '';
-  const parsedUrl = parse(url, true);
-  return parsedUrl.query as Partial<T>;
+  const base = `http://${request.headers.host}`;
+
+  if (request.url == null) {
+    return {} as Partial<T>;
+  }
+
+  const url = new URL(request.url, base);
+  const query: Record<string, string> = {};
+
+  url.searchParams.forEach((value, key) => {
+    query[key] = value;
+  });
+
+  return query as Partial<T>;
 }
