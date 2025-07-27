@@ -1,6 +1,8 @@
 import { prisma } from '../database/prismaClient';
 import { IUsersRepository } from '../../domains/users/repositories/IUserRepository';
 import { User } from '../../domains/users/entities/User';
+import { buildPaginationResponse } from '../../shared/utils/paginationResponse';
+import { IPaginatedResponse } from '../../shared/interfaces/IPaginatedResponse';
 
 class PostgresUsersRepository implements IUsersRepository {
   async findByEmail(email: string): Promise<User | null> {
@@ -24,6 +26,17 @@ class PostgresUsersRepository implements IUsersRepository {
         id: crypto.randomUUID(),
       },
     });
+  }
+
+  async listUsers(page: number = 1, perPage: number = 10): Promise<IPaginatedResponse<User>> {
+    const skip = (page - 1) * perPage;
+
+    const [users, total] = await Promise.all([
+      prisma.user.findMany({ skip, take: perPage }),
+      prisma.user.count(),
+    ]);
+
+    return buildPaginationResponse(users, total, page, perPage);
   }
 }
 
