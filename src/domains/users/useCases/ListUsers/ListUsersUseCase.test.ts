@@ -10,7 +10,8 @@ describe('ListUsersListCase', () => {
       findByEmail: jest.fn(),
       create: jest.fn(),
       listUsers: jest.fn(),
-      findUserById: jest.fn(),
+      findById: jest.fn(),
+      deleteById: jest.fn(),
     };
     listUsersUseCase = new ListUsersUseCase(usersRepository);
   });

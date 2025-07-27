@@ -1,19 +1,18 @@
-import { User } from '../../entities/User';
 import { UserNotFound } from '../../errors/UserNotFound';
 import { IUsersRepository } from '../../repositories/IUserRepository';
-import { IFindUserByIdRequestDTO } from './FindUserByIdDTO';
+import { IDeleteUserByIdRequestDTO } from './DeleteUserByIdDTO';
 
-class FindUserByIdUseCase {
+class DeleteUserByIdUseCase {
   constructor(private userRepository: IUsersRepository) {}
 
-  async execute(data: IFindUserByIdRequestDTO): Promise<User | null> {
+  async execute(data: IDeleteUserByIdRequestDTO): Promise<void> {
     const user = await this.userRepository.findById(data.id);
 
     if (!user) {
       throw new UserNotFound();
     }
 
-    return user;
+    await this.userRepository.deleteById(data.id);
   }
 }
-export { FindUserByIdUseCase };
+export { DeleteUserByIdUseCase };

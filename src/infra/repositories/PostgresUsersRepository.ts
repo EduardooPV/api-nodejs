@@ -39,8 +39,14 @@ class PostgresUsersRepository implements IUsersRepository {
     return buildPaginationResponse(users, total, page, perPage);
   }
 
-  async findUserById(id: string): Promise<User | null> {
+  async findById(id: string): Promise<User | null> {
     return prisma.user.findUnique({
+      where: { id: id },
+    });
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await prisma.user.delete({
       where: { id: id },
     });
   }

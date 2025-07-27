@@ -5,7 +5,8 @@ interface IUsersRepository {
   findByEmail(email: string): Promise<User | null>;
   create(user: User): Promise<void>;
   listUsers(page: number, perPage: number): Promise<IPaginatedResponse<User>>;
-  findUserById(id: string): Promise<User | null>;
+  findById(id: string): Promise<User | null>;
+  deleteById(id: string): Promise<void>;
 }
 
 export { IUsersRepository };
