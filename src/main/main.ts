@@ -1,6 +1,6 @@
 import http from 'http';
 import { router } from './router';
-import { formatDateTime } from '../shared/utils/formatDateTime';
+import { loggerMiddleware } from '../shared/http/middlewares/loggerMiddleware';
 
 const server = http.createServer(async (request, response) => {
   const { url, method } = request;
@@ -10,9 +10,7 @@ const server = http.createServer(async (request, response) => {
     return response.end(JSON.stringify({ message: 'Bad Request: URL or Method missing/empty' }));
   }
 
-  const now = new Date();
-  const formattedDate = formatDateTime(now);
-  console.log(`[${formattedDate}] Incoming Request: ${method} ${url}`);
+  await loggerMiddleware(request, response);
 
   router.resolve(request, response);
   return;
