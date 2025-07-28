@@ -1,5 +1,5 @@
 interface IGetUserRequestDTO {
-  id: string;
+  id?: string;
 }
 
 export { IGetUserRequestDTO };

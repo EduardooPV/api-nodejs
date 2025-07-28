@@ -6,6 +6,10 @@ class DeleteUserUseCase {
   constructor(private userRepository: IUsersRepository) {}
 
   async execute(data: IDeleteUserRequestDTO): Promise<void> {
+    if (data.id == null) {
+      throw new Error('User id is required');
+    }
+
     const user = await this.userRepository.findById(data.id);
 
     if (!user) {

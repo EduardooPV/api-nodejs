@@ -1,5 +1,5 @@
 interface IDeleteUserRequestDTO {
-  id: string;
+  id?: string;
 }
 
 export { IDeleteUserRequestDTO };

@@ -12,16 +12,11 @@ class DeleteUserController {
     try {
       const id = request.params?.id;
 
-      if (id == null) {
-        response
-          .writeHead(400, { 'Content-Type': 'application/json' })
-          .end(JSON.stringify({ error: 'User id is required' }));
-        return;
-      }
-
       await this.deleteUserByIdUseCase.execute({ id });
 
-      response.writeHead(204).end();
+      response
+        .writeHead(200, { 'Content-Type': 'application/json' })
+        .end(JSON.stringify({ message: 'User deleted successfully' }));
     } catch (error) {
       handleHttpError(error, response);
     }

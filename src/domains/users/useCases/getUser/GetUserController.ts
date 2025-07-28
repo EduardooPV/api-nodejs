@@ -12,13 +12,6 @@ class GetUserController {
     try {
       const id = request.params?.id;
 
-      if (id == null) {
-        response
-          .writeHead(400, { 'Content-Type': 'application/json' })
-          .end(JSON.stringify({ error: 'User id is required' }));
-        return;
-      }
-
       const user = await this.getUserUseCase.execute({ id });
 
       response.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify(user));
