@@ -1,11 +1,11 @@
 import { UserNotFound } from '../../errors/UserNotFound';
 import { IUsersRepository } from '../../repositories/IUserRepository';
-import { IUpdateUserByIdParamsDTO, IUpdateUserByIdRequestDTO } from './UpdateUserByIdDTO';
+import { IUpdateUserParamsDTO, IUpdateUserRequestDTO } from './UpdateUserDTO';
 
-class UpdateUserByIdUseCase {
+class UpdateUserUseCase {
   constructor(private userRepository: IUsersRepository) {}
 
-  async execute(params: IUpdateUserByIdParamsDTO, data: IUpdateUserByIdRequestDTO): Promise<void> {
+  async execute(params: IUpdateUserParamsDTO, data: IUpdateUserRequestDTO): Promise<void> {
     if (params.id == null) {
       throw new Error('User id is required');
     }
@@ -16,8 +16,8 @@ class UpdateUserByIdUseCase {
       throw new UserNotFound();
     }
 
-    await this.userRepository.updateUserById(params.id, data);
+    await this.userRepository.updateById(params.id, data);
   }
 }
 
-export { UpdateUserByIdUseCase };
+export { UpdateUserUseCase };

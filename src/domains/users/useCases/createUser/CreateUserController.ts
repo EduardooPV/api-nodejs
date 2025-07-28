@@ -8,11 +8,11 @@ class CreateUserController {
   constructor(private createUserUseCase: CreateUserUseCase) {}
 
   async handle(request: IncomingMessage, response: ServerResponse): Promise<void> {
-    const rawBody = await parseBody(request);
-
-    const { name, email, password } = rawBody as ICreateUserRequestDTO;
-
     try {
+      const rawBody = await parseBody(request);
+
+      const { name, email, password } = rawBody as ICreateUserRequestDTO;
+
       await this.createUserUseCase.execute({
         name,
         email,

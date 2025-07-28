@@ -1,9 +1,9 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { handleHttpError } from '../../../../shared/http/handleHttpError';
-import { FindUserByIdUseCase } from './FindUserByIdUseCase';
+import { DeleteUserUseCase } from './DeleteUserUseCase';
 
-class FindUserByIdController {
-  constructor(private findUserByIdUseCase: FindUserByIdUseCase) {}
+class DeleteUserController {
+  constructor(private deleteUserByIdUseCase: DeleteUserUseCase) {}
 
   async handle(
     request: IncomingMessage & { params?: { id: string } },
@@ -19,13 +19,13 @@ class FindUserByIdController {
         return;
       }
 
-      const user = await this.findUserByIdUseCase.execute({ id });
+      await this.deleteUserByIdUseCase.execute({ id });
 
-      response.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify(user));
+      response.writeHead(204).end();
     } catch (error) {
       handleHttpError(error, response);
     }
   }
 }
 
-export { FindUserByIdController };
+export { DeleteUserController };

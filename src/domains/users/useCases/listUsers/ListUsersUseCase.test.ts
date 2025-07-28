@@ -9,10 +9,10 @@ describe('ListUsersListCase', () => {
     usersRepository = {
       findByEmail: jest.fn(),
       create: jest.fn(),
-      listUsers: jest.fn(),
+      findAllPaginated: jest.fn(),
       findById: jest.fn(),
       deleteById: jest.fn(),
-      updateUserById: jest.fn(),
+      updateById: jest.fn(),
     };
     listUsersUseCase = new ListUsersUseCase(usersRepository);
   });
@@ -33,12 +33,12 @@ describe('ListUsersListCase', () => {
       },
     };
 
-    usersRepository.listUsers.mockResolvedValue(users);
+    usersRepository.findAllPaginated.mockResolvedValue(users);
 
     const result = await listUsersUseCase.execute({ page: 1, perPage: 10 });
 
-    expect(usersRepository.listUsers).toHaveBeenCalledWith(1, 10);
-    expect(usersRepository.listUsers).toHaveBeenCalledTimes(1);
+    expect(usersRepository.findAllPaginated).toHaveBeenCalledWith(1, 10);
+    expect(usersRepository.findAllPaginated).toHaveBeenCalledTimes(1);
     expect(result).toHaveProperty('items');
     expect(result).toHaveProperty('pagination');
     expect(result.items).toHaveLength(2);

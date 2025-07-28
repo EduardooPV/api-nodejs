@@ -1,22 +1,22 @@
 import { describe, it, beforeEach, expect, jest } from '@jest/globals';
 import { IUsersRepository } from '../../repositories/IUserRepository';
-import { UpdateUserByIdUseCase } from './UpdateUserByIdUseCase';
+import { UpdateUserUseCase } from './UpdateUserUseCase';
 import { User } from '../../entities/User';
 
-describe('UpdateUserByIdUseCase', () => {
+describe('UpdateUserUseCase', () => {
   let usersRepository: jest.Mocked<IUsersRepository>;
-  let updateUserByIdUseCase: UpdateUserByIdUseCase;
+  let updateUserUseCase: UpdateUserUseCase;
 
   beforeEach(() => {
     usersRepository = {
       findByEmail: jest.fn(),
       create: jest.fn(),
-      listUsers: jest.fn(),
+      findAllPaginated: jest.fn(),
       findById: jest.fn(),
       deleteById: jest.fn(),
-      updateUserById: jest.fn(),
+      updateById: jest.fn(),
     };
-    updateUserByIdUseCase = new UpdateUserByIdUseCase(usersRepository);
+    updateUserUseCase = new UpdateUserUseCase(usersRepository);
   });
 
   it('should update a user if id exist', async () => {
@@ -31,12 +31,12 @@ describe('UpdateUserByIdUseCase', () => {
 
     usersRepository.findById.mockResolvedValue(userData);
 
-    await updateUserByIdUseCase.execute(params, userData);
+    await updateUserUseCase.execute(params, userData);
 
     expect(usersRepository.findById).toHaveBeenCalledWith(params.id);
-    expect(usersRepository.updateUserById).toHaveBeenCalledWith(params.id, userData);
+    expect(usersRepository.updateById).toHaveBeenCalledWith(params.id, userData);
 
-    const updatedUser = (usersRepository.updateUserById as jest.Mock).mock.calls[0][1] as User;
+    const updatedUser = (usersRepository.updateById as jest.Mock).mock.calls[0][1] as User;
 
     expect(updatedUser.email).toBe(userData.email);
     expect(updatedUser.name).toBe(userData.name);

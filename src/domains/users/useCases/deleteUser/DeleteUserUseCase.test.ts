@@ -1,25 +1,24 @@
 import { describe, it, beforeEach, expect, jest } from '@jest/globals';
 import { IUsersRepository } from '../../repositories/IUserRepository';
-import { FindUserByIdUseCase } from './FindUserByIdUseCase';
-import { User } from '../../entities/User';
+import { DeleteUserUseCase } from './DeleteUserUseCase';
 
-describe('FindUserByIdUseCase', () => {
+describe('DeleteUserUseCase', () => {
   let usersRepository: jest.Mocked<IUsersRepository>;
-  let findUserByIdUseCase: FindUserByIdUseCase;
+  let deleteUserUseCase: DeleteUserUseCase;
 
   beforeEach(() => {
     usersRepository = {
       findByEmail: jest.fn(),
       create: jest.fn(),
-      listUsers: jest.fn(),
+      findAllPaginated: jest.fn(),
       findById: jest.fn(),
       deleteById: jest.fn(),
-      updateUserById: jest.fn(),
+      updateById: jest.fn(),
     };
-    findUserByIdUseCase = new FindUserByIdUseCase(usersRepository);
+    deleteUserUseCase = new DeleteUserUseCase(usersRepository);
   });
 
-  it('should return user', async () => {
+  it('should delete user by id', async () => {
     const params = {
       id: '1',
     };
@@ -31,10 +30,9 @@ describe('FindUserByIdUseCase', () => {
       password: 'password123',
     });
 
-    const user = (await findUserByIdUseCase.execute(params)) as User;
+    await deleteUserUseCase.execute(params);
 
     expect(usersRepository.findById).toHaveBeenCalledWith(params.id);
-
-    expect(user.id).toEqual('1');
+    expect(usersRepository.deleteById).toHaveBeenCalledWith(params.id);
   });
 });

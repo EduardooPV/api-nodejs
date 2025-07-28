@@ -1,23 +1,23 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { parseBody } from '../../../../shared/utils/parseBody';
 import { handleHttpError } from '../../../../shared/http/handleHttpError';
-import { IUpdateUserByIdRequestDTO } from './UpdateUserByIdDTO';
-import { UpdateUserByIdUseCase } from './UpdateUserByIdUseCase';
+import { IUpdateUserRequestDTO } from './UpdateUserDTO';
+import { UpdateUserUseCase } from './UpdateUserUseCase';
 
-class UpdateUserByIdController {
-  constructor(private updateUserByIdUseCase: UpdateUserByIdUseCase) {}
+class UpdateUserController {
+  constructor(private updateUserUseCase: UpdateUserUseCase) {}
 
   async handle(
     request: IncomingMessage & { params?: { id: string } },
     response: ServerResponse,
   ): Promise<void> {
-    const rawBody = await parseBody(request);
-    const id = request.params?.id;
-
-    const body = rawBody as IUpdateUserByIdRequestDTO;
-
     try {
-      await this.updateUserByIdUseCase.execute({ id }, body);
+      const rawBody = await parseBody(request);
+      const id = request.params?.id;
+
+      const body = rawBody as IUpdateUserRequestDTO;
+
+      await this.updateUserUseCase.execute({ id }, body);
 
       response
         .writeHead(200, { 'Content-Type': 'application/json' })
@@ -28,4 +28,4 @@ class UpdateUserByIdController {
   }
 }
 
-export { UpdateUserByIdController };
+export { UpdateUserController };

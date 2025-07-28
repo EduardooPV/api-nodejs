@@ -3,20 +3,9 @@ import { IUsersRepository } from '../../domains/users/repositories/IUserReposito
 import { User } from '../../domains/users/entities/User';
 import { buildPaginationResponse } from '../../shared/utils/paginationResponse';
 import { IPaginatedResponse } from '../../shared/interfaces/IPaginatedResponse';
+import { IUpdateUserRequestDTO } from '../../domains/users/useCases/updateUser/UpdateUserDTO';
 
 class PostgresUsersRepository implements IUsersRepository {
-  async findByEmail(email: string): Promise<User | null> {
-    const user = await prisma.user.findUnique({
-      where: { email: email },
-    });
-
-    if (user === null) {
-      return null;
-    }
-
-    return user;
-  }
-
   async create(user: User): Promise<void> {
     await prisma.user.create({
       data: {
@@ -28,7 +17,22 @@ class PostgresUsersRepository implements IUsersRepository {
     });
   }
 
-  async listUsers(page: number = 1, perPage: number = 10): Promise<IPaginatedResponse<User>> {
+  async findByEmail(email: string): Promise<User | null> {
+    return await prisma.user.findUnique({
+      where: { email: email },
+    });
+  }
+
+  async findById(id: string): Promise<User | null> {
+    return prisma.user.findUnique({
+      where: { id: id },
+    });
+  }
+
+  async findAllPaginated(
+    page: number = 1,
+    perPage: number = 10,
+  ): Promise<IPaginatedResponse<User>> {
     const skip = (page - 1) * perPage;
 
     const [users, total] = await Promise.all([
@@ -39,22 +43,16 @@ class PostgresUsersRepository implements IUsersRepository {
     return buildPaginationResponse(users, total, page, perPage);
   }
 
-  async findById(id: string): Promise<User | null> {
-    return prisma.user.findUnique({
-      where: { id: id },
-    });
-  }
-
   async deleteById(id: string): Promise<void> {
     await prisma.user.delete({
       where: { id: id },
     });
   }
 
-  async updateUserById(id: string, userData: Partial<User>): Promise<User> {
-    return await prisma.user.update({
+  async updateById(id: string, data: IUpdateUserRequestDTO): Promise<void> {
+    await prisma.user.update({
       where: { id: id },
-      data: userData,
+      data,
     });
   }
 }

@@ -1,9 +1,9 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { handleHttpError } from '../../../../shared/http/handleHttpError';
-import { DeleteUserByIdUseCase } from './DeleteUserByIdUseCase';
+import { GetUserUseCase } from './GetUserUseCase';
 
-class DeleteUserByIdController {
-  constructor(private deleteUserByIdUseCase: DeleteUserByIdUseCase) {}
+class GetUserController {
+  constructor(private getUserUseCase: GetUserUseCase) {}
 
   async handle(
     request: IncomingMessage & { params?: { id: string } },
@@ -19,13 +19,13 @@ class DeleteUserByIdController {
         return;
       }
 
-      await this.deleteUserByIdUseCase.execute({ id });
+      const user = await this.getUserUseCase.execute({ id });
 
-      response.writeHead(204).end();
+      response.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify(user));
     } catch (error) {
       handleHttpError(error, response);
     }
   }
 }
 
-export { DeleteUserByIdController };
+export { GetUserController };
