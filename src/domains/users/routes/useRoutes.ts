@@ -4,6 +4,7 @@ import { createUserController } from '../useCases/CreateUser';
 import { listUsersController } from '../useCases/ListUsers';
 import { findUserByIdController } from '../useCases/FindUserById';
 import { deleteUserByIdController } from '../useCases/DeleteUserById';
+import { updateUserByIdController } from '../useCases/UpdateUserById';
 
 export function registerUserRoutes(router: Router): void {
   router.register({
@@ -30,5 +31,13 @@ export function registerUserRoutes(router: Router): void {
     path: '/users/:id',
     handler: (req: IncomingMessage, res: ServerResponse) =>
       void deleteUserByIdController.handle(req, res),
+  });
+
+  router.register({
+    method: 'PUT',
+    path: '/users/:id',
+    handler: (req: IncomingMessage, res: ServerResponse) => {
+      void updateUserByIdController.handle(req, res);
+    },
   });
 }

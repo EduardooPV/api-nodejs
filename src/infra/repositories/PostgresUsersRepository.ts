@@ -50,6 +50,13 @@ class PostgresUsersRepository implements IUsersRepository {
       where: { id: id },
     });
   }
+
+  async updateUserById(id: string, userData: Partial<User>): Promise<User> {
+    return await prisma.user.update({
+      where: { id: id },
+      data: userData,
+    });
+  }
 }
 
 export { PostgresUsersRepository };

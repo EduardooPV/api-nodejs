@@ -12,6 +12,7 @@ describe('ListUsersListCase', () => {
       listUsers: jest.fn(),
       findById: jest.fn(),
       deleteById: jest.fn(),
+      updateUserById: jest.fn(),
     };
     listUsersUseCase = new ListUsersUseCase(usersRepository);
   });

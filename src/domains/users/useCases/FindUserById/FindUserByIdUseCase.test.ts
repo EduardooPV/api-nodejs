@@ -14,6 +14,7 @@ describe('FindUserByIdUseCase', () => {
       listUsers: jest.fn(),
       findById: jest.fn(),
       deleteById: jest.fn(),
+      updateUserById: jest.fn(),
     };
     findUserByIdUseCase = new FindUserByIdUseCase(usersRepository);
   });

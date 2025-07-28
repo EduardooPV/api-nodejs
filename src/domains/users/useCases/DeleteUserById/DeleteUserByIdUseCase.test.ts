@@ -13,6 +13,7 @@ describe('DeleteUserByIdUseCase', () => {
       listUsers: jest.fn(),
       findById: jest.fn(),
       deleteById: jest.fn(),
+      updateUserById: jest.fn(),
     };
     deleteUserByIdUseCase = new DeleteUserByIdUseCase(usersRepository);
   });
