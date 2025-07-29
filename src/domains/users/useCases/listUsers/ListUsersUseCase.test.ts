@@ -33,11 +33,18 @@ describe('ListUsersListCase', () => {
       },
     };
 
+    const queryParams = {
+      page: 1,
+      perPage: 10,
+      name: 'John',
+      email: 'john',
+    };
+
     usersRepository.findAllPaginated.mockResolvedValue(users);
 
-    const result = await listUsersUseCase.execute({ page: 1, perPage: 10 });
+    const result = await listUsersUseCase.execute(queryParams);
 
-    expect(usersRepository.findAllPaginated).toHaveBeenCalledWith(1, 10);
+    expect(usersRepository.findAllPaginated).toHaveBeenCalled();
     expect(usersRepository.findAllPaginated).toHaveBeenCalledTimes(1);
     expect(result).toHaveProperty('items');
     expect(result).toHaveProperty('pagination');

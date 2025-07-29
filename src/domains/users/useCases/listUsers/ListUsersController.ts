@@ -2,6 +2,8 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { ListUsersUseCase } from './ListUsersUseCase';
 import { handleHttpError } from '../../../../shared/http/handleHttpError';
 import { getPaginationParams } from '../../../../shared/utils/paginationParams';
+import { parseQueryParams } from '../../../../shared/utils/parseQueryParams';
+import { IListUsersRequestDTO } from './ListUsersDTO';
 
 class ListUsersController {
   constructor(private listUsersUseCase: ListUsersUseCase) {}
@@ -9,8 +11,18 @@ class ListUsersController {
   async handle(request: IncomingMessage, response: ServerResponse): Promise<void> {
     try {
       const { page, perPage } = getPaginationParams(request);
+      const { name, email, orderBy, orderDirection } = parseQueryParams(
+        request,
+      ) as IListUsersRequestDTO;
 
-      const users = await this.listUsersUseCase.execute({ page, perPage });
+      const users = await this.listUsersUseCase.execute({
+        page,
+        perPage,
+        name,
+        email,
+        orderBy,
+        orderDirection,
+      });
 
       response.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify(users));
     } catch (error) {

@@ -32,11 +32,25 @@ class PostgresUsersRepository implements IUsersRepository {
   async findAllPaginated(
     page: number = 1,
     perPage: number = 10,
+    name?: string,
+    email?: string,
+    orderBy: string = 'name',
+    orderDirection: 'asc' | 'desc' = 'asc',
   ): Promise<IPaginatedResponse<User>> {
     const skip = (page - 1) * perPage;
 
     const [users, total] = await Promise.all([
-      prisma.user.findMany({ skip, take: perPage }),
+      prisma.user.findMany({
+        skip,
+        take: perPage,
+        where: {
+          ...(name != null && { name: { contains: name } }),
+          ...(email != null && { email: { contains: email } }),
+        },
+        orderBy: {
+          [orderBy]: orderDirection,
+        },
+      }),
       prisma.user.count(),
     ]);
 
