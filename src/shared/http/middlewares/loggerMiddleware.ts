@@ -1,10 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { formatDateTime } from '../../utils/formatDateTime';
 
-export async function loggerMiddleware(
-  request: IncomingMessage,
-  response: ServerResponse,
-): Promise<void> {
+async function loggerMiddleware(request: IncomingMessage, response: ServerResponse): Promise<void> {
   const { method, url } = request;
   const timestamp = formatDateTime(new Date());
 
@@ -14,3 +11,5 @@ export async function loggerMiddleware(
     console.log(`[${timestamp}] << ${method} ${url} [${response.statusCode}]`);
   });
 }
+
+export { loggerMiddleware };

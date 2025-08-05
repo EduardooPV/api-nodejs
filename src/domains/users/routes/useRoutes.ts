@@ -5,8 +5,9 @@ import { listUsersController } from '../useCases/listUsers';
 import { getUserController } from '../useCases/getUser';
 import { deleteUserByIdController } from '../useCases/deleteUser';
 import { updateUserController } from '../useCases/updateUser';
+import { ensureAuthenticated } from '../../../shared/http/middlewares/ensureAuthenticatedMiddleware';
 
-export function registerUserRoutes(router: Router): void {
+function registerUserRoutes(router: Router): void {
   router.register({
     method: 'GET',
     path: '/users',
@@ -16,7 +17,9 @@ export function registerUserRoutes(router: Router): void {
   router.register({
     method: 'GET',
     path: '/users/:id',
-    handler: (req: IncomingMessage, res: ServerResponse) => getUserController.handle(req, res),
+    handler: (req, res) => {
+      ensureAuthenticated(req, res, () => getUserController.handle(req, res));
+    },
   });
 
   router.register({
@@ -38,3 +41,5 @@ export function registerUserRoutes(router: Router): void {
     handler: (req: IncomingMessage, res: ServerResponse) => updateUserController.handle(req, res),
   });
 }
+
+export { registerUserRoutes };
