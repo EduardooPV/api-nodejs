@@ -14,7 +14,14 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "noEmit": true
+    "noEmit": true,
+    "baseUrl": "src",
+    "paths": {
+      "@infra/*": ["infrastructure/*"],
+      "@app/*": ["application/*"],
+      "@domain/*": ["domain/*"],
+      "@shared/*": ["shared/*"]
+    },
   },
-  "include": ["src"]
+  "include": ["src", "src/main.ts"]
 }

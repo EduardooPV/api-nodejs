@@ -4,9 +4,9 @@
   "main": "index.js",
   "module": "commonjs",
   "scripts": {
-    "dev": "nodemon src/main/main.ts",
+    "dev": "nodemon src/main.ts",
     "build": "tsc",
-    "start": "node dist/main/main.js",
+    "start": "node dist/main.js",
     "unit:test": "jest",
     "unit:test:watch": "jest --watch",
     "lint": "eslint . --ext .ts",
