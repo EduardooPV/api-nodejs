@@ -2,6 +2,7 @@ import { describe, it, beforeEach, expect, jest } from '@jest/globals';
 import { IUsersRepository } from '../../../domains/users/repositories/IUserRepository';
 import { CreateUserUseCase } from './CreateUserUseCase';
 import { User } from '../../../domains/users/entities/User';
+import bcryptjs from 'bcryptjs';
 
 describe('CreateUserUseCase', () => {
   let usersRepository: jest.Mocked<IUsersRepository>;
@@ -21,6 +22,7 @@ describe('CreateUserUseCase', () => {
 
   it('should create a user if email does not exist', async () => {
     const userData = {
+      id: 'id',
       name: 'John Doe',
       email: 'john.doe@example.com',
       password: 'password123',
@@ -35,12 +37,14 @@ describe('CreateUserUseCase', () => {
       expect.objectContaining({
         name: userData.name,
         email: userData.email,
-        password: userData.password,
       }),
     );
 
     const createdUser = (usersRepository.create as jest.Mock).mock.calls[0][0] as User;
 
+    expect(createdUser.id).toBeDefined();
+    expect(createdUser.password).not.toBe(userData.password);
+    expect(await bcryptjs.compare(userData.password, createdUser.password)).toBe(true);
     expect(createdUser.email).toBe(userData.email);
     expect(createdUser.name).toBe(userData.name);
   });
