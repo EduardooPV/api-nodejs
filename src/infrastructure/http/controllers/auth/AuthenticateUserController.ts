@@ -1,8 +1,8 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { handleHttpError } from '../../../shared/http/handleHttpError';
 import { AuthenticateUserUseCase } from '../../../../application/useCases/authenticateUser/AuthenticateUserUseCase';
-import { parseBody } from '../../../shared/http/utils/parseBody';
 import { IAuthenticateUserRequestDTO } from '../../../../application/useCases/authenticateUser/AuthenticateUserDTO';
+import { parseBody } from '../../utils/parseBody';
+import { handleHttpError } from '../../utils/handleHttpError';
 
 class AuthenticateUserController {
   constructor(private authenticateUserUseCase: AuthenticateUserUseCase) {}

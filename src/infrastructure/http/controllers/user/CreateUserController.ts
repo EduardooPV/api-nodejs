@@ -1,8 +1,8 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { CreateUserUseCase } from '../../../../application/useCases/createUser/CreateUserUseCase';
-import { parseBody } from '../../../shared/http/utils/parseBody';
-import { handleHttpError } from '../../../shared/http/handleHttpError';
 import { ICreateUserRequestDTO } from '../../../../application/useCases/createUser/CreateUserDTO';
+import { parseBody } from '../../utils/parseBody';
+import { handleHttpError } from '../../utils/handleHttpError';
 
 class CreateUserController {
   constructor(private createUserUseCase: CreateUserUseCase) {}

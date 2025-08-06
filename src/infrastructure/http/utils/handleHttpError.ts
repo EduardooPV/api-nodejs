@@ -1,5 +1,5 @@
 import { ServerResponse } from 'http';
-import { AppError } from '../errors/AppError';
+import { AppError } from '../../../shared/errors/AppError';
 
 function handleHttpError(error: unknown, response: ServerResponse): void {
   const isAppError = error instanceof AppError;

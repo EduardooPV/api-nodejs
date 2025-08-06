@@ -1,8 +1,8 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { parseBody } from '../../../shared/http/utils/parseBody';
-import { handleHttpError } from '../../../shared/http/handleHttpError';
 import { IUpdateUserRequestDTO } from '../../../../application/useCases/updateUser/UpdateUserDTO';
 import { UpdateUserUseCase } from '../../../../application/useCases/updateUser/UpdateUserUseCase';
+import { parseBody } from '../../utils/parseBody';
+import { handleHttpError } from '../../utils/handleHttpError';
 
 class UpdateUserController {
   constructor(private updateUserUseCase: UpdateUserUseCase) {}

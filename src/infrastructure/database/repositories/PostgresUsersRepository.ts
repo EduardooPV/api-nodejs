@@ -1,9 +1,9 @@
-import { prisma } from '../database/prismaClient';
-import { IUsersRepository } from '../../domains/users/repositories/IUserRepository';
-import { User } from '../../domains/users/entities/User';
-import { buildPaginationResponse } from '../../shared/utils/paginationResponse';
-import { IPaginatedResponse } from '../../shared/interfaces/IPaginatedResponse';
-import { IUpdateUserRequestDTO } from '../../domains/users/useCases/updateUser/UpdateUserDTO';
+import { IUpdateUserRequestDTO } from '../../../application/useCases/updateUser/UpdateUserDTO';
+import { User } from '../../../domains/users/entities/User';
+import { IUsersRepository } from '../../../domains/users/repositories/IUserRepository';
+import { IPaginatedResponse } from '../../../shared/interfaces/IPaginatedResponse';
+import { buildPaginationResponse } from '../../../shared/utils/paginationResponse';
+import { prisma } from '../prismaClient';
 
 class PostgresUsersRepository implements IUsersRepository {
   async create(user: User): Promise<void> {

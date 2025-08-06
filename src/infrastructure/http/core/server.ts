@@ -1,9 +1,9 @@
-import http from 'http';
-import { router } from './routes';
+import http, { IncomingMessage, ServerResponse } from 'http';
 import { loggerMiddleware } from '../middlewares/loggerMiddleware';
+import { router } from '.';
 
 function startServer(port: number): void {
-  const server = http.createServer(async (request, response) => {
+  const server = http.createServer(async (request: IncomingMessage, response: ServerResponse) => {
     const { url, method } = request;
 
     if (url === undefined || url === '' || method === undefined || method === '') {
@@ -13,7 +13,7 @@ function startServer(port: number): void {
 
     await loggerMiddleware(request, response);
 
-    router.resolve(request, response);
+    return router.resolve(request, response);
   });
 
   server.listen(port, () => {

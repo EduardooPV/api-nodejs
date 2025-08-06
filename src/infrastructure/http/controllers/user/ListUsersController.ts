@@ -1,9 +1,9 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { ListUsersUseCase } from '../../../../application/useCases/listUsers/ListUsersUseCase';
-import { handleHttpError } from '../../../shared/http/handleHttpError';
 import { getPaginationParams } from '../../../../shared/utils/paginationParams';
-import { parseQueryParams } from '../../../shared/http/utils/parseQueryParams';
 import { IListUsersRequestDTO } from '../../../../application/useCases/listUsers/ListUsersDTO';
+import { parseQueryParams } from '../../utils/parseQueryParams';
+import { handleHttpError } from '../../utils/handleHttpError';
 
 class ListUsersController {
   constructor(private listUsersUseCase: ListUsersUseCase) {}

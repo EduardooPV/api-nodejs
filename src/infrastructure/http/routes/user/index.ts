@@ -1,5 +1,4 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { Router } from '../../../main/router/Router';
 import { ensureAuthenticated } from '../../middlewares/ensureAuthenticatedMiddleware';
 
 import { PostgresUsersRepository } from '../../../database/repositories/PostgresUsersRepository';
@@ -15,6 +14,7 @@ import { DeleteUserController } from '../../controllers/user/DeleteUserControlle
 import { GetUserController } from '../../controllers/user/GetUserController';
 import { ListUsersController } from '../../controllers/user/ListUsersController';
 import { UpdateUserController } from '../../controllers/user/UpdateUserController';
+import { Router } from '../../core/Router';
 
 const usersRepository = new PostgresUsersRepository();
 
@@ -34,7 +34,7 @@ function registerUserRoutes(router: Router): void {
   router.register({
     method: 'GET',
     path: '/users/:id',
-    handler: (req, res) => {
+    handler: (req: IncomingMessage, res: ServerResponse) => {
       ensureAuthenticated(req, res, () => getUserController.handle(req, res));
     },
   });

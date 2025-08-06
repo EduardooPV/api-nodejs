@@ -1,5 +1,5 @@
-import { Router } from '../Router';
-import { registerRoutes } from '../registerRoutes';
+import { registerRoutes } from './registerRoutes';
+import { Router } from './Router';
 
 const router = new Router();
 
