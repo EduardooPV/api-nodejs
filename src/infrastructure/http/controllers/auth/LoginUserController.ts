@@ -3,8 +3,11 @@ import { AuthenticateUserUseCase } from '../../../../application/useCases/auth/a
 import { IAuthenticateUserRequestDTO } from '../../../../application/useCases/auth/authenticateUser/AuthenticateUserDTO';
 import { parseBody } from '../../utils/parseBody';
 import { handleHttpError } from '../../utils/handleHttpError';
+import { env } from '../../../../shared/utils/env';
 
-class AuthenticateUserController {
+class LoginUserController {
+  private readonly REFRESH_TOKEN_MAX_AGE_SECONDS = 7 * 24 * 60 * 60;
+
   constructor(private authenticateUserUseCase: AuthenticateUserUseCase) {}
 
   async handle(request: IncomingMessage, response: ServerResponse): Promise<void> {
@@ -18,15 +21,13 @@ class AuthenticateUserController {
         password,
       });
 
-      const isProd = process.env.NODE_ENV === 'production';
-
       const cookie = [
         `refreshToken=${refreshToken}`,
         `HttpOnly`,
         `Path=/`,
-        `Max-Age=${604800}`,
+        `Max-Age=${this.REFRESH_TOKEN_MAX_AGE_SECONDS}`,
         `SameSite=Strict`,
-        isProd ? 'Secure' : '',
+        env.nodeEnv === 'production' ? 'Secure' : '',
       ]
         .filter(Boolean)
         .join('; ');
@@ -41,4 +42,4 @@ class AuthenticateUserController {
   }
 }
 
-export { AuthenticateUserController };
+export { LoginUserController };

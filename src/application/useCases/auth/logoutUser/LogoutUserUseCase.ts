@@ -2,6 +2,7 @@ import { InvalidRefreshToken } from '../../../../domains/auth/errors/InvalidRefr
 import { UserNotFound } from '../../../../domains/users/errors/UserNotFound';
 import { IUsersRepository } from '../../../../domains/users/repositories/IUserRepository';
 import jsonwebtoken from 'jsonwebtoken';
+import { env } from '../../../../shared/utils/env';
 
 class LogoutUserUseCase {
   constructor(private userRepository: IUsersRepository) {}
@@ -10,7 +11,7 @@ class LogoutUserUseCase {
     let payload: { sub: string };
 
     try {
-      payload = jsonwebtoken.verify(refreshToken, process.env.REFRESH_SECRET_JWT!) as {
+      payload = jsonwebtoken.verify(refreshToken, env.refreshSecretJwt) as {
         sub: string;
       };
     } catch {

@@ -2,7 +2,7 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { PostgresUsersRepository } from '../../../database/repositories/PostgresUsersRepository';
 import { AuthenticateUserUseCase } from '../../../../application/useCases/auth/authenticateUser/AuthenticateUserUseCase';
 import { Router } from '../../core/Router';
-import { AuthenticateUserController } from '../../controllers/auth/AuthenticateUserController';
+import { LoginUserController } from '../../controllers/auth/LoginUserController';
 import { RefreshTokenController } from '../../controllers/auth/RefreshTokenController';
 import { RefreshTokenUseCase } from '../../../../application/useCases/auth/refreshToken/RefreshTokenUseCase';
 import { LogoutUserController } from '../../controllers/auth/LogoutUserController';
@@ -11,9 +11,7 @@ import { LogoutUserUseCase } from '../../../../application/useCases/auth/logoutU
 function registerAuthRoutes(router: Router): void {
   const usersRepository = new PostgresUsersRepository();
 
-  const authenticateUserController = new AuthenticateUserController(
-    new AuthenticateUserUseCase(usersRepository),
-  );
+  const loginUserController = new LoginUserController(new AuthenticateUserUseCase(usersRepository));
 
   const refreshTokenController = new RefreshTokenController(
     new RefreshTokenUseCase(usersRepository),
@@ -24,8 +22,7 @@ function registerAuthRoutes(router: Router): void {
   router.register({
     method: 'POST',
     path: '/auth/login',
-    handler: (req: IncomingMessage, res: ServerResponse) =>
-      authenticateUserController.handle(req, res),
+    handler: (req: IncomingMessage, res: ServerResponse) => loginUserController.handle(req, res),
   });
 
   router.register({

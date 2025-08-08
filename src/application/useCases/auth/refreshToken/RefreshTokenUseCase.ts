@@ -2,15 +2,17 @@ import { InvalidRefreshToken } from '../../../../domains/auth/errors/InvalidRefr
 import { UserNotFound } from '../../../../domains/users/errors/UserNotFound';
 import { IUsersRepository } from '../../../../domains/users/repositories/IUserRepository';
 import jsonwebtoken from 'jsonwebtoken';
+import { IRefreshTokenResponseDTO } from './RefreshTokenDTO';
+import { env } from '../../../../shared/utils/env';
 
 class RefreshTokenUseCase {
   constructor(private userRepository: IUsersRepository) {}
 
-  async execute(refreshToken: string): Promise<{ accessToken: string; refreshToken: string }> {
+  async execute(refreshToken: string): Promise<IRefreshTokenResponseDTO> {
     let payload: { sub: string };
 
     try {
-      payload = jsonwebtoken.verify(refreshToken, process.env.REFRESH_SECRET_JWT!) as {
+      payload = jsonwebtoken.verify(refreshToken, env.refreshSecretJwt) as {
         sub: string;
       };
     } catch {
@@ -25,13 +27,13 @@ class RefreshTokenUseCase {
       throw new InvalidRefreshToken();
     }
 
-    const accessToken = jsonwebtoken.sign({ sub: user.id }, process.env.SECRET_JWT!, {
-      expiresIn: '15m',
-    });
+    const accessToken = jsonwebtoken.sign({ sub: user.id }, env.secretJwt, {
+      expiresIn: env.accessTokenExpiration,
+    } as jsonwebtoken.SignOptions);
 
-    const newRefreshToken = jsonwebtoken.sign({ sub: user.id }, process.env.REFRESH_SECRET_JWT!, {
-      expiresIn: '7d',
-    });
+    const newRefreshToken = jsonwebtoken.sign({ sub: user.id }, env.refreshSecretJwt, {
+      expiresIn: env.refreshTokenExpiration,
+    } as jsonwebtoken.SignOptions);
 
     await this.userRepository.updateRefreshToken(user.id, newRefreshToken);
 

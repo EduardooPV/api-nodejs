@@ -3,6 +3,7 @@ import { LogoutUserUseCase } from '../../../../application/useCases/auth/logoutU
 import { parseCookie } from '../../utils/parseCookie';
 import { NotFoundRefreshToken } from '../../../../domains/auth/errors/NotFoundRefreshToken';
 import { handleHttpError } from '../../utils/handleHttpError';
+import { env } from '../../../../shared/utils/env';
 
 class LogoutUserController {
   constructor(private logoutUseCase: LogoutUserUseCase) {}
@@ -14,21 +15,18 @@ class LogoutUserController {
 
       await this.logoutUseCase.execute(refreshToken);
 
-      const isProd = process.env.NODE_ENV === 'production';
-      response.setHeader(
-        'Set-Cookie',
-        [
-          `refreshToken=`,
-          'HttpOnly',
-          'Path=/',
-          'Max-Age=0',
-          'SameSite=Strict',
-          isProd ? 'Secure' : '',
-        ]
-          .filter(Boolean)
-          .join('; '),
-      );
+      const cookie = [
+        `refreshToken=`,
+        `HttpOnly`,
+        `Path=/`,
+        `Max-Age=`,
+        `SameSite=Strict`,
+        env.nodeEnv === 'production' ? 'Secure' : '',
+      ]
+        .filter(Boolean)
+        .join('; ');
 
+      response.setHeader('Set-Cookie', cookie);
       response
         .writeHead(200, { 'Content-Type': 'application/json' })
         .end(JSON.stringify({ message: 'User logged out successfully' }));
