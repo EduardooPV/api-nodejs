@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { ListUsersUseCase } from '../../../../application/useCases/listUsers/ListUsersUseCase';
+import { ListUsersUseCase } from '../../../../application/useCases/users/listUsers/ListUsersUseCase';
 import { getPaginationParams } from '../../../../shared/utils/paginationParams';
-import { IListUsersRequestDTO } from '../../../../application/useCases/listUsers/ListUsersDTO';
+import { IListUsersRequestDTO } from '../../../../application/useCases/users/listUsers/ListUsersDTO';
 import { parseQueryParams } from '../../utils/parseQueryParams';
 import { handleHttpError } from '../../utils/handleHttpError';
 

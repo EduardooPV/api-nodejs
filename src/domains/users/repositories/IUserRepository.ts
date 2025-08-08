@@ -15,6 +15,7 @@ interface IUsersRepository {
     orderBy?: string,
     orderDirection?: 'asc' | 'desc',
   ): Promise<IPaginatedResponse<User>>;
+  updateRefreshToken(userId: string, refreshToken: string | null): Promise<void>;
 }
 
 export { IUsersRepository };

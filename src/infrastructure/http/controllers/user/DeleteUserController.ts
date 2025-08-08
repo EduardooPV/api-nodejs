@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 
-import { DeleteUserUseCase } from '../../../../application/useCases/deleteUser/DeleteUserUseCase';
+import { DeleteUserUseCase } from '../../../../application/useCases/users/deleteUser/DeleteUserUseCase';
 import { handleHttpError } from '../../utils/handleHttpError';
 
 class DeleteUserController {

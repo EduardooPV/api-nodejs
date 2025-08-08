@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { GetUserUseCase } from '../../../../application/useCases/getUser/GetUserUseCase';
 import { handleHttpError } from '../../utils/handleHttpError';
+import { GetUserUseCase } from '../../../../application/useCases/users/getUser/GetUserUseCase';
 
 class GetUserController {
   constructor(private getUserUseCase: GetUserUseCase) {}

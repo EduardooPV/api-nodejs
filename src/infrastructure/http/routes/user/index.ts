@@ -3,11 +3,11 @@ import { ensureAuthenticated } from '../../middlewares/ensureAuthenticatedMiddle
 
 import { PostgresUsersRepository } from '../../../database/repositories/PostgresUsersRepository';
 
-import { CreateUserUseCase } from '../../../../application/useCases/createUser/CreateUserUseCase';
-import { DeleteUserUseCase } from '../../../../application/useCases/deleteUser/DeleteUserUseCase';
-import { GetUserUseCase } from '../../../../application/useCases/getUser/GetUserUseCase';
-import { ListUsersUseCase } from '../../../../application/useCases/listUsers/ListUsersUseCase';
-import { UpdateUserUseCase } from '../../../../application/useCases/updateUser/UpdateUserUseCase';
+import { CreateUserUseCase } from '../../../../application/useCases/users/createUser/CreateUserUseCase';
+import { DeleteUserUseCase } from '../../../../application/useCases/users/deleteUser/DeleteUserUseCase';
+import { ListUsersUseCase } from '../../../../application/useCases/users/listUsers/ListUsersUseCase';
+import { GetUserUseCase } from '../../../../application/useCases/users/getUser/GetUserUseCase';
+import { UpdateUserUseCase } from '../../../../application/useCases/users/updateUser/UpdateUserUseCase';
 
 import { CreateUserController } from '../../controllers/user/CreateUserController';
 import { DeleteUserController } from '../../controllers/user/DeleteUserController';

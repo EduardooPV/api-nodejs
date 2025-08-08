@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { CreateUserUseCase } from '../../../../application/useCases/createUser/CreateUserUseCase';
-import { ICreateUserRequestDTO } from '../../../../application/useCases/createUser/CreateUserDTO';
+import { CreateUserUseCase } from '../../../../application/useCases/users/createUser/CreateUserUseCase';
+import { ICreateUserRequestDTO } from '../../../../application/useCases/users/createUser/CreateUserDTO';
 import { parseBody } from '../../utils/parseBody';
 import { handleHttpError } from '../../utils/handleHttpError';
 

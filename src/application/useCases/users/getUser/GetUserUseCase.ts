@@ -1,6 +1,6 @@
-import { User } from '../../../domains/users/entities/User';
-import { UserNotFound } from '../../../domains/users/errors/UserNotFound';
-import { IUsersRepository } from '../../../domains/users/repositories/IUserRepository';
+import { User } from '../../../../domains/users/entities/User';
+import { UserNotFound } from '../../../../domains/users/errors/UserNotFound';
+import { IUsersRepository } from '../../../../domains/users/repositories/IUserRepository';
 import { IGetUserRequestDTO } from './GetUserDTO';
 
 class GetUserUseCase {

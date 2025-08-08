@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { IUpdateUserRequestDTO } from '../../../../application/useCases/updateUser/UpdateUserDTO';
-import { UpdateUserUseCase } from '../../../../application/useCases/updateUser/UpdateUserUseCase';
+import { IUpdateUserRequestDTO } from '../../../../application/useCases/users/updateUser/UpdateUserDTO';
+import { UpdateUserUseCase } from '../../../../application/useCases/users/updateUser/UpdateUserUseCase';
 import { parseBody } from '../../utils/parseBody';
 import { handleHttpError } from '../../utils/handleHttpError';
 

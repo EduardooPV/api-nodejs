@@ -1,4 +1,4 @@
-import { IUpdateUserRequestDTO } from '../../../application/useCases/updateUser/UpdateUserDTO';
+import { IUpdateUserRequestDTO } from '../../../application/useCases/users/updateUser/UpdateUserDTO';
 import { User } from '../../../domains/users/entities/User';
 import { IUsersRepository } from '../../../domains/users/repositories/IUserRepository';
 import { IPaginatedResponse } from '../../../shared/interfaces/IPaginatedResponse';
@@ -67,6 +67,13 @@ class PostgresUsersRepository implements IUsersRepository {
     await prisma.user.update({
       where: { id: id },
       data,
+    });
+  }
+
+  async updateRefreshToken(userId: string, refreshToken: string): Promise<void> {
+    await prisma.user.update({
+      where: { id: userId },
+      data: { refreshToken: refreshToken },
     });
   }
 }

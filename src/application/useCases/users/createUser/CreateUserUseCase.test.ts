@@ -1,7 +1,7 @@
 import { describe, it, beforeEach, expect, jest } from '@jest/globals';
-import { IUsersRepository } from '../../../domains/users/repositories/IUserRepository';
+import { IUsersRepository } from '../../../../domains/users/repositories/IUserRepository';
 import { CreateUserUseCase } from './CreateUserUseCase';
-import { User } from '../../../domains/users/entities/User';
+import { User } from '../../../../domains/users/entities/User';
 import bcryptjs from 'bcryptjs';
 
 describe('CreateUserUseCase', () => {

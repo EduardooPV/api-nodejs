@@ -2,9 +2,9 @@ import { IncomingMessage, ServerResponse } from 'http';
 import jsonwebtoken from 'jsonwebtoken';
 
 function ensureAuthenticated(
-  req: IncomingMessage,
+  req: IncomingMessage & { userId?: string },
   res: ServerResponse,
-  next: (userId: string) => void,
+  next: () => void,
 ): void {
   const authHeader = req.headers.authorization;
 
@@ -17,12 +17,12 @@ function ensureAuthenticated(
   const [, token] = authHeader.split(' ');
 
   try {
-    const payload = jsonwebtoken.verify(token, 'secret') as { sub: string };
-
-    next(payload.sub);
+    const { sub } = jsonwebtoken.verify(token, process.env.SECRET_JWT!) as { sub: string };
+    req.userId = sub;
+    next();
   } catch {
-    res.writeHead(401);
-    res.end({ message: 'Invalid token' });
+    res.writeHead(401, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ message: 'Invalid token' }));
   }
 }
 

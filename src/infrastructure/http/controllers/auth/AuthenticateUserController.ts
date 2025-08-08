@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { AuthenticateUserUseCase } from '../../../../application/useCases/authenticateUser/AuthenticateUserUseCase';
-import { IAuthenticateUserRequestDTO } from '../../../../application/useCases/authenticateUser/AuthenticateUserDTO';
+import { AuthenticateUserUseCase } from '../../../../application/useCases/auth/authenticateUser/AuthenticateUserUseCase';
+import { IAuthenticateUserRequestDTO } from '../../../../application/useCases/auth/authenticateUser/AuthenticateUserDTO';
 import { parseBody } from '../../utils/parseBody';
 import { handleHttpError } from '../../utils/handleHttpError';
 
@@ -13,11 +13,28 @@ class AuthenticateUserController {
 
       const { email, password } = rawBody as IAuthenticateUserRequestDTO;
 
-      const token = await this.authenticateUserUseCase.execute({ email, password });
+      const { accessToken, refreshToken } = await this.authenticateUserUseCase.execute({
+        email,
+        password,
+      });
 
+      const isProd = process.env.NODE_ENV === 'production';
+
+      const cookie = [
+        `refreshToken=${refreshToken}`,
+        `HttpOnly`,
+        `Path=/`,
+        `Max-Age=${604800}`,
+        `SameSite=Strict`,
+        isProd ? 'Secure' : '',
+      ]
+        .filter(Boolean)
+        .join('; ');
+
+      response.setHeader('Set-Cookie', cookie);
       response
         .writeHead(200, { 'Content-Type': 'application/json' })
-        .end(JSON.stringify({ message: 'User authenticated successfully', token }));
+        .end(JSON.stringify({ message: 'User authenticated successfully', accessToken }));
     } catch (error) {
       handleHttpError(error, response);
     }

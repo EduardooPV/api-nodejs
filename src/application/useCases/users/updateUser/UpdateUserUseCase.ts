@@ -1,5 +1,5 @@
-import { UserNotFound } from '../../../domains/users/errors/UserNotFound';
-import { IUsersRepository } from '../../../domains/users/repositories/IUserRepository';
+import { UserNotFound } from '../../../../domains/users/errors/UserNotFound';
+import { IUsersRepository } from '../../../../domains/users/repositories/IUserRepository';
 import { IUpdateUserParamsDTO, IUpdateUserRequestDTO } from './UpdateUserDTO';
 
 class UpdateUserUseCase {
