@@ -1,4 +1,4 @@
-export function formatDateTime(date: Date): string {
+function formatDateTime(date: Date): string {
   const pad = (n: number): string => n.toString().padStart(2, '0');
   const day = pad(date.getDate());
   const month = pad(date.getMonth() + 1);
@@ -8,3 +8,5 @@ export function formatDateTime(date: Date): string {
   const seconds = pad(date.getSeconds());
   return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
 }
+
+export { formatDateTime };

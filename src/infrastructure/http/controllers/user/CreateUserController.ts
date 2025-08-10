@@ -2,29 +2,23 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { CreateUserUseCase } from '../../../../application/useCases/users/createUser/CreateUserUseCase';
 import { ICreateUserRequestDTO } from '../../../../application/useCases/users/createUser/CreateUserDTO';
 import { parseBody } from '../../utils/parseBody';
-import { handleHttpError } from '../../utils/handleHttpError';
+import { reply } from '../../utils/reply';
 
 class CreateUserController {
   constructor(private createUserUseCase: CreateUserUseCase) {}
 
   async handle(request: IncomingMessage, response: ServerResponse): Promise<void> {
-    try {
-      const rawBody = await parseBody(request);
+    const rawBody = await parseBody(request);
 
-      const { name, email, password } = rawBody as ICreateUserRequestDTO;
+    const { name, email, password } = rawBody as ICreateUserRequestDTO;
 
-      await this.createUserUseCase.execute({
-        name,
-        email,
-        password,
-      });
+    await this.createUserUseCase.execute({
+      name,
+      email,
+      password,
+    });
 
-      response
-        .writeHead(201, { 'Content-Type': 'application/json' })
-        .end(JSON.stringify({ message: 'User created successfully' }));
-    } catch (error) {
-      handleHttpError(error, response);
-    }
+    reply(response).created(rawBody, '/users/:id');
   }
 }
 

@@ -1,9 +1,13 @@
 class AppError extends Error {
-  public readonly statusCode: number;
+  public readonly code: string;
+  public readonly details?: unknown;
+  public readonly isOperational = true;
 
-  constructor(message: string, statusCode = 400) {
+  constructor(code: string, message: string, details?: unknown) {
     super(message);
-    this.statusCode = statusCode;
+    this.name = this.constructor.name;
+    this.code = code;
+    this.details = details;
 
     Object.setPrototypeOf(this, new.target.prototype);
   }

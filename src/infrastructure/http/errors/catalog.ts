@@ -1,0 +1,30 @@
+type ErrorCode =
+  | 'INVALID_CREDENTIALS'
+  | 'MISSING_AUTH_HEADER'
+  | 'INVALID_ACCESS_TOKEN'
+  | 'INVALID_REFRESH_TOKEN'
+  | 'USER_ALREADY_EXISTS'
+  | 'USER_NOT_FOUND'
+  | 'INVALID_USER_ID'
+  | 'BAD_REQUEST'
+  | 'VALIDATION_ERROR'
+  | 'INTERNAL_ERROR';
+
+const CODE_TO_STATUS: Readonly<Record<ErrorCode, number>> = {
+  INVALID_CREDENTIALS: 401,
+  MISSING_AUTH_HEADER: 401,
+  INVALID_ACCESS_TOKEN: 401,
+  INVALID_REFRESH_TOKEN: 401,
+  USER_ALREADY_EXISTS: 409,
+  USER_NOT_FOUND: 404,
+  INVALID_USER_ID: 400,
+  BAD_REQUEST: 400,
+  VALIDATION_ERROR: 400,
+  INTERNAL_ERROR: 500,
+} as const;
+
+function getStatusFor(code: string): number {
+  return (CODE_TO_STATUS as Record<string, number>)[code] ?? 400;
+}
+
+export { ErrorCode, CODE_TO_STATUS, getStatusFor };

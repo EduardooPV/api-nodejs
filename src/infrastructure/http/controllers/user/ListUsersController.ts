@@ -3,31 +3,27 @@ import { ListUsersUseCase } from '../../../../application/useCases/users/listUse
 import { getPaginationParams } from '../../../../shared/utils/paginationParams';
 import { IListUsersRequestDTO } from '../../../../application/useCases/users/listUsers/ListUsersDTO';
 import { parseQueryParams } from '../../utils/parseQueryParams';
-import { handleHttpError } from '../../utils/handleHttpError';
+import { reply } from '../../utils/reply';
 
 class ListUsersController {
   constructor(private listUsersUseCase: ListUsersUseCase) {}
 
   async handle(request: IncomingMessage, response: ServerResponse): Promise<void> {
-    try {
-      const { page, perPage } = getPaginationParams(request);
-      const { name, email, orderBy, orderDirection } = parseQueryParams(
-        request,
-      ) as IListUsersRequestDTO;
+    const { page, perPage } = getPaginationParams(request);
+    const { name, email, orderBy, orderDirection } = parseQueryParams(
+      request,
+    ) as IListUsersRequestDTO;
 
-      const users = await this.listUsersUseCase.execute({
-        page,
-        perPage,
-        name,
-        email,
-        orderBy,
-        orderDirection,
-      });
+    const users = await this.listUsersUseCase.execute({
+      page,
+      perPage,
+      name,
+      email,
+      orderBy,
+      orderDirection,
+    });
 
-      response.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify(users));
-    } catch (error) {
-      handleHttpError(error, response);
-    }
+    reply(response).ok({ ...users });
   }
 }
 

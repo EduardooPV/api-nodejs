@@ -1,21 +1,20 @@
 import bcryptjs from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
-import { IAuthenticateUserRequestDTO } from './AuthenticateUserDTO';
-import { PasswordIncorrectError } from '../../../../domains/auth/errors/PasswordIncorrect';
+import { IAuthenticateUserRequestDTO } from './LoginUserDTO';
+import { InvalidCredentials } from '../../../../domains/auth/errors/InvalidCredentials';
 import { IUsersRepository } from '../../../../domains/users/repositories/IUserRepository';
 import { IRefreshTokenResponseDTO } from '../refreshToken/RefreshTokenDTO';
-import { EmailNotFound } from '../../../../domains/auth/errors/EmailNotFound';
 import { env } from '../../../../shared/utils/env';
 
-class AuthenticateUserUseCase {
+class LoginUserUseCase {
   constructor(private userRepository: IUsersRepository) {}
 
   async execute(data: IAuthenticateUserRequestDTO): Promise<IRefreshTokenResponseDTO> {
     const user = await this.userRepository.findByEmail(data.email);
-    if (!user) throw new EmailNotFound();
+    if (!user) throw new InvalidCredentials();
 
     const isPasswordMatch = await bcryptjs.compare(data.password, user.password);
-    if (!isPasswordMatch) throw new PasswordIncorrectError();
+    if (!isPasswordMatch) throw new InvalidCredentials();
 
     const accessToken = jsonwebtoken.sign({ sub: user.id }, env.secretJwt, {
       expiresIn: env.accessTokenExpiration,
@@ -31,4 +30,4 @@ class AuthenticateUserUseCase {
   }
 }
 
-export { AuthenticateUserUseCase };
+export { LoginUserUseCase };

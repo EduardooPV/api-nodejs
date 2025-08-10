@@ -20,12 +20,8 @@ class RefreshTokenUseCase {
     }
 
     const user = await this.userRepository.findById(payload.sub);
-    if (!user) {
-      throw new UserNotFound();
-    }
-    if (user.refreshToken !== refreshToken) {
-      throw new InvalidRefreshToken();
-    }
+    if (!user) throw new UserNotFound();
+    if (user.refreshToken !== refreshToken) throw new InvalidRefreshToken();
 
     const accessToken = jsonwebtoken.sign({ sub: user.id }, env.secretJwt, {
       expiresIn: env.accessTokenExpiration,

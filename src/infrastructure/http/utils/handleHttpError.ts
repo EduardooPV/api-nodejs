@@ -1,14 +1,24 @@
 import { ServerResponse } from 'http';
+import { env } from '../../../shared/utils/env';
 import { AppError } from '../../../shared/errors/AppError';
+import { errorToHttp } from '../errors/translator';
 
-function handleHttpError(error: unknown, response: ServerResponse): void {
-  const isAppError = error instanceof AppError;
+function json(res: ServerResponse, status: number, body: unknown): void {
+  const payload = JSON.stringify(body);
+  res.statusCode = status;
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  res.setHeader('Content-Length', Buffer.byteLength(payload).toString());
+  res.end(payload);
+}
 
-  const statusCode = isAppError ? error.statusCode : 500;
-  const message = isAppError ? error.message : 'Internal server error';
+function handleHttpError(error: unknown, res: ServerResponse): void {
+  const { status, body } = errorToHttp(error);
 
-  response.writeHead(statusCode, { 'Content-Type': 'application/json' });
-  response.end(JSON.stringify({ message }));
+  if (env.nodeEnv !== 'production' && error instanceof AppError) {
+    (body as { error: { stack?: string } }).error.stack = (error as Error).stack ?? '';
+  }
+
+  json(res, status, body);
 }
 
 export { handleHttpError };

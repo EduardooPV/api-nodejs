@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { PostgresUsersRepository } from '../../../database/repositories/PostgresUsersRepository';
-import { AuthenticateUserUseCase } from '../../../../application/useCases/auth/authenticateUser/AuthenticateUserUseCase';
+import { LoginUserUseCase } from '../../../../application/useCases/auth/loginUser/LoginUserUseCase';
 import { Router } from '../../core/Router';
 import { LoginUserController } from '../../controllers/auth/LoginUserController';
 import { RefreshTokenController } from '../../controllers/auth/RefreshTokenController';
@@ -11,7 +11,7 @@ import { LogoutUserUseCase } from '../../../../application/useCases/auth/logoutU
 function registerAuthRoutes(router: Router): void {
   const usersRepository = new PostgresUsersRepository();
 
-  const loginUserController = new LoginUserController(new AuthenticateUserUseCase(usersRepository));
+  const loginUserController = new LoginUserController(new LoginUserUseCase(usersRepository));
 
   const refreshTokenController = new RefreshTokenController(
     new RefreshTokenUseCase(usersRepository),

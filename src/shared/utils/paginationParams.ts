@@ -1,20 +1,19 @@
 import { IncomingMessage } from 'http';
-import { parse } from 'url';
 import { IPaginationParams } from '../interfaces/IPaginationParams';
 
-export function getPaginationParams(
+function getPaginationParams(
   request: IncomingMessage,
   defaultPerPage = 10,
   maxPerPage = 10,
 ): IPaginationParams {
-  const url = typeof request.url === 'string' ? request.url : '';
-  const { query } = parse(url, true);
+  const base = 'http://localhost';
+  const u = new URL(request.url ?? '/', base);
 
-  const page = Math.max(parseInt(query.page as string) || 1, 1);
-  const perPage = Math.min(
-    Math.max(parseInt(query.perPage as string) || defaultPerPage, 1),
-    maxPerPage,
-  );
+  const pageRaw = u.searchParams.get('page');
+  const perPageRaw = u.searchParams.get('per_page') ?? u.searchParams.get('perPage');
+
+  const page = clamp(parseInt(pageRaw ?? '1', 10), 1, Number.MAX_SAFE_INTEGER);
+  const perPage = clamp(parseInt(perPageRaw ?? String(defaultPerPage), 10), 1, maxPerPage);
 
   return {
     page,
@@ -23,3 +22,10 @@ export function getPaginationParams(
     take: perPage,
   };
 }
+
+function clamp(n: number, min: number, max: number): number {
+  if (Number.isNaN(n)) return min;
+  return Math.max(min, Math.min(n, max));
+}
+
+export { getPaginationParams };

@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { handleHttpError } from '../../utils/handleHttpError';
 import { GetUserUseCase } from '../../../../application/useCases/users/getUser/GetUserUseCase';
+import { reply } from '../../utils/reply';
 
 class GetUserController {
   constructor(private getUserUseCase: GetUserUseCase) {}
@@ -9,15 +9,11 @@ class GetUserController {
     request: IncomingMessage & { params?: { id: string } },
     response: ServerResponse,
   ): Promise<void> {
-    try {
-      const id = request.params?.id;
+    const id = request.params?.id;
 
-      const user = await this.getUserUseCase.execute({ id });
+    const user = await this.getUserUseCase.execute({ id });
 
-      response.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify(user));
-    } catch (error) {
-      handleHttpError(error, response);
-    }
+    reply(response).ok({ ...user });
   }
 }
 

@@ -1,6 +1,6 @@
-import { MatchResult, Params } from '../../interfaces/IMatchResult';
+import { MatchResult, Params } from '../../../shared/interfaces/IMatchResult';
 
-export function matchPath(path: string, routePath: string): MatchResult {
+function matchPath(path: string, routePath: string): MatchResult {
   const paramNames: string[] = [];
   const regexPath = routePath.replace(/:([^/]+)/g, (_, paramName) => {
     paramNames.push(paramName);
@@ -20,3 +20,5 @@ export function matchPath(path: string, routePath: string): MatchResult {
 
   return { matched: true, params };
 }
+
+export { matchPath };

@@ -1,6 +1,6 @@
 import { IncomingMessage } from 'http';
 
-export function parseQueryParams<T = unknown>(request: IncomingMessage): Partial<T> {
+function parseQueryParams<T = unknown>(request: IncomingMessage): Partial<T> {
   const base = `http://${request.headers.host}`;
 
   if (request.url == null) {
@@ -16,3 +16,5 @@ export function parseQueryParams<T = unknown>(request: IncomingMessage): Partial
 
   return query as Partial<T>;
 }
+
+export { parseQueryParams };

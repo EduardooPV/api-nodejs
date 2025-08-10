@@ -1,6 +1,6 @@
 import { IPaginatedResponse } from '../interfaces/IPaginatedResponse';
 
-export function buildPaginationResponse<T>(
+function buildPaginationResponse<T>(
   items: T[],
   total: number,
   page: number,
@@ -23,3 +23,5 @@ export function buildPaginationResponse<T>(
     },
   };
 }
+
+export { buildPaginationResponse };

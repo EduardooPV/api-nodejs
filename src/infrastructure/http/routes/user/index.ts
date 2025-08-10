@@ -1,5 +1,4 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { ensureAuthenticated } from '../../middlewares/ensureAuthenticatedMiddleware';
 
 import { PostgresUsersRepository } from '../../../database/repositories/PostgresUsersRepository';
 
@@ -34,9 +33,7 @@ function registerUserRoutes(router: Router): void {
   router.register({
     method: 'GET',
     path: '/users/:id',
-    handler: (req: IncomingMessage, res: ServerResponse) => {
-      ensureAuthenticated(req, res, () => getUserController.handle(req, res));
-    },
+    handler: (req: IncomingMessage, res: ServerResponse) => getUserController.handle(req, res),
   });
 
   router.register({

@@ -1,66 +1,75 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { RouteDefinition } from './Route';
-import { Params } from '../../../shared/interfaces/IMatchResult';
 
-export class Router {
+import { AppError } from '../../../shared/errors/AppError';
+import { HttpMethod } from '../interfaces/IHttpMethod';
+import { RouteDefinition } from '../interfaces/IRouteDefinition';
+
+type Params = Record<string, string>;
+
+class Router {
   private routes: RouteDefinition[] = [];
 
   register(route: RouteDefinition): void {
     this.routes.push(route);
   }
 
-  resolve(req: IncomingMessage, res: ServerResponse): void {
-    const method = req.method;
+  async resolve(req: IncomingMessage, res: ServerResponse): Promise<void> {
+    const method = req.method as HttpMethod | undefined;
     const url = req.url;
 
-    if (method == null || url == null) {
-      res.statusCode = 400;
-      res.end('Bad Request');
-      return;
+    if (!method || url == null) {
+      throw new AppError('BAD_REQUEST', 'Bad Request');
     }
 
-    const pathname = new URL(`http://localhost${url}`).pathname;
+    const { pathname } = new URL(`http://localhost${url}`);
 
-    for (const route of this.routes) {
-      if (route.method !== method) continue;
+    const candidates = this.routes.filter(
+      (r) => this.sameLength(r.path, pathname) && this.pathMatches(r.path, pathname),
+    );
 
-      const { matched, params } = this.matchPath(route.path, pathname);
-
-      if (matched) {
-        (req as IncomingMessage & { params?: Params }).params = params;
-        return route.handler(req as IncomingMessage & { params?: Params }, res);
-      }
+    if (candidates.length === 0) {
+      throw new AppError('ROUTE_NOT_FOUND', 'Not Found');
     }
 
-    res.statusCode = 404;
-    res.end('Not Found');
+    const allowed = new Set<HttpMethod>(candidates.map((r) => r.method));
+    if (!allowed.has(method)) {
+      res.setHeader('Allow', Array.from(allowed).join(', '));
+      throw new AppError('METHOD_NOT_ALLOWED', 'Method Not Allowed');
+    }
+
+    const route = candidates.find((r) => r.method === method)!;
+    const params = this.extractParams(route.path, pathname);
+    (req as IncomingMessage & { params?: Params }).params = params;
+
+    await route.handler(req as IncomingMessage & { params?: Params }, res);
   }
 
-  private matchPath(
-    routePath: string,
-    actualPath: string,
-  ): { matched: boolean; params?: Record<string, string> } {
+  private sameLength(a: string, b: string): boolean {
+    return a.split('/').filter(Boolean).length === b.split('/').filter(Boolean).length;
+  }
+
+  private pathMatches(routePath: string, actualPath: string): boolean {
     const routeSegments = routePath.split('/').filter(Boolean);
     const pathSegments = actualPath.split('/').filter(Boolean);
-
-    if (routeSegments.length !== pathSegments.length) {
-      return { matched: false };
-    }
-
-    const params: Record<string, string> = {};
-
     for (let i = 0; i < routeSegments.length; i++) {
-      const routeSegment = routeSegments[i];
-      const pathSegment = pathSegments[i];
-
-      if (routeSegment.startsWith(':')) {
-        const paramName = routeSegment.slice(1);
-        params[paramName] = pathSegment;
-      } else if (routeSegment !== pathSegment) {
-        return { matched: false };
-      }
+      const r = routeSegments[i];
+      const p = pathSegments[i];
+      if (r.startsWith(':')) continue;
+      if (r !== p) return false;
     }
+    return true;
+  }
 
-    return { matched: true, params };
+  private extractParams(routePath: string, actualPath: string): Params {
+    const params: Params = {};
+    const routeSegments = routePath.split('/').filter(Boolean);
+    const pathSegments = actualPath.split('/').filter(Boolean);
+    for (let i = 0; i < routeSegments.length; i++) {
+      const r = routeSegments[i];
+      if (r.startsWith(':')) params[r.slice(1)] = pathSegments[i];
+    }
+    return params;
   }
 }
+
+export { Router };

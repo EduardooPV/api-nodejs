@@ -2,7 +2,7 @@ import { AppError } from '../../../shared/errors/AppError';
 
 class InvalidRefreshToken extends AppError {
   constructor() {
-    super('Invalid refresh token', 401);
+    super('INVALID_REFRESH_TOKEN', 'Invalid refresh token.');
   }
 }
 

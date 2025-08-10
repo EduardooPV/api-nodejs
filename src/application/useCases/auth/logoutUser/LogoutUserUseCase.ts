@@ -19,12 +19,8 @@ class LogoutUserUseCase {
     }
 
     const user = await this.userRepository.findById(payload.sub);
-    if (!user) {
-      throw new UserNotFound();
-    }
-    if (user.refreshToken == null) {
-      throw new InvalidRefreshToken();
-    }
+    if (!user) throw new UserNotFound();
+    if (user.refreshToken == null) throw new InvalidRefreshToken();
 
     await this.userRepository.updateRefreshToken(user.id, null);
   }

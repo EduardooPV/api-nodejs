@@ -1,44 +1,36 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { AuthenticateUserUseCase } from '../../../../application/useCases/auth/authenticateUser/AuthenticateUserUseCase';
-import { IAuthenticateUserRequestDTO } from '../../../../application/useCases/auth/authenticateUser/AuthenticateUserDTO';
+import { LoginUserUseCase } from '../../../../application/useCases/auth/loginUser/LoginUserUseCase';
+import { IAuthenticateUserRequestDTO } from '../../../../application/useCases/auth/loginUser/LoginUserDTO';
 import { parseBody } from '../../utils/parseBody';
-import { handleHttpError } from '../../utils/handleHttpError';
 import { env } from '../../../../shared/utils/env';
+import { serializeCookie } from '../../utils/cookies';
+import { reply } from '../../utils/reply';
 
 class LoginUserController {
   private readonly REFRESH_TOKEN_MAX_AGE_SECONDS = 7 * 24 * 60 * 60;
 
-  constructor(private authenticateUserUseCase: AuthenticateUserUseCase) {}
+  constructor(private authenticateUserUseCase: LoginUserUseCase) {}
 
   async handle(request: IncomingMessage, response: ServerResponse): Promise<void> {
-    try {
-      const rawBody = await parseBody(request);
+    const rawBody = await parseBody(request);
 
-      const { email, password } = rawBody as IAuthenticateUserRequestDTO;
+    const { email, password } = rawBody as IAuthenticateUserRequestDTO;
 
-      const { accessToken, refreshToken } = await this.authenticateUserUseCase.execute({
-        email,
-        password,
-      });
+    const { accessToken, refreshToken } = await this.authenticateUserUseCase.execute({
+      email,
+      password,
+    });
 
-      const cookie = [
-        `refreshToken=${refreshToken}`,
-        `HttpOnly`,
-        `Path=/`,
-        `Max-Age=${this.REFRESH_TOKEN_MAX_AGE_SECONDS}`,
-        `SameSite=Strict`,
-        env.nodeEnv === 'production' ? 'Secure' : '',
-      ]
-        .filter(Boolean)
-        .join('; ');
+    const cookie = serializeCookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: env.nodeEnv === 'production',
+      path: '/',
+      sameSite: 'Strict',
+      maxAge: this.REFRESH_TOKEN_MAX_AGE_SECONDS,
+    });
 
-      response.setHeader('Set-Cookie', cookie);
-      response
-        .writeHead(200, { 'Content-Type': 'application/json' })
-        .end(JSON.stringify({ message: 'User authenticated successfully', accessToken }));
-    } catch (error) {
-      handleHttpError(error, response);
-    }
+    response.setHeader('Set-Cookie', cookie);
+    reply(response).ok({ message: 'User authenticated successfully', accessToken });
   }
 }
 
