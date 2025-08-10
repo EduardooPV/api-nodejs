@@ -6,6 +6,7 @@ interface Responder {
   created: <T>(body: T, location?: string, headers?: Headers) => void;
   noContent: (headers?: Headers) => void;
   text: (status: number, body: string, headers?: Headers) => void;
+  html: (status: number, body: string, headers?: Headers) => void;
 }
 
 export { Headers, Responder };

@@ -11,14 +11,15 @@ function docsHtml(): string {
   <style>body{margin:0}</style>
 </head>
 <body>
-  <script id="api-reference" type="application/json">
-  {
-    "theme": "purple",
-    "layout": "modern",
-    "openapiUrl": "/openapi.json"
-  }
-  </script>
+  <div id="app"></div>
   <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+  <script>
+    Scalar.createApiReference('#app', {
+      theme: 'purple',
+      layout: 'modern',
+      url: '/openapi.json' 
+    })
+  </script>
 </body>
 </html>`;
 }

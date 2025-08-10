@@ -42,6 +42,14 @@ function reply(res: ServerResponse): Responder {
       res.setHeader('Content-Length', Buffer.byteLength(body).toString());
       res.end(body);
     },
+
+    html(status, body, headers): void {
+      res.statusCode = status;
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      applyHeaders(res, headers);
+      res.setHeader('Content-Length', Buffer.byteLength(body).toString());
+      res.end(body);
+    },
   };
 }
 
