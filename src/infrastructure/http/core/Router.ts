@@ -6,6 +6,8 @@ import { RouteDefinition } from '../interfaces/IRouteDefinition';
 
 type Params = Record<string, string>;
 
+type ReqWithMeta = IncomingMessage & { params?: Params; metricsRoute?: string };
+
 class Router {
   private routes: RouteDefinition[] = [];
 
@@ -28,11 +30,13 @@ class Router {
     );
 
     if (candidates.length === 0) {
+      (req as ReqWithMeta).metricsRoute = '__not_found__';
       throw new AppError('ROUTE_NOT_FOUND', 'Not Found');
     }
 
     const allowed = new Set<HttpMethod>(candidates.map((r) => r.method));
     if (!allowed.has(method)) {
+      (req as ReqWithMeta).metricsRoute = candidates[0]?.path ?? 'unknown';
       res.setHeader('Allow', Array.from(allowed).join(', '));
       throw new AppError('METHOD_NOT_ALLOWED', 'Method Not Allowed');
     }
@@ -41,7 +45,11 @@ class Router {
     const params = this.extractParams(route.path, pathname);
     (req as IncomingMessage & { params?: Params }).params = params;
 
-    await route.handler(req as IncomingMessage & { params?: Params }, res);
+    const reqWithMeta = req as ReqWithMeta;
+    reqWithMeta.params = params;
+    reqWithMeta.metricsRoute = route.path;
+
+    await route.handler(reqWithMeta, res);
   }
 
   private sameLength(a: string, b: string): boolean {

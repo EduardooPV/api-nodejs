@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import http, { IncomingMessage, ServerResponse } from 'http';
 import { loggerMiddleware } from '../middlewares/loggerMiddleware';
 import { router } from '.';
 import { handleHttpError } from '../utils/handleHttpError';
+import { metricsRecorder } from '../middlewares/metricsRecorder';
 
 function startServer(port: number): void {
   const server = http.createServer(async (request: IncomingMessage, response: ServerResponse) => {
@@ -16,9 +18,16 @@ function startServer(port: number): void {
         );
       }
 
-      await loggerMiddleware(request, response);
-
-      return await router.resolve(request, response);
+      return await new Promise<void>((resolve, reject) => {
+        metricsRecorder(request, response, () => {
+          (async () => {
+            await loggerMiddleware(request, response);
+            await router.resolve(request, response);
+          })()
+            .then(resolve)
+            .catch(reject);
+        });
+      });
     } catch (error) {
       if (response.headersSent) {
         response.destroy();
