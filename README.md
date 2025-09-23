@@ -12,9 +12,9 @@ A documentação é feita com OpenAPI 3 e renderizada no Scalar em /docs.
 - Jest
 - ESLint + Prettier + Husky
 - Github Actions
-- Docker Compose (Postgres)
+- Docker Compose (Postgres, Prometheus, Grafana)
 - OpenAPI 3.0 + Scalar (UI em /docs)
-- Observabilidade com Prometheus (em `/metrics`)
+- Observabilidade com Prometheus e Grafana
 
 ## Estrutura
 
@@ -56,13 +56,16 @@ main.ts
 
 Cada módulo exporta seu PathsObject (ex.: infra/http/routes/user/openapi.ts) e o spec.ts faz o merge.
 
-## Observabilidade (Métricas Prometheus)
+## Observabilidade (Métricas Prometheus e Grafana)
 
 A API expõe métricas em formato Prometheus em `GET /metrics`.
 
 - `http_requests_total{method,route,status}` — total de requisições por método/rota/status (base para taxa de erro).
 - `http_request_duration_seconds_*{method,route,status}` — histograma de latência (serve para p50/p95/p99).
 - `api_*` — métricas automáticas do processo Node (CPU, memória, GC, event loop), via `collectDefaultMetrics`.
+
+**Prometheus:** Interface disponível em [http://localhost:9090](http://localhost:9090)  
+**Grafana:** Interface disponível em [http://localhost:3000](http://localhost:3000)
 
 ## Como rodar
 
