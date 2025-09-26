@@ -1,5 +1,5 @@
 {
-  "name": "oop-ts-study",
+  "name": "api-nodejs",
   "version": "1.0.0",
   "main": "index.js",
   "module": "commonjs",

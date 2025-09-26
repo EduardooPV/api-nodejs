@@ -1,7 +1,7 @@
 import { describe, it, beforeEach, expect, jest } from '@jest/globals';
-import { IUsersRepository } from '../../../domains/users/repositories/IUserRepository';
 import { GetUserUseCase } from './GetUserUseCase';
-import { User } from '../../../domains/users/entities/User';
+import { User } from '../../../../domains/users/entities/User';
+import { IUsersRepository } from '../../../../domains/users/repositories/IUserRepository';
 
 describe('GetUserUseCase', () => {
   let usersRepository: jest.Mocked<IUsersRepository>;
@@ -15,6 +15,7 @@ describe('GetUserUseCase', () => {
       findById: jest.fn(),
       deleteById: jest.fn(),
       updateById: jest.fn(),
+      updateRefreshToken: jest.fn(),
     };
     getUserUseCase = new GetUserUseCase(usersRepository);
   });

@@ -1,3 +1,0 @@
-- [] Criar uma nova pasta `presentation` com o conteúdo do `infrastructure/http`
-- [] Renomear pasta `useCase` dentro de `application` para `services`
-- [] Trocar abstração do ORM Prisma para usar um Driver de banco nativo

@@ -15,6 +15,7 @@ describe('UpdateUserUseCase', () => {
       findById: jest.fn(),
       deleteById: jest.fn(),
       updateById: jest.fn(),
+      updateRefreshToken: jest.fn(),
     };
     updateUserUseCase = new UpdateUserUseCase(usersRepository);
   });

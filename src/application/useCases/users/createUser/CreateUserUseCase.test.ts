@@ -16,6 +16,7 @@ describe('CreateUserUseCase', () => {
       findById: jest.fn(),
       deleteById: jest.fn(),
       updateById: jest.fn(),
+      updateRefreshToken: jest.fn(),
     };
     createUserUseCase = new CreateUserUseCase(usersRepository);
   });
@@ -47,5 +48,20 @@ describe('CreateUserUseCase', () => {
     expect(await bcryptjs.compare(userData.password, createdUser.password)).toBe(true);
     expect(createdUser.email).toBe(userData.email);
     expect(createdUser.name).toBe(userData.name);
+  });
+
+  it('should throw error if email already exists', async () => {
+    const userData = {
+      id: 'id',
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      password: 'password123',
+    };
+
+    usersRepository.findByEmail.mockResolvedValue(
+      new User(userData.name, userData.email, userData.password),
+    );
+
+    await expect(createUserUseCase.execute(userData)).rejects.toThrow();
   });
 });
