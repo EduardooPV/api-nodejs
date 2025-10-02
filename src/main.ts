@@ -1,4 +1,4 @@
-import { startServer } from './infrastructure/http/core/server';
+import { startServer } from '@infrastructure/http/core/server';
 
 const PORT = 3333;
 

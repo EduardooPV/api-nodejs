@@ -15,13 +15,13 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "noEmit": true,
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "paths": {
-      "@infra/*": ["infrastructure/*"],
-      "@app/*": ["application/*"],
-      "@domain/*": ["domain/*"],
+      "@application/*": ["application/*"],
+      "@domain/*": ["domains/*"],
+      "@infrastructure/*": ["infrastructure/*"],
       "@shared/*": ["shared/*"]
-    },
+    }
   },
   "include": ["src", "src/main.ts"]
 }

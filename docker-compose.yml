@@ -17,6 +17,7 @@ services:
     container_name: prometheus
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
     ports:
       - '9090:9090'
     extra_hosts:
@@ -33,7 +34,9 @@ services:
       - grafana-data:/var/lib/grafana
 
   api:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     container_name: todo_list_api
     volumes:
       - .:/app
@@ -49,3 +52,4 @@ services:
 volumes:
   pgdata:
   grafana-data:
+  prometheus_data:
