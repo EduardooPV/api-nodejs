@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 class User {
   public readonly id: string;
   public readonly name: string;

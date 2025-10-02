@@ -4,6 +4,7 @@ import { IUsersRepository } from '../../../domains/users/repositories/IUserRepos
 import { IPaginatedResponse } from '../../../shared/interfaces/IPaginatedResponse';
 import { buildPaginationResponse } from '../../../shared/utils/paginationResponse';
 import { prisma } from '../prismaClient';
+import crypto from 'crypto';
 
 class PostgresUsersRepository implements IUsersRepository {
   async create(user: User): Promise<void> {
