@@ -1,6 +1,8 @@
 import { describe, it, beforeEach, expect, jest } from '@jest/globals';
 import { IUsersRepository } from '@domain/users/repositories/IUserRepository';
 import { DeleteUserUseCase } from './DeleteUserUseCase';
+import { InvalidUserIdError } from '@domain/users/errors/InvalidUserIdError';
+import { UserNotFound } from '@domain/users/errors/UserNotFound';
 
 describe('DeleteUserUseCase', () => {
   let usersRepository: jest.Mocked<IUsersRepository>;
@@ -20,9 +22,7 @@ describe('DeleteUserUseCase', () => {
   });
 
   it('should delete user by id', async () => {
-    const params = {
-      id: '1',
-    };
+    const params = { id: '1' };
 
     usersRepository.findById.mockResolvedValue({
       id: '1',
@@ -35,5 +35,22 @@ describe('DeleteUserUseCase', () => {
 
     expect(usersRepository.findById).toHaveBeenCalledWith(params.id);
     expect(usersRepository.deleteById).toHaveBeenCalledWith(params.id);
+  });
+
+  it('should throw InvalidUserIdError if id is missing', async () => {
+    // @ts-expect-error
+    await expect(deleteUserUseCase.execute({ id: null })).rejects.toBeInstanceOf(
+      InvalidUserIdError,
+    );
+  });
+
+  it('should throw UserNotFound if user does not exist', async () => {
+    const params = { id: '999' };
+
+    usersRepository.findById.mockResolvedValue(null);
+
+    await expect(deleteUserUseCase.execute(params)).rejects.toBeInstanceOf(UserNotFound);
+    expect(usersRepository.findById).toHaveBeenCalledWith(params.id);
+    expect(usersRepository.deleteById).not.toHaveBeenCalled();
   });
 });

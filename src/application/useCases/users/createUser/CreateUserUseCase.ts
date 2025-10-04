@@ -1,8 +1,8 @@
-import { User } from '@domain/users/entities/User';
 import { UserAlreadyExistsError } from '@domain/users/errors/UserAlreadyExistsError';
 import { IUsersRepository } from '@domain/users/repositories/IUserRepository';
 import { ICreateUserRequestDTO } from './CreateUserDTO';
 import bcryptjs from 'bcryptjs';
+import { User } from '@domain/users/entities/User';
 
 const BCRYPT_COST = 10;
 

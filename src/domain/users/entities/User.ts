@@ -13,6 +13,7 @@ class User {
     this.password = password;
     this.refreshToken = refreshToken;
     this.id = crypto.randomUUID();
+    Object.freeze(this);
   }
 }
 

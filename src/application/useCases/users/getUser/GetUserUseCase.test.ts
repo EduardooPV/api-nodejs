@@ -2,6 +2,8 @@ import { describe, it, beforeEach, expect, jest } from '@jest/globals';
 import { GetUserUseCase } from './GetUserUseCase';
 import { User } from '@domain/users/entities/User';
 import { IUsersRepository } from '@domain/users/repositories/IUserRepository';
+import { InvalidUserIdError } from '@domain/users/errors/InvalidUserIdError';
+import { UserNotFound } from '@domain/users/errors/UserNotFound';
 
 describe('GetUserUseCase', () => {
   let usersRepository: jest.Mocked<IUsersRepository>;
@@ -20,10 +22,8 @@ describe('GetUserUseCase', () => {
     getUserUseCase = new GetUserUseCase(usersRepository);
   });
 
-  it('should return user', async () => {
-    const params = {
-      id: '1',
-    };
+  it('should return the user when id is valid and user exists', async () => {
+    const params = { id: '1' };
 
     usersRepository.findById.mockResolvedValue({
       id: '1',
@@ -35,7 +35,21 @@ describe('GetUserUseCase', () => {
     const user = (await getUserUseCase.execute(params)) as User;
 
     expect(usersRepository.findById).toHaveBeenCalledWith(params.id);
+    expect(user.id).toBe('1');
+    expect(user.name).toBe('John Doe');
+  });
 
-    expect(user.id).toEqual('1');
+  it('should throw InvalidUserIdError if id is missing', async () => {
+    // @ts-expect-error
+    await expect(getUserUseCase.execute({ id: null })).rejects.toBeInstanceOf(InvalidUserIdError);
+  });
+
+  it('should throw UserNotFound if no user exists with given id', async () => {
+    const params = { id: '999' };
+
+    usersRepository.findById.mockResolvedValue(null);
+
+    await expect(getUserUseCase.execute(params)).rejects.toBeInstanceOf(UserNotFound);
+    expect(usersRepository.findById).toHaveBeenCalledWith(params.id);
   });
 });

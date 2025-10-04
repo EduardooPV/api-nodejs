@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, beforeEach, expect, jest } from '@jest/globals';
 import { IUsersRepository } from '@domain/users/repositories/IUserRepository';
 import { UpdateUserUseCase } from './UpdateUserUseCase';
 import { User } from '@domain/users/entities/User';
+import { InvalidUserIdError } from '@domain/users/errors/InvalidUserIdError';
+import { UserNotFound } from '@domain/users/errors/UserNotFound';
 
 describe('UpdateUserUseCase', () => {
   let usersRepository: jest.Mocked<IUsersRepository>;
@@ -41,5 +44,16 @@ describe('UpdateUserUseCase', () => {
 
     expect(updatedUser.email).toBe(userData.email);
     expect(updatedUser.name).toBe(userData.name);
+  });
+
+  it('should throw if user id is missing', async () => {
+    await expect(updateUserUseCase.execute({ id: null as any }, {} as any)).rejects.toThrow(
+      InvalidUserIdError,
+    );
+  });
+
+  it('should throw if user does not exist', async () => {
+    usersRepository.findById.mockResolvedValue(null);
+    await expect(updateUserUseCase.execute({ id: '999' }, {} as any)).rejects.toThrow(UserNotFound);
   });
 });
