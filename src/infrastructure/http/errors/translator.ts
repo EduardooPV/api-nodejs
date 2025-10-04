@@ -1,7 +1,7 @@
 import { ZodError } from 'zod';
-import { AppError } from '../../../shared/errors/AppError';
+import { AppError } from '@shared/errors/AppError';
 import { getStatusFor } from './catalog';
-import { HttpError } from '../interfaces/IHttpError';
+import { HttpError } from '@infrastructure/http/interfaces/IHttpError';
 
 function errorToHttp(error: unknown): HttpError {
   if (error instanceof AppError) {

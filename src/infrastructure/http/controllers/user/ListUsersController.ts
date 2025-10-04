@@ -1,9 +1,9 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { ListUsersUseCase } from '../../../../application/useCases/users/listUsers/ListUsersUseCase';
-import { getPaginationParams } from '../../../../shared/utils/paginationParams';
-import { IListUsersRequestDTO } from '../../../../application/useCases/users/listUsers/ListUsersDTO';
-import { parseQueryParams } from '../../utils/parseQueryParams';
-import { reply } from '../../utils/reply';
+import { ListUsersUseCase } from '@application/useCases/users/listUsers/ListUsersUseCase';
+import { getPaginationParams } from '@shared/utils/paginationParams';
+import { IListUsersRequestDTO } from '@application/useCases/users/listUsers/ListUsersDTO';
+import { parseQueryParams } from '@infrastructure/http/utils/parseQueryParams';
+import { reply } from '@infrastructure/http/utils/reply';
 
 class ListUsersController {
   constructor(private listUsersUseCase: ListUsersUseCase) {}

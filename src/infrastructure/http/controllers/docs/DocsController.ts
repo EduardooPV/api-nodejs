@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { reply } from '../../utils/reply';
+import { reply } from '@infrastructure/http/utils/reply';
 
 function docsHtml(): string {
   return `

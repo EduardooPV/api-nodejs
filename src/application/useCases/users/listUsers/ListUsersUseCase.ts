@@ -1,6 +1,6 @@
-import { IPaginatedResponse } from '../../../../shared/interfaces/IPaginatedResponse';
-import { User } from '../../../../domains/users/entities/User';
-import { IUsersRepository } from '../../../../domains/users/repositories/IUserRepository';
+import { IPaginatedResponse } from '@shared/interfaces/IPaginatedResponse';
+import { User } from '@domain/users/entities/User';
+import { IUsersRepository } from '@domain/users/repositories/IUserRepository';
 import { IListUsersRequestDTO } from './ListUsersDTO';
 
 class ListUsersUseCase {

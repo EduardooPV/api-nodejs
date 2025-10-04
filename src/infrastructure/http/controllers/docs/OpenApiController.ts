@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { getOpenApiSpec } from '../../openapi/spec';
-import { reply } from '../../utils/reply';
+import { getOpenApiSpec } from '@infrastructure/http/openapi/spec';
+import { reply } from '@infrastructure/http/utils/reply';
 
 class OpenApiController {
   async handle(_req: IncomingMessage, res: ServerResponse): Promise<void> {

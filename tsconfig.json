@@ -16,9 +16,10 @@
     "skipLibCheck": true,
     "noEmit": true,
     "baseUrl": "./src",
+    "ignoreDeprecations": "6.0",
     "paths": {
       "@application/*": ["application/*"],
-      "@domain/*": ["domains/*"],
+      "@domain/*": ["domain/*"],
       "@infrastructure/*": ["infrastructure/*"],
       "@shared/*": ["shared/*"]
     }

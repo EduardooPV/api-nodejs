@@ -1,7 +1,7 @@
-import { User } from '../../../../domains/users/entities/User';
-import { InvalidUserIdError } from '../../../../domains/users/errors/InvalidUserIdError';
-import { UserNotFound } from '../../../../domains/users/errors/UserNotFound';
-import { IUsersRepository } from '../../../../domains/users/repositories/IUserRepository';
+import { User } from '@domain/users/entities/User';
+import { InvalidUserIdError } from '@domain/users/errors/InvalidUserIdError';
+import { UserNotFound } from '@domain/users/errors/UserNotFound';
+import { IUsersRepository } from '@domain/users/repositories/IUserRepository';
 import { IGetUserRequestDTO } from './GetUserDTO';
 
 class GetUserUseCase {

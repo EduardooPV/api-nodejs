@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { GetUserUseCase } from '../../../../application/useCases/users/getUser/GetUserUseCase';
-import { reply } from '../../utils/reply';
+import { GetUserUseCase } from '@application/useCases/users/getUser/GetUserUseCase';
+import { reply } from '@infrastructure/http/utils/reply';
 
 class GetUserController {
   constructor(private getUserUseCase: GetUserUseCase) {}

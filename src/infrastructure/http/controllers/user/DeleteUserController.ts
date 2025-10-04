@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { DeleteUserUseCase } from '../../../../application/useCases/users/deleteUser/DeleteUserUseCase';
-import { reply } from '../../utils/reply';
+import { DeleteUserUseCase } from '@application/useCases/users/deleteUser/DeleteUserUseCase';
+import { reply } from '@infrastructure/http/utils/reply';
 
 class DeleteUserController {
   constructor(private deleteUserByIdUseCase: DeleteUserUseCase) {}

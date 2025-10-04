@@ -1,6 +1,6 @@
-import { DocsController } from '../../controllers/docs/DocsController';
-import { OpenApiController } from '../../controllers/docs/OpenApiController';
-import { Router } from '../../core/Router';
+import { DocsController } from '@infrastructure/http/controllers/docs/DocsController';
+import { OpenApiController } from '@infrastructure/http/controllers/docs/OpenApiController';
+import { Router } from '@infrastructure/http/core/Router';
 
 const openApiController = new OpenApiController();
 const docsController = new DocsController();

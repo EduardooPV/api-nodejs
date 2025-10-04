@@ -1,9 +1,9 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import jsonwebtoken from 'jsonwebtoken';
-import { env } from '../../../shared/utils/env';
-import { getBearerToken } from '../../../shared/utils/getBearerToken';
-import { MissingAuthHeader } from '../../../domains/auth/errors/MissingAuthHeader';
-import { InvalidAccessToken } from '../../../domains/auth/errors/InvalidAccessToken';
+import { env } from '@shared/utils/env';
+import { getBearerToken } from '@shared/utils/getBearerToken';
+import { MissingAuthHeader } from '@domain/auth/errors/MissingAuthHeader';
+import { InvalidAccessToken } from '@domain/auth/errors/InvalidAccessToken';
 
 function ensureAuthenticated(
   req: IncomingMessage & { userId?: string },

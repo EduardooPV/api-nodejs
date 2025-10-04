@@ -1,8 +1,8 @@
 import { IncomingMessage, ServerResponse } from 'http';
 
-import { AppError } from '../../../shared/errors/AppError';
-import { HttpMethod } from '../interfaces/IHttpMethod';
-import { RouteDefinition } from '../interfaces/IRouteDefinition';
+import { AppError } from '@shared/errors/AppError';
+import { HttpMethod } from '@infrastructure/http/interfaces/IHttpMethod';
+import { RouteDefinition } from '@infrastructure/http/interfaces/IRouteDefinition';
 
 type Params = Record<string, string>;
 

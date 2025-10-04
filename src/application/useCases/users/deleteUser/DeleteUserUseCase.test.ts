@@ -1,5 +1,5 @@
 import { describe, it, beforeEach, expect, jest } from '@jest/globals';
-import { IUsersRepository } from '../../../../domains/users/repositories/IUserRepository';
+import { IUsersRepository } from '@domain/users/repositories/IUserRepository';
 import { DeleteUserUseCase } from './DeleteUserUseCase';
 
 describe('DeleteUserUseCase', () => {

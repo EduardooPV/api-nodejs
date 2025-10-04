@@ -1,4 +1,4 @@
-import { AppError } from '../../../shared/errors/AppError';
+import { AppError } from '@shared/errors/AppError';
 
 class InvalidUserIdError extends AppError {
   constructor(details?: { reason: 'missing' | 'format' }) {

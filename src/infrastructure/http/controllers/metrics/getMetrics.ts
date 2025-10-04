@@ -1,5 +1,5 @@
 import type { ServerResponse } from 'node:http';
-import { registry } from '../../../../shared/metrics';
+import { registry } from '@shared/metrics';
 
 async function getMetrics(_req: unknown, res: ServerResponse): Promise<void> {
   const body = await registry.metrics();

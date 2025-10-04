@@ -1,4 +1,4 @@
-import { ICookieOptions } from '../interfaces/ICookiesOptions';
+import { ICookieOptions } from '@infrastructure/http/interfaces/ICookiesOptions';
 
 function serializeCookie(name: string, value: string, opts: ICookieOptions = {}): string {
   const parts: string[] = [`${encodeURIComponent(name)}=${encodeURIComponent(value)}`];

@@ -1,5 +1,5 @@
-import { getMetrics } from '../../controllers/metrics/getMetrics';
-import { Router } from '../../core/Router';
+import { getMetrics } from '@infrastructure/http/controllers/metrics/getMetrics';
+import { Router } from '@infrastructure/http/core/Router';
 
 function registerMetricsRoutes(router: Router): void {
   router.register({

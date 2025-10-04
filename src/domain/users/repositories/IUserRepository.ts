@@ -1,5 +1,5 @@
-import { IPaginatedResponse } from '../../../shared/interfaces/IPaginatedResponse';
-import { User } from '../entities/User';
+import { IPaginatedResponse } from '@shared/interfaces/IPaginatedResponse';
+import { User } from '@domain/users/entities/User';
 
 interface IUsersRepository {
   findByEmail(email: string): Promise<User | null>;

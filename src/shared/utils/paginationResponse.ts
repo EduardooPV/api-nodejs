@@ -1,4 +1,4 @@
-import { IPaginatedResponse } from '../interfaces/IPaginatedResponse';
+import { IPaginatedResponse } from '@shared/interfaces/IPaginatedResponse';
 
 function buildPaginationResponse<T>(
   items: T[],

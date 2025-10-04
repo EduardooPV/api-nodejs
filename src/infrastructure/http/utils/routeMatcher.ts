@@ -1,4 +1,4 @@
-import { MatchResult, Params } from '../../../shared/interfaces/IMatchResult';
+import { MatchResult, Params } from '@shared/interfaces/IMatchResult';
 
 function matchPath(path: string, routePath: string): MatchResult {
   const paramNames: string[] = [];

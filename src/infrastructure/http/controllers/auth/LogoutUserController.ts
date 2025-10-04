@@ -1,10 +1,10 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { LogoutUserUseCase } from '../../../../application/useCases/auth/logoutUser/LogoutUserUseCase';
-import { parseCookie } from '../../utils/parseCookie';
-import { env } from '../../../../shared/utils/env';
-import { InvalidRefreshToken } from '../../../../domains/auth/errors/InvalidRefreshToken';
-import { serializeCookie } from '../../utils/cookies';
-import { reply } from '../../utils/reply';
+import { LogoutUserUseCase } from '@application/useCases/auth/logoutUser/LogoutUserUseCase';
+import { parseCookie } from '@infrastructure/http/utils/parseCookie';
+import { env } from '@shared/utils/env';
+import { InvalidRefreshToken } from '@domain/auth/errors/InvalidRefreshToken';
+import { serializeCookie } from '@infrastructure/http/utils/cookies';
+import { reply } from '@infrastructure/http/utils/reply';
 
 class LogoutUserController {
   constructor(private logoutUseCase: LogoutUserUseCase) {}

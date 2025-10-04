@@ -1,8 +1,8 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { CreateUserUseCase } from '../../../../application/useCases/users/createUser/CreateUserUseCase';
-import { ICreateUserRequestDTO } from '../../../../application/useCases/users/createUser/CreateUserDTO';
-import { parseBody } from '../../utils/parseBody';
-import { reply } from '../../utils/reply';
+import { CreateUserUseCase } from '@application/useCases/users/createUser/CreateUserUseCase';
+import { ICreateUserRequestDTO } from '@application/useCases/users/createUser/CreateUserDTO';
+import { parseBody } from '@infrastructure/http/utils/parseBody';
+import { reply } from '@infrastructure/http/utils/reply';
 
 class CreateUserController {
   constructor(private createUserUseCase: CreateUserUseCase) {}

@@ -1,6 +1,6 @@
-import { InvalidUserIdError } from '../../../../domains/users/errors/InvalidUserIdError';
-import { UserNotFound } from '../../../../domains/users/errors/UserNotFound';
-import { IUsersRepository } from '../../../../domains/users/repositories/IUserRepository';
+import { InvalidUserIdError } from '@domain/users/errors/InvalidUserIdError';
+import { UserNotFound } from '@domain/users/errors/UserNotFound';
+import { IUsersRepository } from '@domain/users/repositories/IUserRepository';
 import { IDeleteUserRequestDTO } from './DeleteUserDTO';
 
 class DeleteUserUseCase {

@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { HttpMethod } from '../interfaces/IHttpMethod';
+import { HttpMethod } from '@infrastructure/http/interfaces/IHttpMethod';
 
 export interface RouteDefinition {
   path: string;

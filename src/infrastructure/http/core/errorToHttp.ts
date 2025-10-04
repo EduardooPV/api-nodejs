@@ -1,4 +1,4 @@
-import { AppError } from '../../../shared/errors/AppError';
+import { AppError } from '@shared/errors/AppError';
 
 function errorToHttp(e: unknown): { status: number; body: unknown } {
   if (e instanceof AppError) {

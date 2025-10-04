@@ -1,19 +1,19 @@
 import { IncomingMessage, ServerResponse } from 'http';
 
-import { PostgresUsersRepository } from '../../../database/repositories/PostgresUsersRepository';
+import { PostgresUsersRepository } from '@infrastructure/database/repositories/PostgresUsersRepository';
 
-import { CreateUserUseCase } from '../../../../application/useCases/users/createUser/CreateUserUseCase';
-import { DeleteUserUseCase } from '../../../../application/useCases/users/deleteUser/DeleteUserUseCase';
-import { ListUsersUseCase } from '../../../../application/useCases/users/listUsers/ListUsersUseCase';
-import { GetUserUseCase } from '../../../../application/useCases/users/getUser/GetUserUseCase';
-import { UpdateUserUseCase } from '../../../../application/useCases/users/updateUser/UpdateUserUseCase';
+import { CreateUserUseCase } from '@application/useCases/users/createUser/CreateUserUseCase';
+import { DeleteUserUseCase } from '@application/useCases/users/deleteUser/DeleteUserUseCase';
+import { ListUsersUseCase } from '@application/useCases/users/listUsers/ListUsersUseCase';
+import { GetUserUseCase } from '@application/useCases/users/getUser/GetUserUseCase';
+import { UpdateUserUseCase } from '@application/useCases/users/updateUser/UpdateUserUseCase';
 
-import { CreateUserController } from '../../controllers/user/CreateUserController';
-import { DeleteUserController } from '../../controllers/user/DeleteUserController';
-import { GetUserController } from '../../controllers/user/GetUserController';
-import { ListUsersController } from '../../controllers/user/ListUsersController';
-import { UpdateUserController } from '../../controllers/user/UpdateUserController';
-import { Router } from '../../core/Router';
+import { CreateUserController } from '@infrastructure/http/controllers/user/CreateUserController';
+import { DeleteUserController } from '@infrastructure/http/controllers/user/DeleteUserController';
+import { GetUserController } from '@infrastructure/http/controllers/user/GetUserController';
+import { ListUsersController } from '@infrastructure/http/controllers/user/ListUsersController';
+import { UpdateUserController } from '@infrastructure/http/controllers/user/UpdateUserController';
+import { Router } from '@infrastructure/http/core/Router';
 
 const usersRepository = new PostgresUsersRepository();
 

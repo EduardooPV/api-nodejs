@@ -1,8 +1,8 @@
 import type { OpenAPIV3_1 } from 'openapi-types';
 import { baseDoc } from './base';
 import { mergePaths } from './merge';
-import { userPaths } from '../routes/user/openapi';
-import { authPaths } from '../routes/auth/openapi';
+import { userPaths } from '@infrastructure/http/routes/user/openapi';
+import { authPaths } from '@infrastructure/http/routes/auth/openapi';
 
 let cached: OpenAPIV3_1.Document | null = null;
 

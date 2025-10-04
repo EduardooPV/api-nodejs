@@ -1,4 +1,4 @@
-import { IUsersRepository } from '../../../../domains/users/repositories/IUserRepository';
+import { IUsersRepository } from '@domain/users/repositories/IUserRepository';
 import { ListUsersUseCase } from './ListUsersUseCase';
 
 describe('ListUsersListCase', () => {

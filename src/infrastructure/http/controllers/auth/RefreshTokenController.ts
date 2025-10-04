@@ -1,10 +1,10 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { RefreshTokenUseCase } from '../../../../application/useCases/auth/refreshToken/RefreshTokenUseCase';
-import { parseCookie } from '../../utils/parseCookie';
-import { InvalidRefreshToken } from '../../../../domains/auth/errors/InvalidRefreshToken';
-import { serializeCookie } from '../../utils/cookies';
-import { env } from '../../../../shared/utils/env';
-import { reply } from '../../utils/reply';
+import { RefreshTokenUseCase } from '@application/useCases/auth/refreshToken/RefreshTokenUseCase';
+import { parseCookie } from '@infrastructure/http/utils/parseCookie';
+import { InvalidRefreshToken } from '@domain/auth/errors/InvalidRefreshToken';
+import { serializeCookie } from '@infrastructure/http/utils/cookies';
+import { env } from '@shared/utils/env';
+import { reply } from '@infrastructure/http/utils/reply';
 
 class RefreshTokenController {
   private readonly REFRESH_TOKEN_MAX_AGE_SECONDS = 7 * 24 * 60 * 60;

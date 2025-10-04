@@ -1,10 +1,10 @@
 import bcryptjs from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
 import { IAuthenticateUserRequestDTO } from './LoginUserDTO';
-import { InvalidCredentials } from '../../../../domains/auth/errors/InvalidCredentials';
-import { IUsersRepository } from '../../../../domains/users/repositories/IUserRepository';
-import { IRefreshTokenResponseDTO } from '../refreshToken/RefreshTokenDTO';
-import { env } from '../../../../shared/utils/env';
+import { InvalidCredentials } from 'domain/auth/errors/InvalidCredentials';
+import { IUsersRepository } from 'domain/users/repositories/IUserRepository';
+import { IRefreshTokenResponseDTO } from '@application/useCases/auth/refreshToken/RefreshTokenDTO';
+import { env } from '@shared/utils/env';
 
 class LoginUserUseCase {
   constructor(private userRepository: IUsersRepository) {}

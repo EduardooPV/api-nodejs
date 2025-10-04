@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import http, { IncomingMessage, ServerResponse } from 'http';
-import { loggerMiddleware } from '../middlewares/loggerMiddleware';
+import { loggerMiddleware } from '@infrastructure/http/middlewares/loggerMiddleware';
 import { router } from '.';
-import { handleHttpError } from '../utils/handleHttpError';
-import { metricsRecorder } from '../middlewares/metricsRecorder';
+import { handleHttpError } from '@infrastructure/http/utils/handleHttpError';
+import { metricsRecorder } from '@infrastructure/http/middlewares/metricsRecorder';
 
 function startServer(port: number): void {
   const server = http.createServer(async (request: IncomingMessage, response: ServerResponse) => {

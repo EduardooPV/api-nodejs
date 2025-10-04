@@ -1,7 +1,7 @@
 import { describe, it, beforeEach, expect, jest } from '@jest/globals';
 import { GetUserUseCase } from './GetUserUseCase';
-import { User } from '../../../../domains/users/entities/User';
-import { IUsersRepository } from '../../../../domains/users/repositories/IUserRepository';
+import { User } from '@domain/users/entities/User';
+import { IUsersRepository } from '@domain/users/repositories/IUserRepository';
 
 describe('GetUserUseCase', () => {
   let usersRepository: jest.Mocked<IUsersRepository>;

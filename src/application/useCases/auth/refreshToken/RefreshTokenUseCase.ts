@@ -1,9 +1,9 @@
-import { InvalidRefreshToken } from '../../../../domains/auth/errors/InvalidRefreshToken';
-import { UserNotFound } from '../../../../domains/users/errors/UserNotFound';
-import { IUsersRepository } from '../../../../domains/users/repositories/IUserRepository';
+import { InvalidRefreshToken } from '@domain/auth/errors/InvalidRefreshToken';
+import { UserNotFound } from '@domain/users/errors/UserNotFound';
+import { IUsersRepository } from '@domain/users/repositories/IUserRepository';
 import jsonwebtoken from 'jsonwebtoken';
 import { IRefreshTokenResponseDTO } from './RefreshTokenDTO';
-import { env } from '../../../../shared/utils/env';
+import { env } from '@shared/utils/env';
 
 class RefreshTokenUseCase {
   constructor(private userRepository: IUsersRepository) {}

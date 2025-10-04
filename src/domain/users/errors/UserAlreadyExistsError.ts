@@ -1,4 +1,4 @@
-import { AppError } from '../../../shared/errors/AppError';
+import { AppError } from '@shared/errors/AppError';
 
 class UserAlreadyExistsError extends AppError {
   constructor(email?: string) {

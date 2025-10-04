@@ -1,7 +1,7 @@
 import { ServerResponse } from 'http';
-import { env } from '../../../shared/utils/env';
-import { AppError } from '../../../shared/errors/AppError';
-import { errorToHttp } from '../errors/translator';
+import { env } from '@shared/utils/env';
+import { AppError } from '@shared/errors/AppError';
+import { errorToHttp } from '@infrastructure/http/errors/translator';
 
 function json(res: ServerResponse, status: number, body: unknown): void {
   const payload = JSON.stringify(body);

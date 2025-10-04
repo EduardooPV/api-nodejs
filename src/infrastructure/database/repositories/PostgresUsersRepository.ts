@@ -1,9 +1,9 @@
-import { IUpdateUserRequestDTO } from '../../../application/useCases/users/updateUser/UpdateUserDTO';
-import { User } from '../../../domains/users/entities/User';
-import { IUsersRepository } from '../../../domains/users/repositories/IUserRepository';
-import { IPaginatedResponse } from '../../../shared/interfaces/IPaginatedResponse';
-import { buildPaginationResponse } from '../../../shared/utils/paginationResponse';
-import { prisma } from '../prismaClient';
+import { IUpdateUserRequestDTO } from '@application/useCases/users/updateUser/UpdateUserDTO';
+import { User } from '@domain/users/entities/User';
+import { IUsersRepository } from '@domain/users/repositories/IUserRepository';
+import { IPaginatedResponse } from '@shared/interfaces/IPaginatedResponse';
+import { buildPaginationResponse } from '@shared/utils/paginationResponse';
+import { prisma } from '@infrastructure/database/prismaClient';
 import crypto from 'crypto';
 
 class PostgresUsersRepository implements IUsersRepository {

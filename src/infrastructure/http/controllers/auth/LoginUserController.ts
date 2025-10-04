@@ -1,10 +1,10 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { LoginUserUseCase } from '../../../../application/useCases/auth/loginUser/LoginUserUseCase';
-import { IAuthenticateUserRequestDTO } from '../../../../application/useCases/auth/loginUser/LoginUserDTO';
-import { parseBody } from '../../utils/parseBody';
-import { env } from '../../../../shared/utils/env';
-import { serializeCookie } from '../../utils/cookies';
-import { reply } from '../../utils/reply';
+import { LoginUserUseCase } from '@application/useCases/auth/loginUser/LoginUserUseCase';
+import { IAuthenticateUserRequestDTO } from '@application/useCases/auth/loginUser/LoginUserDTO';
+import { parseBody } from '@infrastructure/http/utils/parseBody';
+import { env } from '@shared/utils/env';
+import { serializeCookie } from '@infrastructure/http/utils/cookies';
+import { reply } from '@infrastructure/http/utils/reply';
 
 class LoginUserController {
   private readonly REFRESH_TOKEN_MAX_AGE_SECONDS = 7 * 24 * 60 * 60;

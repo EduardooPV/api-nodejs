@@ -1,8 +1,8 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { IUpdateUserRequestDTO } from '../../../../application/useCases/users/updateUser/UpdateUserDTO';
-import { UpdateUserUseCase } from '../../../../application/useCases/users/updateUser/UpdateUserUseCase';
-import { parseBody } from '../../utils/parseBody';
-import { reply } from '../../utils/reply';
+import { IUpdateUserRequestDTO } from '@application/useCases/users/updateUser/UpdateUserDTO';
+import { UpdateUserUseCase } from '@application/useCases/users/updateUser/UpdateUserUseCase';
+import { parseBody } from '@infrastructure/http/utils/parseBody';
+import { reply } from '@infrastructure/http/utils/reply';
 
 class UpdateUserController {
   constructor(private updateUserUseCase: UpdateUserUseCase) {}

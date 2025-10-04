@@ -1,6 +1,6 @@
-import { User } from '../../../../domains/users/entities/User';
-import { UserAlreadyExistsError } from '../../../../domains/users/errors/UserAlreadyExistsError';
-import { IUsersRepository } from '../../../../domains/users/repositories/IUserRepository';
+import { User } from '@domain/users/entities/User';
+import { UserAlreadyExistsError } from '@domain/users/errors/UserAlreadyExistsError';
+import { IUsersRepository } from '@domain/users/repositories/IUserRepository';
 import { ICreateUserRequestDTO } from './CreateUserDTO';
 import bcryptjs from 'bcryptjs';
 

@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { httpRequestDuration, httpRequestsTotal } from '../../../shared/metrics';
+import { httpRequestDuration, httpRequestsTotal } from '@shared/metrics';
 
 type ReqWithMetrics = IncomingMessage & { metricsRoute?: string };
 

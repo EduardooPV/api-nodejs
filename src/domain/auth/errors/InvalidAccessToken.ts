@@ -1,4 +1,4 @@
-import { AppError } from '../../../shared/errors/AppError';
+import { AppError } from '@shared/errors/AppError';
 
 class InvalidAccessToken extends AppError {
   constructor(details?: { reason?: 'malformed' | 'signature' | 'expired' }) {
