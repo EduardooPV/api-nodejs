@@ -38,6 +38,7 @@ main.ts
 ```
 
 ## Scripts
+
 -`dev` – desenvolvimento (watch)
 
 -`build` – compila para dist/
@@ -51,6 +52,7 @@ main.ts
 -`format` – Prettier
 
 ## Documentação (OpenAPI + Scalar)
+
 - UI: `GET /docs`
 - Spec: `GET /openapi.json`
 
@@ -70,6 +72,7 @@ A API expõe métricas em formato Prometheus em `GET /metrics`.
 ## Como rodar
 
 ### Com Docker
+
 ```bash
 docker-compose up -d
 npm ci
@@ -78,6 +81,7 @@ npm run dev
 ```
 
 ### Sem Docker
+
 ```bash
 # configure DATABASE_URL no .env
 npm ci
@@ -86,9 +90,10 @@ npm run dev
 ```
 
 ### Variaveis de ambiente
+
 .env (exemplo):
 
-``` ini
+```ini
 NODE_ENV=development
 PORT=3333
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/app?schema=public
