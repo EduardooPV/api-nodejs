@@ -1,11 +1,15 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { HttpMethod } from '@infrastructure/http/interfaces/IHttpMethod';
+import { HttpMethod } from './IHttpMethod';
+
+export type Middleware = (
+  req: IncomingMessage,
+  res: ServerResponse,
+  next: () => void | Promise<void>,
+) => void | Promise<void>;
 
 export interface RouteDefinition {
-  path: string;
   method: HttpMethod;
-  handler: (
-    req: IncomingMessage & { params?: Record<string, string> },
-    res: ServerResponse,
-  ) => void | Promise<void>;
+  path: string;
+  handler: (req: IncomingMessage, res: ServerResponse) => void | Promise<void>;
+  middlewares?: Middleware[];
 }

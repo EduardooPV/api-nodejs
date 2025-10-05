@@ -11,6 +11,7 @@ function ensureAuthenticated(
   next: () => void,
 ): void {
   const token = getBearerToken(req.headers.authorization);
+
   if (token == null) throw new MissingAuthHeader();
 
   try {

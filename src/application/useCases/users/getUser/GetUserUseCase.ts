@@ -7,7 +7,7 @@ import { IGetUserRequestDTO } from './GetUserDTO';
 class GetUserUseCase {
   constructor(private userRepository: IUsersRepository) {}
 
-  async execute(data: IGetUserRequestDTO): Promise<User | null> {
+  async execute(data: IGetUserRequestDTO): Promise<User> {
     if (data.id == null) throw new InvalidUserIdError({ reason: 'missing' });
 
     const user = await this.userRepository.findById(data.id);

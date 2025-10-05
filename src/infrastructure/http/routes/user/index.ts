@@ -13,12 +13,16 @@ import { DeleteUserController } from '@infrastructure/http/controllers/user/Dele
 import { GetUserController } from '@infrastructure/http/controllers/user/GetUserController';
 import { ListUsersController } from '@infrastructure/http/controllers/user/ListUsersController';
 import { UpdateUserController } from '@infrastructure/http/controllers/user/UpdateUserController';
+import { ensureAuthenticated } from '@infrastructure/http/middlewares/ensureAuthenticatedMiddleware';
+import { GetCurrentUserController } from '@infrastructure/http/controllers/user/GetCurrentUserController';
 import { Router } from '@infrastructure/http/core/Router';
 
 const usersRepository = new PostgresUsersRepository();
 
 const listUsersController = new ListUsersController(new ListUsersUseCase(usersRepository));
-const getUserController = new GetUserController(new GetUserUseCase(usersRepository));
+const getUserUseCase = new GetUserUseCase(usersRepository);
+const getUserController = new GetUserController(getUserUseCase);
+const getCurrentUserController = new GetCurrentUserController(getUserUseCase);
 const createUserController = new CreateUserController(new CreateUserUseCase(usersRepository));
 const deleteUserByIdController = new DeleteUserController(new DeleteUserUseCase(usersRepository));
 const updateUserController = new UpdateUserController(new UpdateUserUseCase(usersRepository));
@@ -53,6 +57,14 @@ function registerUserRoutes(router: Router): void {
     method: 'PUT',
     path: '/users/:id',
     handler: (req: IncomingMessage, res: ServerResponse) => updateUserController.handle(req, res),
+  });
+
+  router.register({
+    method: 'GET',
+    path: '/users/me',
+    middlewares: [ensureAuthenticated],
+    handler: (req: IncomingMessage, res: ServerResponse) =>
+      getCurrentUserController.handle(req, res),
   });
 }
 

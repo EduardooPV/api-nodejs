@@ -25,9 +25,13 @@ class Router {
 
     const { pathname } = new URL(`http://localhost${url}`);
 
-    const candidates = this.routes.filter(
-      (r) => this.sameLength(r.path, pathname) && this.pathMatches(r.path, pathname),
-    );
+    const candidates = this.routes
+      .filter((r) => this.sameLength(r.path, pathname) && this.pathMatches(r.path, pathname))
+      .sort((a, b) => {
+        const aParams = (a.path.match(/:\w+/g) || []).length;
+        const bParams = (b.path.match(/:\w+/g) || []).length;
+        return aParams - bParams;
+      });
 
     if (candidates.length === 0) {
       (req as ReqWithMeta).metricsRoute = '__not_found__';
@@ -49,6 +53,27 @@ class Router {
     reqWithMeta.params = params;
     reqWithMeta.metricsRoute = route.path;
 
+    if (route.middlewares?.length != null) {
+      for (const mw of route.middlewares) {
+        let nextCalled = false;
+
+        await new Promise<void>((resolve, reject) => {
+          try {
+            void mw(reqWithMeta, res, () => {
+              nextCalled = true;
+              resolve();
+            });
+          } catch (err) {
+            reject(err);
+          }
+        });
+
+        if (!nextCalled) {
+          return;
+        }
+      }
+    }
+
     await route.handler(reqWithMeta, res);
   }
 
@@ -57,6 +82,7 @@ class Router {
   }
 
   private pathMatches(routePath: string, actualPath: string): boolean {
+    if (routePath === actualPath) return true;
     const routeSegments = routePath.split('/').filter(Boolean);
     const pathSegments = actualPath.split('/').filter(Boolean);
     for (let i = 0; i < routeSegments.length; i++) {

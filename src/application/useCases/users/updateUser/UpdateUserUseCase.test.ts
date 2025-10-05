@@ -5,6 +5,7 @@ import { UpdateUserUseCase } from './UpdateUserUseCase';
 import { User } from '@domain/users/entities/User';
 import { InvalidUserIdError } from '@domain/users/errors/InvalidUserIdError';
 import { UserNotFound } from '@domain/users/errors/UserNotFound';
+import { UserAlreadyExistsError } from '../../../../domain/users/errors/UserAlreadyExistsError';
 
 describe('UpdateUserUseCase', () => {
   let usersRepository: jest.Mocked<IUsersRepository>;
@@ -55,5 +56,28 @@ describe('UpdateUserUseCase', () => {
   it('should throw if user does not exist', async () => {
     usersRepository.findById.mockResolvedValue(null);
     await expect(updateUserUseCase.execute({ id: '999' }, {} as any)).rejects.toThrow(UserNotFound);
+  });
+
+  it('should throw if email already exists', async () => {
+    const params = { id: '1' };
+
+    const userData = {
+      id: '1',
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      password: 'password123',
+    };
+
+    usersRepository.findById.mockResolvedValue(userData);
+    usersRepository.findByEmail.mockResolvedValue({
+      id: '2',
+      name: 'Jane Doe',
+      email: 'john.doe@example.com',
+      password: 'password456',
+    });
+
+    await expect(updateUserUseCase.execute(params, userData)).rejects.toThrow(
+      UserAlreadyExistsError,
+    );
   });
 });

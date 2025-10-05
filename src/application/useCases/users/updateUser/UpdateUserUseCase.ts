@@ -2,6 +2,7 @@ import { InvalidUserIdError } from '@domain/users/errors/InvalidUserIdError';
 import { UserNotFound } from '@domain/users/errors/UserNotFound';
 import { IUsersRepository } from '@domain/users/repositories/IUserRepository';
 import { IUpdateUserParamsDTO, IUpdateUserRequestDTO } from './UpdateUserDTO';
+import { UserAlreadyExistsError } from '../../../../domain/users/errors/UserAlreadyExistsError';
 
 class UpdateUserUseCase {
   constructor(private userRepository: IUsersRepository) {}
@@ -12,6 +13,12 @@ class UpdateUserUseCase {
     const userExist = await this.userRepository.findById(params.id);
 
     if (!userExist) throw new UserNotFound();
+
+    const emailAlreadyExist = await this.userRepository.findByEmail(data.email);
+
+    if (emailAlreadyExist && emailAlreadyExist.id !== params.id) {
+      throw new UserAlreadyExistsError();
+    }
 
     await this.userRepository.updateById(params.id, data);
   }
