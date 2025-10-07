@@ -1,26 +1,24 @@
 import { InvalidUserIdError } from 'modules/users/domain/errors/InvalidUserIdError';
 import { UserNotFound } from 'modules/users/domain/errors/UserNotFound';
 import { IUsersRepository } from 'modules/users/domain/repositories/IUserRepository';
-import { IUpdateUserParamsDTO, IUpdateUserRequestDTO } from './UpdateUserDTO';
-import { UserAlreadyExistsError } from 'modules/users/domain/errors/UserAlreadyExistsError';
+import { IUpdateUserRequestDTO } from './UpdateUserDTO';
+import { User } from 'modules/users/domain/entities/User';
 
 class UpdateUserUseCase {
   constructor(private userRepository: IUsersRepository) {}
 
-  async execute(params: IUpdateUserParamsDTO, data: IUpdateUserRequestDTO): Promise<void> {
-    if (params.id == null) throw new InvalidUserIdError({ reason: 'missing' });
+  async execute(data: IUpdateUserRequestDTO): Promise<User> {
+    if (data.id == null) throw new InvalidUserIdError({ reason: 'missing' });
 
-    const userExist = await this.userRepository.findById(params.id);
+    const userExist = await this.userRepository.findById(data.id);
 
     if (!userExist) throw new UserNotFound();
 
-    const emailAlreadyExist = await this.userRepository.findByEmail(data.email);
+    const newUser = await this.userRepository.updateById(data);
 
-    if (emailAlreadyExist && emailAlreadyExist.id !== params.id) {
-      throw new UserAlreadyExistsError();
-    }
+    if (!newUser) throw new UserNotFound();
 
-    await this.userRepository.updateById(params.id, data);
+    return newUser;
   }
 }
 

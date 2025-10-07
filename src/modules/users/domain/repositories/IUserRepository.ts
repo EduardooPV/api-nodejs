@@ -6,7 +6,7 @@ interface IUsersRepository {
   findById(id: string): Promise<User | null>;
   create(user: User): Promise<void>;
   deleteById(id: string): Promise<void>;
-  updateById(id: string, userData: Partial<User>): Promise<void>;
+  updateById(data: Partial<User>): Promise<User | null>;
   findAllPaginated(
     page: number,
     perPage: number,

@@ -1,12 +1,12 @@
 import { User } from 'modules/users/domain/entities/User';
 
-interface IGetUserViewModelResponse {
+interface IUpdateUserViewModelResponse {
   name: string;
   email: string;
 }
 
-class GetUserViewModel {
-  static toHTTP(user: User): IGetUserViewModelResponse {
+class UpdateUserViewModel {
+  static toHTTP(user: User): IUpdateUserViewModelResponse {
     return {
       name: user.name,
       email: user.email,
@@ -14,4 +14,4 @@ class GetUserViewModel {
   }
 }
 
-export { GetUserViewModel };
+export { UpdateUserViewModel };

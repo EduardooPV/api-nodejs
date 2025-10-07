@@ -11,6 +11,7 @@ class LogoutUserController {
 
   async handle(request: IncomingMessage, response: ServerResponse): Promise<void> {
     const { refreshToken } = parseCookie(request.headers.cookie);
+
     if (!refreshToken) throw new InvalidRefreshToken();
 
     await this.logoutUseCase.execute(refreshToken);

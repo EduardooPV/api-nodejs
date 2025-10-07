@@ -3,6 +3,7 @@ import { loggerMiddleware } from 'core/http/middlewares/loggerMiddleware';
 import { router } from '.';
 import { handleHttpError } from 'core/http/utils/handleHttpError';
 import { metricsRecorder } from 'core/http/middlewares/metricsRecorder';
+import { errorMiddleware } from 'core/http/middlewares/errorMiddleware';
 
 export class App {
   private server: Server;
@@ -29,11 +30,10 @@ export class App {
         return;
       }
 
-      await new Promise<void>((resolve) => {
-        metricsRecorder(request, response, async () => {
+      await errorMiddleware(request, response, async () => {
+        await metricsRecorder(request, response, async () => {
           await loggerMiddleware(request, response);
           await router.resolve(request, response);
-          resolve();
         });
       });
     } catch (error) {

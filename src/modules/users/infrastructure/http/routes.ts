@@ -48,14 +48,16 @@ function registerUserRoutes(router: Router): void {
 
   router.register({
     method: 'DELETE',
-    path: '/users/:id',
+    path: '/users',
+    middlewares: [ensureAuthenticated],
     handler: (req: IncomingMessage, res: ServerResponse) =>
       deleteUserByIdController.handle(req, res),
   });
 
   router.register({
     method: 'PUT',
-    path: '/users/:id',
+    path: '/users',
+    middlewares: [ensureAuthenticated],
     handler: (req: IncomingMessage, res: ServerResponse) => updateUserController.handle(req, res),
   });
 

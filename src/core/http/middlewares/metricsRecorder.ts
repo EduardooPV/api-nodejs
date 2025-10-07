@@ -3,7 +3,11 @@ import { httpRequestDuration, httpRequestsTotal } from 'core/http/utils/metrics'
 
 type ReqWithMetrics = IncomingMessage & { metricsRoute?: string };
 
-function metricsRecorder(req: ReqWithMetrics, res: ServerResponse, next: () => void): void {
+async function metricsRecorder(
+  req: ReqWithMetrics,
+  res: ServerResponse,
+  next: () => Promise<void>,
+): Promise<void> {
   if (req.url?.startsWith('/metrics') ?? false) return next();
 
   const method = (req.method ?? 'GET').toUpperCase();
@@ -21,7 +25,7 @@ function metricsRecorder(req: ReqWithMetrics, res: ServerResponse, next: () => v
     endTimer(labels);
   }
 
-  next();
+  await next();
 }
 
 export { metricsRecorder };

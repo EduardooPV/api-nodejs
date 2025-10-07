@@ -6,10 +6,10 @@ class DeleteUserController {
   constructor(private deleteUserByIdUseCase: DeleteUserUseCase) {}
 
   async handle(
-    request: IncomingMessage & { params?: { id: string } },
+    request: IncomingMessage & { userId?: string },
     response: ServerResponse,
   ): Promise<void> {
-    const id = request.params?.id;
+    const id = request.userId;
 
     await this.deleteUserByIdUseCase.execute({ id });
 

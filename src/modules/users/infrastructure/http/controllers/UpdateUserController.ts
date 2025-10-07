@@ -3,22 +3,24 @@ import { IUpdateUserRequestDTO } from 'modules/users/application/updateUser/Upda
 import { UpdateUserUseCase } from 'modules/users/application/updateUser/UpdateUserUseCase';
 import { parseBody } from 'core/http/utils/parseBody';
 import { reply } from 'core/http/utils/reply';
+import { UpdateUserViewModel } from '../../../application/updateUser/UpdateUserViewModel';
 
 class UpdateUserController {
   constructor(private updateUserUseCase: UpdateUserUseCase) {}
 
   async handle(
-    request: IncomingMessage & { params?: { id: string } },
+    request: IncomingMessage & { userId?: string },
     response: ServerResponse,
   ): Promise<void> {
     const rawBody = await parseBody(request);
-    const id = request.params?.id;
+    const id = request.userId;
 
     const body = rawBody as IUpdateUserRequestDTO;
 
-    await this.updateUserUseCase.execute({ id }, body);
+    const user = await this.updateUserUseCase.execute({ id, ...body });
+    const userHTTP = UpdateUserViewModel.toHTTP(user);
 
-    reply(response).noContent();
+    reply(response).ok(userHTTP);
   }
 }
 
