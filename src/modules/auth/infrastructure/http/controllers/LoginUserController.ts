@@ -5,10 +5,9 @@ import { parseBody } from 'core/http/utils/parseBody';
 import { env } from 'shared/utils/env';
 import { serializeCookie } from 'core/http/utils/cookies';
 import { reply } from 'core/http/utils/reply';
+import { REFRESH_TOKEN_MAX_AGE_SECONDS } from 'shared/constants/auth';
 
 class LoginUserController {
-  private readonly REFRESH_TOKEN_MAX_AGE_SECONDS = 7 * 24 * 60 * 60;
-
   constructor(private authenticateUserUseCase: LoginUserUseCase) {}
 
   async handle(request: IncomingMessage, response: ServerResponse): Promise<void> {
@@ -26,7 +25,7 @@ class LoginUserController {
       secure: env.nodeEnv === 'production',
       path: '/',
       sameSite: 'Strict',
-      maxAge: this.REFRESH_TOKEN_MAX_AGE_SECONDS,
+      maxAge: REFRESH_TOKEN_MAX_AGE_SECONDS,
     });
 
     response.setHeader('Set-Cookie', cookie);

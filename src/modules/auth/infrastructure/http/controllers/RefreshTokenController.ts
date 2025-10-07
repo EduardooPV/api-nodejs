@@ -5,10 +5,9 @@ import { InvalidRefreshToken } from 'modules/auth/domain/errors/InvalidRefreshTo
 import { serializeCookie } from 'core/http/utils/cookies';
 import { env } from 'shared/utils/env';
 import { reply } from 'core/http/utils/reply';
+import { REFRESH_TOKEN_MAX_AGE_SECONDS } from 'shared/constants/auth';
 
 class RefreshTokenController {
-  private readonly REFRESH_TOKEN_MAX_AGE_SECONDS = 7 * 24 * 60 * 60;
-
   constructor(private refreshTokenUseCase: RefreshTokenUseCase) {}
 
   async handle(request: IncomingMessage, response: ServerResponse): Promise<void> {
@@ -26,7 +25,7 @@ class RefreshTokenController {
       secure: env.nodeEnv === 'production',
       path: '/',
       sameSite: 'Strict',
-      maxAge: this.REFRESH_TOKEN_MAX_AGE_SECONDS,
+      maxAge: REFRESH_TOKEN_MAX_AGE_SECONDS,
     });
 
     response.setHeader('Set-Cookie', cookie);
