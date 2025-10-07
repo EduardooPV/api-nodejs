@@ -19,10 +19,10 @@
     "baseUrl": "./src",
     "ignoreDeprecations": "6.0",
     "paths": {
-      "@application/*": ["application/*"],
-      "@domain/*": ["domain/*"],
-      "@infrastructure/*": ["infrastructure/*"],
-      "@shared/*": ["shared/*"]
+      "@/*": ["src/*"],
+      "@/core/*": ["src/core/*"],
+      "@/modules/*": ["src/modules/*"],
+      "@/shared/*": ["src/shared/*"]
     }
   },
   "include": ["src", "src/main.ts"]

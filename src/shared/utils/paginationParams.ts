@@ -1,5 +1,5 @@
 import { IncomingMessage } from 'http';
-import { IPaginationParams } from '@shared/interfaces/IPaginationParams';
+import { IPaginationParams } from 'shared/interfaces/IPaginationParams';
 
 function getPaginationParams(
   request: IncomingMessage,
