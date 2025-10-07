@@ -1,0 +1,18 @@
+import type { OpenAPIV3_1 } from 'openapi-types';
+import { baseDoc } from './base';
+import { mergePaths } from './merge';
+
+let cached: OpenAPIV3_1.Document | null = null;
+
+async function getOpenApiSpec(): Promise<OpenAPIV3_1.Document> {
+  if (cached) return cached;
+
+  cached = {
+    ...baseDoc,
+    paths: mergePaths(baseDoc.paths ?? {}),
+  };
+
+  return cached;
+}
+
+export { getOpenApiSpec };

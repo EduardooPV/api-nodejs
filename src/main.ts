@@ -1,5 +1,10 @@
-import { startServer } from '@infrastructure/http/core/server';
+import { App } from 'core/http/App';
 
 const PORT = 3333;
 
-startServer(PORT);
+function bootstrap(): void {
+  const app = new App();
+  app.start(PORT);
+}
+
+bootstrap();
