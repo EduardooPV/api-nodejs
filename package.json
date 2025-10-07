@@ -1,5 +1,5 @@
 {
-  "name": "api-nodejs",
+  "name": "shopping-list-api",
   "version": "1.0.0",
   "main": "index.js",
   "module": "commonjs",
@@ -22,7 +22,7 @@
     ]
   },
   "keywords": [],
-  "author": "",
+  "author": "EduardooPV",
   "license": "ISC",
   "description": "",
   "devDependencies": {

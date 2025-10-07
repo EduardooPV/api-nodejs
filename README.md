@@ -1,4 +1,4 @@
-# OOP TypeScript Study
+# Shopping List API
 
 API REST em Node.js construída sem framework (usando o módulo nativo http).
 O objetivo é entender o funcionamento de baixo nível de uma API: ciclo de vida da requisição/resposta, roteamento manual, middlewares, tratamento centralizado de erros e autenticação com JWT + Refresh Token via cookie HttpOnly.

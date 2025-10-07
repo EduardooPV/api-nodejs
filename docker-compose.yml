@@ -3,7 +3,7 @@ version: '3.8'
 services:
   postgres:
     image: postgres:16
-    container_name: todo_list_postgres_db
+    container_name: shopping_list_db
     restart: always
     ports:
       - '5432:5432'
@@ -37,7 +37,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    container_name: todo_list_api
+    container_name: shopping_list_api
     volumes:
       - .:/app
     working_dir: /app
