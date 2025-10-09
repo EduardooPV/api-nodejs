@@ -1,9 +1,9 @@
 import { Router } from './router';
-import { registerAuthRoutes } from 'modules/auth/infrastructure/routes';
-import { registerDocsRoutes } from 'core/http/routes/docs';
-import { registerMetricsRoutes } from 'core/http/routes/metrics';
+import { AuthRoutes } from 'modules/auth/infrastructure/routes';
+import { DocsRoutes } from 'core/http/routes/docs';
+import { MetricsRoutes } from 'core/http/routes/metrics';
 import { UserRoutes } from 'modules/users/infrastructure/http/routes';
-import { registerShoppingListRoutes } from 'modules/shopping/infrastructure/http/routes';
+import { ShoppingRoutes } from 'modules/shopping/infrastructure/http/routes';
 
 class RouteRegister {
   constructor(private readonly router: Router) {}
@@ -21,19 +21,19 @@ class RouteRegister {
   }
 
   private registerAuthRoutes(): void {
-    registerAuthRoutes(this.router);
+    AuthRoutes.register(this.router);
   }
 
   private registerDocsRoutes(): void {
-    registerDocsRoutes(this.router);
+    DocsRoutes.register(this.router);
   }
 
   private registerMetricsRoutes(): void {
-    registerMetricsRoutes(this.router);
+    MetricsRoutes.register(this.router);
   }
 
   private registerShoppingListRoutes(): void {
-    registerShoppingListRoutes(this.router);
+    ShoppingRoutes.register(this.router);
   }
 }
 

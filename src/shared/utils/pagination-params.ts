@@ -1,31 +1,31 @@
-import { IncomingMessage } from 'http';
-import { IPaginationParams } from 'shared/interfaces/pagination-params';
+import { IPaginationParams, IPaginationResponse } from 'shared/interfaces/pagination-params';
 
-function getPaginationParams(
-  request: IncomingMessage,
-  defaultPerPage = 10,
-  maxPerPage = 10,
-): IPaginationParams {
-  const base = 'http://localhost';
-  const u = new URL(request.url ?? '/', base);
+export class PaginationHelper {
+  private static clamp(n: number, min: number, max: number): number {
+    if (Number.isNaN(n)) {
+      return min;
+    }
+    return Math.max(min, Math.min(n, max));
+  }
 
-  const pageRaw = u.searchParams.get('page');
-  const perPageRaw = u.searchParams.get('per_page') ?? u.searchParams.get('perPage');
+  public static fromRequest({
+    request,
+    defaultPerPage = 10,
+    maxPerPage = 10,
+  }: IPaginationParams): IPaginationResponse {
+    const url = new URL(request.url ?? '/', 'http://localhost');
 
-  const page = clamp(parseInt(pageRaw ?? '1', 10), 1, Number.MAX_SAFE_INTEGER);
-  const perPage = clamp(parseInt(perPageRaw ?? String(defaultPerPage), 10), 1, maxPerPage);
+    const pageRaw = url.searchParams.get('page');
+    const perPageRaw = url.searchParams.get('per_page') ?? url.searchParams.get('perPage');
 
-  return {
-    page,
-    perPage,
-    skip: (page - 1) * perPage,
-    take: perPage,
-  };
+    const page = this.clamp(parseInt(pageRaw ?? '1', 10), 1, Number.MAX_SAFE_INTEGER);
+    const perPage = this.clamp(parseInt(perPageRaw ?? String(defaultPerPage), 10), 1, maxPerPage);
+
+    return {
+      page,
+      perPage,
+      skip: (page - 1) * perPage,
+      take: perPage,
+    };
+  }
 }
-
-function clamp(n: number, min: number, max: number): number {
-  if (Number.isNaN(n)) return min;
-  return Math.max(min, Math.min(n, max));
-}
-
-export { getPaginationParams };

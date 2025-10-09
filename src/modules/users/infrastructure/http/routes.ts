@@ -17,7 +17,7 @@ import { ListUsersController } from 'modules/users/infrastructure/http/controlle
 import { UpdateUserController } from 'modules/users/infrastructure/http/controllers/update-user-controller';
 import { GetCurrentUserController } from 'modules/users/infrastructure/http/controllers/get-current-user-controller';
 
-export class UserRoutes {
+class UserRoutes {
   private static usersRepository = new PostgresUsersRepository();
 
   private static listUsersController = new ListUsersController(
@@ -87,3 +87,5 @@ export class UserRoutes {
     });
   }
 }
+
+export { UserRoutes };

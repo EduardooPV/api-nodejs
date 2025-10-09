@@ -2,7 +2,7 @@ import { IUpdateUserRequestDTO } from 'modules/users/application/update-user/upd
 import { User } from 'modules/users/domain/entities/user';
 import { IUsersRepository } from 'modules/users/domain/repositories/user-repository';
 import { IPaginatedResponse } from 'shared/interfaces/paginated-response';
-import { buildPaginationResponse } from 'shared/utils/paginationResponse';
+import { Pagination } from 'shared/utils/pagination-response';
 import { prisma } from 'core/database/prisma-client';
 import crypto from 'crypto';
 
@@ -55,7 +55,7 @@ class PostgresUsersRepository implements IUsersRepository {
       prisma.user.count(),
     ]);
 
-    return buildPaginationResponse(users, total, page, perPage);
+    return Pagination.build({ items: users, total: total, page: page, perPage: perPage });
   }
 
   async deleteById(id: string): Promise<void> {

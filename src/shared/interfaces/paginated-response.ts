@@ -10,4 +10,11 @@ interface IPaginatedResponse<T> {
   };
 }
 
-export { IPaginatedResponse };
+interface IBuildPaginationParams<T> {
+  items: T[];
+  total: number;
+  page: number;
+  perPage: number;
+}
+
+export { IPaginatedResponse, IBuildPaginationParams };

@@ -1,5 +1,5 @@
 import { describe, it, beforeEach, expect } from '@jest/globals';
-import { buildPaginationResponse } from './paginationResponse';
+import { buildPaginationResponse } from './pagination-response';
 
 describe('buildPaginationResponse', () => {
   let items: string[];

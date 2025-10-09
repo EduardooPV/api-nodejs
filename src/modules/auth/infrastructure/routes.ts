@@ -9,34 +9,41 @@ import { LogoutUserController } from 'modules/auth/infrastructure/http/controlle
 import { LogoutUserUseCase } from 'modules/auth/application/logout-user/logout-user-use-case';
 import { Router } from 'core/http/router';
 
-function registerAuthRoutes(router: Router): void {
-  const usersRepository = new PostgresUsersRepository();
+class AuthRoutes {
+  private static usersRepository = new PostgresUsersRepository();
 
-  const loginUserController = new LoginUserController(new LoginUserUseCase(usersRepository));
-
-  const refreshTokenController = new RefreshTokenController(
-    new RefreshTokenUseCase(usersRepository),
+  private static loginUserController = new LoginUserController(
+    new LoginUserUseCase(AuthRoutes.usersRepository),
+  );
+  private static refreshTokenController = new RefreshTokenController(
+    new RefreshTokenUseCase(AuthRoutes.usersRepository),
+  );
+  private static logoutUserController = new LogoutUserController(
+    new LogoutUserUseCase(AuthRoutes.usersRepository),
   );
 
-  const logoutUserController = new LogoutUserController(new LogoutUserUseCase(usersRepository));
+  static register(router: Router): void {
+    router.register({
+      method: 'POST',
+      path: '/auth/login',
+      handler: (req: IncomingMessage, res: ServerResponse) =>
+        AuthRoutes.loginUserController.handle(req, res),
+    });
 
-  router.register({
-    method: 'POST',
-    path: '/auth/login',
-    handler: (req: IncomingMessage, res: ServerResponse) => loginUserController.handle(req, res),
-  });
+    router.register({
+      method: 'POST',
+      path: '/auth/refresh',
+      handler: (req: IncomingMessage, res: ServerResponse) =>
+        AuthRoutes.refreshTokenController.handle(req, res),
+    });
 
-  router.register({
-    method: 'POST',
-    path: '/auth/refresh',
-    handler: (req: IncomingMessage, res: ServerResponse) => refreshTokenController.handle(req, res),
-  });
-
-  router.register({
-    method: 'POST',
-    path: '/auth/logout',
-    handler: (req: IncomingMessage, res: ServerResponse) => logoutUserController.handle(req, res),
-  });
+    router.register({
+      method: 'POST',
+      path: '/auth/logout',
+      handler: (req: IncomingMessage, res: ServerResponse) =>
+        AuthRoutes.logoutUserController.handle(req, res),
+    });
+  }
 }
 
-export { registerAuthRoutes };
+export { AuthRoutes };

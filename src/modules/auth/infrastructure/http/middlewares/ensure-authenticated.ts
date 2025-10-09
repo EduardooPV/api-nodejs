@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import jsonwebtoken from 'jsonwebtoken';
 import { env } from 'shared/utils/env';
-import { getBearerToken } from 'shared/utils/get-bearer-token';
+import { AuthHelper } from 'shared/utils/get-bearer-token';
 import { MissingAuthHeader } from 'modules/auth/domain/errors/missing-auth-header';
 import { InvalidAccessToken } from 'modules/auth/domain/errors/invalid-access-token';
 
@@ -11,7 +11,7 @@ export class EnsureAuthenticatedMiddleware {
     _res: ServerResponse,
     next: () => void,
   ): void {
-    const token = getBearerToken(req.headers.authorization);
+    const token = AuthHelper.getBearerToken(req.headers.authorization);
 
     if (token == null) throw new MissingAuthHeader();
 

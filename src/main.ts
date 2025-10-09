@@ -1,10 +1,15 @@
 import { App } from 'core/http/app';
 
-const PORT = 3333;
+export class Server {
+  private readonly app: App;
+  private readonly port: number;
 
-function bootstrap(): void {
-  const app = new App();
-  app.start(PORT);
+  constructor() {
+    this.port = 3333;
+    this.app = new App();
+  }
+
+  public start(): void {
+    this.app.start(this.port);
+  }
 }
-
-bootstrap();
