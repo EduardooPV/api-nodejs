@@ -3,8 +3,7 @@ import { UserAlreadyExistsError } from 'modules/users/domain/errors/user-already
 import { IUsersRepository } from 'modules/users/domain/repositories/user-repository';
 import { ICreateUserRequestDTO } from './create-user-dto';
 import bcryptjs from 'bcryptjs';
-
-const BCRYPT_COST = 10;
+import { BCRYPT_COST } from 'shared/constants/auth';
 
 class CreateUserUseCase {
   constructor(private userRepository: IUsersRepository) {}

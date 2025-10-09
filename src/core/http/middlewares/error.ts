@@ -1,21 +1,24 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { handleHttpError } from '../utils/handle-http-error';
+import { HttpErrorHandler } from '../utils/handle-http-error';
 
-async function errorMiddleware(
-  _request: IncomingMessage,
-  response: ServerResponse,
-  next: () => Promise<void>,
-): Promise<void> {
-  try {
-    await next();
-  } catch (error) {
-    if (response.headersSent) {
-      console.error('Error after headers sent. Destroying socket.', error);
-      response.destroy();
-      return;
+class ErrorMiddleware {
+  public static async handle(
+    _request: IncomingMessage,
+    response: ServerResponse,
+    next: () => Promise<void>,
+  ): Promise<void> {
+    try {
+      await next();
+    } catch (error) {
+      if (response.headersSent) {
+        console.error('Error after headers sent. Destroying socket.', error);
+        response.destroy();
+        return;
+      }
+
+      HttpErrorHandler.handle(error, response);
     }
-    handleHttpError(error, response);
   }
 }
 
-export { errorMiddleware };
+export { ErrorMiddleware };

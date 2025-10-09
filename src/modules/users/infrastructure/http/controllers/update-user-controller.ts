@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { IUpdateUserRequestDTO } from 'modules/users/application/update-user/update-user-dto';
 import { UpdateUserUseCase } from 'modules/users/application/update-user/update-user-use-case';
-import { parseBody } from 'core/http/utils/parse-body';
+import { BodyParser } from 'core/http/utils/parse-body';
 import { reply } from 'core/http/utils/reply';
 import { UpdateUserViewModel } from '../../../application/update-user/update-user-view-model';
 
@@ -12,7 +12,7 @@ class UpdateUserController {
     request: IncomingMessage & { userId?: string },
     response: ServerResponse,
   ): Promise<void> {
-    const rawBody = await parseBody(request);
+    const rawBody = await BodyParser.parse(request);
     const id = request.userId;
 
     const body = rawBody as IUpdateUserRequestDTO;

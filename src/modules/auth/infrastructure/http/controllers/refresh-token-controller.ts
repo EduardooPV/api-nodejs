@@ -1,8 +1,8 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { RefreshTokenUseCase } from 'modules/auth/application/refresh-token/refresh-token-use-case';
-import { parseCookie } from 'core/http/utils/parse-cookie';
+import { CookieParser } from 'core/http/utils/parse-cookie';
 import { InvalidRefreshToken } from 'modules/auth/domain/errors/invalid-refresh-token';
-import { serializeCookie } from 'core/http/utils/cookies';
+import { CookieSerializer } from 'core/http/utils/cookies';
 import { env } from 'shared/utils/env';
 import { reply } from 'core/http/utils/reply';
 import { REFRESH_TOKEN_MAX_AGE_SECONDS } from 'shared/constants/auth';
@@ -11,7 +11,7 @@ class RefreshTokenController {
   constructor(private refreshTokenUseCase: RefreshTokenUseCase) {}
 
   async handle(request: IncomingMessage, response: ServerResponse): Promise<void> {
-    const { refreshToken } = parseCookie(request.headers.cookie);
+    const { refreshToken } = CookieParser.parse(request.headers.cookie);
 
     if (!refreshToken) {
       throw new InvalidRefreshToken();
@@ -20,7 +20,7 @@ class RefreshTokenController {
     const { accessToken, refreshToken: newRefresh } =
       await this.refreshTokenUseCase.execute(refreshToken);
 
-    const cookie = serializeCookie('refreshToken', newRefresh, {
+    const cookie = CookieSerializer.serialize('refreshToken', newRefresh, {
       httpOnly: true,
       secure: env.nodeEnv === 'production',
       path: '/',

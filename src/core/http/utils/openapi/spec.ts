@@ -1,18 +1,24 @@
 import type { OpenAPIV3_1 } from 'openapi-types';
 import { baseDoc } from './base';
-import { mergePaths } from './merge';
+import { OpenApiPathMerger } from './merge';
 
-let cached: OpenAPIV3_1.Document | null = null;
+class OpenApiSpecBuilder {
+  private static cached: OpenAPIV3_1.Document | null = null;
 
-async function getOpenApiSpec(): Promise<OpenAPIV3_1.Document> {
-  if (cached) return cached;
+  static async build(): Promise<OpenAPIV3_1.Document> {
+    if (this.cached) return this.cached;
 
-  cached = {
-    ...baseDoc,
-    paths: mergePaths(baseDoc.paths ?? {}),
-  };
+    this.cached = {
+      ...baseDoc,
+      paths: OpenApiPathMerger.merge(baseDoc.paths ?? {}),
+    };
 
-  return cached;
+    return this.cached;
+  }
+
+  static clearCache(): void {
+    this.cached = null;
+  }
 }
 
-export { getOpenApiSpec };
+export { OpenApiSpecBuilder };

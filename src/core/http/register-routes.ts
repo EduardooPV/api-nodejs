@@ -1,16 +1,40 @@
+import { Router } from './router';
 import { registerAuthRoutes } from 'modules/auth/infrastructure/routes';
 import { registerDocsRoutes } from 'core/http/routes/docs';
 import { registerMetricsRoutes } from 'core/http/routes/metrics';
-import { registerUserRoutes } from 'modules/users/infrastructure/http/routes';
-import { Router } from './router';
+import { UserRoutes } from 'modules/users/infrastructure/http/routes';
 import { registerShoppingListRoutes } from 'modules/shopping/infrastructure/http/routes';
 
-function registerRoutes(router: Router): void {
-  registerUserRoutes(router);
-  registerAuthRoutes(router);
-  registerDocsRoutes(router);
-  registerMetricsRoutes(router);
-  registerShoppingListRoutes(router);
+class RouteRegister {
+  constructor(private readonly router: Router) {}
+
+  public registerAll(): void {
+    this.registerUserRoutes();
+    this.registerAuthRoutes();
+    this.registerDocsRoutes();
+    this.registerMetricsRoutes();
+    this.registerShoppingListRoutes();
+  }
+
+  private registerUserRoutes(): void {
+    UserRoutes.register(this.router);
+  }
+
+  private registerAuthRoutes(): void {
+    registerAuthRoutes(this.router);
+  }
+
+  private registerDocsRoutes(): void {
+    registerDocsRoutes(this.router);
+  }
+
+  private registerMetricsRoutes(): void {
+    registerMetricsRoutes(this.router);
+  }
+
+  private registerShoppingListRoutes(): void {
+    registerShoppingListRoutes(this.router);
+  }
 }
 
-export { registerRoutes };
+export { RouteRegister };

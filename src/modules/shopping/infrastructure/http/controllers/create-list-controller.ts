@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { CreateListUseCase } from 'modules/shopping/application/create-list/create-list-use-case';
-import { parseBody } from 'core/http/utils/parse-body';
+import { BodyParser } from 'core/http/utils/parse-body';
 import { ICreateListRequestDTO } from 'modules/shopping/application/create-list/create-list-dto';
 import { CreateListViewModel } from 'modules/shopping/application/create-list/create-list-view-model';
 import { reply } from 'core/http/utils/reply';
@@ -12,7 +12,7 @@ class CreateListController {
     request: IncomingMessage & { userId?: string },
     response: ServerResponse,
   ): Promise<void> {
-    const rawBody = await parseBody(request);
+    const rawBody = await BodyParser.parse(request);
     const userId = request.userId;
 
     const { name } = rawBody as ICreateListRequestDTO;

@@ -1,7 +1,10 @@
-import { registerRoutes } from './register-routes';
+import { RouteRegister } from './register-routes';
 import { Router } from './router';
 
 const router = new Router();
-registerRoutes(router);
+
+const routeRegister = new RouteRegister(router);
+
+routeRegister.registerAll();
 
 export { router };

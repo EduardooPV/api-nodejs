@@ -1,9 +1,9 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { LoginUserUseCase } from 'modules/auth/application/login-user/login-user-use-case';
 import { IAuthenticateUserRequestDTO } from 'modules/auth/application/login-user/login-user-dto';
-import { parseBody } from 'core/http/utils/parse-body';
+import { BodyParser } from 'core/http/utils/parse-body';
 import { env } from 'shared/utils/env';
-import { serializeCookie } from 'core/http/utils/cookies';
+import { CookieSerializer } from 'core/http/utils/cookies';
 import { reply } from 'core/http/utils/reply';
 import { REFRESH_TOKEN_MAX_AGE_SECONDS } from 'shared/constants/auth';
 
@@ -11,7 +11,7 @@ class LoginUserController {
   constructor(private authenticateUserUseCase: LoginUserUseCase) {}
 
   async handle(request: IncomingMessage, response: ServerResponse): Promise<void> {
-    const rawBody = await parseBody(request);
+    const rawBody = await BodyParser.parse(request);
 
     const { email, password } = rawBody as IAuthenticateUserRequestDTO;
 
@@ -20,7 +20,7 @@ class LoginUserController {
       password,
     });
 
-    const cookie = serializeCookie('refreshToken', refreshToken, {
+    const cookie = CookieSerializer.serialize('refreshToken', refreshToken, {
       httpOnly: true,
       secure: env.nodeEnv === 'production',
       path: '/',

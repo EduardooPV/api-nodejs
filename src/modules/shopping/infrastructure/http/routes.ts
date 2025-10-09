@@ -3,7 +3,7 @@ import { PostgresShoppingListRespository } from '../database/postgres-shopping-l
 import { CreateListUseCase } from 'modules/shopping/application/create-list/create-list-use-case';
 import { CreateListController } from './controllers/create-list-controller';
 import { Router } from 'core/http/router';
-import { ensureAuthenticated } from 'modules/auth/infrastructure/http/middlewares/ensure-authenticated';
+import { EnsureAuthenticatedMiddleware } from 'modules/auth/infrastructure/http/middlewares/ensure-authenticated';
 
 const shoppingListRepository = new PostgresShoppingListRespository();
 
@@ -14,7 +14,7 @@ function registerShoppingListRoutes(router: Router): void {
   router.register({
     method: 'POST',
     path: '/lists',
-    middlewares: [ensureAuthenticated],
+    middlewares: [EnsureAuthenticatedMiddleware.handle],
     handler: (req: IncomingMessage, res: ServerResponse) => createListController.handle(req, res),
   });
 }

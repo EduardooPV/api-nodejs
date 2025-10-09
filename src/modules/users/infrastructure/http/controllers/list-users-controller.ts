@@ -2,7 +2,7 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { ListUsersUseCase } from 'modules/users/application/list-users/list-users-use-case';
 import { getPaginationParams } from 'shared/utils/pagination-params';
 import { IListUsersRequestDTO } from 'modules/users/application/list-users/list-users-dto';
-import { parseQueryParams } from 'core/http/utils/parse-query-params';
+import { QueryParser } from 'core/http/utils/parse-query-params';
 import { reply } from 'core/http/utils/reply';
 
 class ListUsersController {
@@ -10,7 +10,7 @@ class ListUsersController {
 
   async handle(request: IncomingMessage, response: ServerResponse): Promise<void> {
     const { page, perPage } = getPaginationParams(request);
-    const { name, email, orderBy, orderDirection } = parseQueryParams(
+    const { name, email, orderBy, orderDirection } = QueryParser.parse(
       request,
     ) as IListUsersRequestDTO;
 

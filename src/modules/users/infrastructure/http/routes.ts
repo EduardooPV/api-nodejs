@@ -1,4 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
+import { Router } from 'core/http/router';
+import { EnsureAuthenticatedMiddleware } from 'modules/auth/infrastructure/http/middlewares/ensure-authenticated';
 
 import { PostgresUsersRepository } from 'modules/users/infrastructure/database/postgres-users-repository';
 
@@ -13,61 +15,75 @@ import { DeleteUserController } from 'modules/users/infrastructure/http/controll
 import { GetUserController } from 'modules/users/infrastructure/http/controllers/get-user-controller';
 import { ListUsersController } from 'modules/users/infrastructure/http/controllers/list-users-controller';
 import { UpdateUserController } from 'modules/users/infrastructure/http/controllers/update-user-controller';
-import { ensureAuthenticated } from 'modules/auth/infrastructure/http/middlewares/ensure-authenticated';
 import { GetCurrentUserController } from 'modules/users/infrastructure/http/controllers/get-current-user-controller';
-import { Router } from 'core/http/router';
 
-const usersRepository = new PostgresUsersRepository();
+export class UserRoutes {
+  private static usersRepository = new PostgresUsersRepository();
 
-const listUsersController = new ListUsersController(new ListUsersUseCase(usersRepository));
-const getUserUseCase = new GetUserUseCase(usersRepository);
-const getUserController = new GetUserController(getUserUseCase);
-const getCurrentUserController = new GetCurrentUserController(getUserUseCase);
-const createUserController = new CreateUserController(new CreateUserUseCase(usersRepository));
-const deleteUserByIdController = new DeleteUserController(new DeleteUserUseCase(usersRepository));
-const updateUserController = new UpdateUserController(new UpdateUserUseCase(usersRepository));
+  private static listUsersController = new ListUsersController(
+    new ListUsersUseCase(UserRoutes.usersRepository),
+  );
 
-function registerUserRoutes(router: Router): void {
-  router.register({
-    method: 'GET',
-    path: '/users',
-    handler: (req: IncomingMessage, res: ServerResponse) => listUsersController.handle(req, res),
-  });
+  private static getUserUseCase = new GetUserUseCase(UserRoutes.usersRepository);
+  private static getUserController = new GetUserController(UserRoutes.getUserUseCase);
+  private static getCurrentUserController = new GetCurrentUserController(UserRoutes.getUserUseCase);
 
-  router.register({
-    method: 'GET',
-    path: '/users/:id',
-    handler: (req: IncomingMessage, res: ServerResponse) => getUserController.handle(req, res),
-  });
+  private static createUserController = new CreateUserController(
+    new CreateUserUseCase(UserRoutes.usersRepository),
+  );
 
-  router.register({
-    method: 'POST',
-    path: '/users',
-    handler: (req: IncomingMessage, res: ServerResponse) => createUserController.handle(req, res),
-  });
+  private static deleteUserByIdController = new DeleteUserController(
+    new DeleteUserUseCase(UserRoutes.usersRepository),
+  );
 
-  router.register({
-    method: 'DELETE',
-    path: '/users',
-    middlewares: [ensureAuthenticated],
-    handler: (req: IncomingMessage, res: ServerResponse) =>
-      deleteUserByIdController.handle(req, res),
-  });
+  private static updateUserController = new UpdateUserController(
+    new UpdateUserUseCase(UserRoutes.usersRepository),
+  );
 
-  router.register({
-    method: 'PUT',
-    path: '/users',
-    middlewares: [ensureAuthenticated],
-    handler: (req: IncomingMessage, res: ServerResponse) => updateUserController.handle(req, res),
-  });
+  static register(router: Router): void {
+    router.register({
+      method: 'GET',
+      path: '/users',
+      handler: (req: IncomingMessage, res: ServerResponse) =>
+        UserRoutes.listUsersController.handle(req, res),
+    });
 
-  router.register({
-    method: 'GET',
-    path: '/users/me',
-    middlewares: [ensureAuthenticated],
-    handler: (req: IncomingMessage, res: ServerResponse) =>
-      getCurrentUserController.handle(req, res),
-  });
+    router.register({
+      method: 'GET',
+      path: '/users/:id',
+      handler: (req: IncomingMessage, res: ServerResponse) =>
+        UserRoutes.getUserController.handle(req, res),
+    });
+
+    router.register({
+      method: 'POST',
+      path: '/users',
+      handler: (req: IncomingMessage, res: ServerResponse) =>
+        UserRoutes.createUserController.handle(req, res),
+    });
+
+    router.register({
+      method: 'DELETE',
+      path: '/users',
+      middlewares: [EnsureAuthenticatedMiddleware.handle],
+      handler: (req: IncomingMessage, res: ServerResponse) =>
+        UserRoutes.deleteUserByIdController.handle(req, res),
+    });
+
+    router.register({
+      method: 'PUT',
+      path: '/users',
+      middlewares: [EnsureAuthenticatedMiddleware.handle],
+      handler: (req: IncomingMessage, res: ServerResponse) =>
+        UserRoutes.updateUserController.handle(req, res),
+    });
+
+    router.register({
+      method: 'GET',
+      path: '/users/me',
+      middlewares: [EnsureAuthenticatedMiddleware.handle],
+      handler: (req: IncomingMessage, res: ServerResponse) =>
+        UserRoutes.getCurrentUserController.handle(req, res),
+    });
+  }
 }
-
-export { registerUserRoutes };

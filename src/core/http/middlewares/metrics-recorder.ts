@@ -1,31 +1,34 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { httpRequestDuration, httpRequestsTotal } from 'core/http/utils/metrics';
 
-type ReqWithMetrics = IncomingMessage & { metricsRoute?: string };
+export type ReqWithMetrics = IncomingMessage & { metricsRoute?: string };
 
-async function metricsRecorder(
-  req: ReqWithMetrics,
-  res: ServerResponse,
-  next: () => Promise<void>,
-): Promise<void> {
-  if (req.url?.startsWith('/metrics') ?? false) return next();
+class MetricsRecorderMiddleware {
+  public static async handle(
+    req: ReqWithMetrics,
+    res: ServerResponse,
+    next: () => Promise<void>,
+  ): Promise<void> {
+    if (req.url?.startsWith('/metrics') ?? false) return next();
 
-  const method = (req.method ?? 'GET').toUpperCase();
-  const endTimer = httpRequestDuration.startTimer({ method });
+    const method = (req.method ?? 'GET').toUpperCase();
+    const endTimer = httpRequestDuration.startTimer({ method });
 
-  res.once('finish', onDone);
-  res.once('close', onDone);
-  function onDone(): void {
-    const labels = {
-      method,
-      route: req.metricsRoute ?? 'unknown',
-      status: String(res.statusCode || 0),
+    const onDone = (): void => {
+      const labels = {
+        method,
+        route: req.metricsRoute ?? 'unknown',
+        status: String(res.statusCode || 0),
+      };
+      httpRequestsTotal.inc(labels);
+      endTimer(labels);
     };
-    httpRequestsTotal.inc(labels);
-    endTimer(labels);
-  }
 
-  await next();
+    res.once('finish', onDone);
+    res.once('close', onDone);
+
+    await next();
+  }
 }
 
-export { metricsRecorder };
+export { MetricsRecorderMiddleware };

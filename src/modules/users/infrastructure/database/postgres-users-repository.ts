@@ -2,7 +2,7 @@ import { IUpdateUserRequestDTO } from 'modules/users/application/update-user/upd
 import { User } from 'modules/users/domain/entities/user';
 import { IUsersRepository } from 'modules/users/domain/repositories/user-repository';
 import { IPaginatedResponse } from 'shared/interfaces/paginated-response';
-import { buildPaginationResponse } from 'shared/utils/pagination-response';
+import { buildPaginationResponse } from 'shared/utils/paginationResponse';
 import { prisma } from 'core/database/prisma-client';
 import crypto from 'crypto';
 

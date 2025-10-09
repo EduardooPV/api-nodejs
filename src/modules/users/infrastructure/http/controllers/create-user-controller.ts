@@ -1,14 +1,14 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { CreateUserUseCase } from 'modules/users/application/create-user/create-user-use-case';
 import { ICreateUserRequestDTO } from 'modules/users/application/create-user/create-user-dto';
-import { parseBody } from 'core/http/utils/parse-body';
+import { BodyParser } from 'core/http/utils/parse-body';
 import { reply } from 'core/http/utils/reply';
 
 class CreateUserController {
   constructor(private createUserUseCase: CreateUserUseCase) {}
 
   async handle(request: IncomingMessage, response: ServerResponse): Promise<void> {
-    const rawBody = await parseBody(request);
+    const rawBody = await BodyParser.parse(request);
 
     const { name, email, password } = rawBody as ICreateUserRequestDTO;
 
