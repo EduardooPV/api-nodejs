@@ -1,21 +1,21 @@
 import { IncomingMessage, ServerResponse } from 'http';
 
-import { PostgresUsersRepository } from 'modules/users/infrastructure/database/PostgresUsersRepository';
+import { PostgresUsersRepository } from 'modules/users/infrastructure/database/postgres-users-repository';
 
-import { CreateUserUseCase } from 'modules/users/application/createUser/CreateUserUseCase';
-import { DeleteUserUseCase } from 'modules/users/application/deleteUser/DeleteUserUseCase';
-import { ListUsersUseCase } from 'modules/users/application/listUsers/ListUsersUseCase';
-import { GetUserUseCase } from 'modules/users/application/getUser/GetUserUseCase';
-import { UpdateUserUseCase } from 'modules/users/application/updateUser/UpdateUserUseCase';
+import { CreateUserUseCase } from 'modules/users/application/create-user/create-user-use-case';
+import { DeleteUserUseCase } from 'modules/users/application/delete-user/delete-user-use-case';
+import { ListUsersUseCase } from 'modules/users/application/list-users/list-users-use-case';
+import { GetUserUseCase } from 'modules/users/application/get-user/get-user-use-case';
+import { UpdateUserUseCase } from 'modules/users/application/update-user/update-user-use-case';
 
-import { CreateUserController } from 'modules/users/infrastructure/http/controllers/CreateUserController';
-import { DeleteUserController } from 'modules/users/infrastructure/http/controllers/DeleteUserController';
-import { GetUserController } from 'modules/users/infrastructure/http/controllers/GetUserController';
-import { ListUsersController } from 'modules/users/infrastructure/http/controllers/ListUsersController';
-import { UpdateUserController } from 'modules/users/infrastructure/http/controllers/UpdateUserController';
-import { ensureAuthenticated } from 'modules/auth/infrastructure/http/middlewares/ensureAuthenticatedMiddleware';
-import { GetCurrentUserController } from 'modules/users/infrastructure/http/controllers/GetCurrentUserController';
-import { Router } from 'core/http/Router';
+import { CreateUserController } from 'modules/users/infrastructure/http/controllers/create-user-controller';
+import { DeleteUserController } from 'modules/users/infrastructure/http/controllers/delete-user-controller';
+import { GetUserController } from 'modules/users/infrastructure/http/controllers/get-user-controller';
+import { ListUsersController } from 'modules/users/infrastructure/http/controllers/list-users-controller';
+import { UpdateUserController } from 'modules/users/infrastructure/http/controllers/update-user-controller';
+import { ensureAuthenticated } from 'modules/auth/infrastructure/http/middlewares/ensure-authenticated';
+import { GetCurrentUserController } from 'modules/users/infrastructure/http/controllers/get-current-user-controller';
+import { Router } from 'core/http/router';
 
 const usersRepository = new PostgresUsersRepository();
 

@@ -1,5 +1,5 @@
 import { ServerResponse } from 'http';
-import { Headers, Responder } from 'core/http/interfaces/IReplyResponder';
+import { Headers, Responder } from 'core/http/interfaces/reply-responder';
 
 function applyHeaders(res: ServerResponse, headers?: Headers): void {
   if (headers) for (const [k, v] of Object.entries(headers)) res.setHeader(k, v);

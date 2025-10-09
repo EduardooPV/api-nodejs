@@ -1,9 +1,9 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { PostgresShoppingListRespository } from '../database/PostgresShoppingListRepository';
-import { CreateListUseCase } from 'modules/shopping/application/createList/CreateListUseCase';
-import { CreateListController } from './controllers/CreateListController';
-import { Router } from 'core/http/Router';
-import { ensureAuthenticated } from 'modules/auth/infrastructure/http/middlewares/ensureAuthenticatedMiddleware';
+import { PostgresShoppingListRespository } from '../database/postgres-shopping-list-repository';
+import { CreateListUseCase } from 'modules/shopping/application/create-list/create-list-use-case';
+import { CreateListController } from './controllers/create-list-controller';
+import { Router } from 'core/http/router';
+import { ensureAuthenticated } from 'modules/auth/infrastructure/http/middlewares/ensure-authenticated';
 
 const shoppingListRepository = new PostgresShoppingListRespository();
 

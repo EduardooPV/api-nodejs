@@ -1,13 +1,13 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { PostgresUsersRepository } from 'modules/users/infrastructure/database/PostgresUsersRepository';
-import { LoginUserUseCase } from 'modules/auth/application/loginUser/LoginUserUseCase';
+import { PostgresUsersRepository } from 'modules/users/infrastructure/database/postgres-users-repository';
+import { LoginUserUseCase } from 'modules/auth/application/login-user/login-user-use-case';
 
-import { LoginUserController } from 'modules/auth/infrastructure/http/controllers/LoginUserController';
-import { RefreshTokenController } from 'modules/auth/infrastructure/http/controllers/RefreshTokenController';
-import { RefreshTokenUseCase } from 'modules/auth/application/refreshToken/RefreshTokenUseCase';
-import { LogoutUserController } from 'modules/auth/infrastructure/http/controllers/LogoutUserController';
-import { LogoutUserUseCase } from 'modules/auth/application/logoutUser/LogoutUserUseCase';
-import { Router } from 'core/http/Router';
+import { LoginUserController } from 'modules/auth/infrastructure/http/controllers/login-user-controller';
+import { RefreshTokenController } from 'modules/auth/infrastructure/http/controllers/refresh-token-controller';
+import { RefreshTokenUseCase } from 'modules/auth/application/refresh-token/refresh-token-use-case';
+import { LogoutUserController } from 'modules/auth/infrastructure/http/controllers/logout-user-controller';
+import { LogoutUserUseCase } from 'modules/auth/application/logout-user/logout-user-use-case';
+import { Router } from 'core/http/router';
 
 function registerAuthRoutes(router: Router): void {
   const usersRepository = new PostgresUsersRepository();
