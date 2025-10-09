@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { PostgresShoppingListRespository } from '../database/postgres-shopping-list-repository';
+import { PostgresShoppingListRespository } from 'modules/shopping/infrastructure/database/postgres-shopping-list-repository';
 import { CreateListUseCase } from 'modules/shopping/application/create-list/create-list-use-case';
 import { CreateListController } from './controllers/create-list-controller';
 import { Router } from 'core/http/router';

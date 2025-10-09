@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { HttpErrorHandler } from '../utils/handle-http-error';
+import { HttpErrorHandler } from 'core/http/utils/handle-http-error';
 
 class ErrorMiddleware {
   public static async handle(

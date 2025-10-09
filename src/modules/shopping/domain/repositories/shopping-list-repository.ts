@@ -1,5 +1,5 @@
 import { ICreateListRequestDTO } from 'modules/shopping/application/create-list/create-list-dto';
-import { ShoppingList } from '../entities/shopping-list';
+import { ShoppingList } from 'modules/shopping/domain/entities/shopping-list';
 
 export interface ICreateListDTO {
   userId: string;

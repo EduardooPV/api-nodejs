@@ -3,7 +3,7 @@ import { IUpdateUserRequestDTO } from 'modules/users/application/update-user/upd
 import { UpdateUserUseCase } from 'modules/users/application/update-user/update-user-use-case';
 import { BodyParser } from 'core/http/utils/parse-body';
 import { reply } from 'core/http/utils/reply';
-import { UpdateUserViewModel } from '../../../application/update-user/update-user-view-model';
+import { UpdateUserViewModel } from 'modules/users/application/update-user/update-user-view-model';
 
 class UpdateUserController {
   constructor(private updateUserUseCase: UpdateUserUseCase) {}
