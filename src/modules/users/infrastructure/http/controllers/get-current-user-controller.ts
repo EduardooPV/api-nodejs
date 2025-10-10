@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { GetUserUseCase } from 'modules/users/application/get-user/get-user-use-case';
-import { reply } from 'core/http/utils/reply';
+import { ReplyResponder } from 'core/http/utils/reply';
 import { GetUserViewModel } from 'modules/users/application/get-user/get-user-view-model';
 
 class GetCurrentUserController {
@@ -15,7 +15,7 @@ class GetCurrentUserController {
     const user = await this.getUserUseCase.execute({ id });
     const userHTTP = GetUserViewModel.toHTTP(user);
 
-    reply(response).ok(userHTTP);
+    new ReplyResponder(response).ok(userHTTP);
   }
 }
 

@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { reply } from 'core/http/utils/reply';
+import { ReplyResponder } from 'core/http/utils/reply';
 
 class DocsHtmlBuilder {
   public static build(): string {
@@ -34,7 +34,9 @@ class DocsHtmlBuilder {
 class DocsController {
   public async handle(_req: IncomingMessage, res: ServerResponse): Promise<void> {
     const html = DocsHtmlBuilder.build();
-    reply(res).text(200, html, { 'Content-Type': 'text/html; charset=utf-8' });
+    new ReplyResponder(res).text(200, html, {
+      'Content-Type': 'text/html; charset=utf-8',
+    });
   }
 }
 

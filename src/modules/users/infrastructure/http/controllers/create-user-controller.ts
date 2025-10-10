@@ -2,7 +2,7 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { CreateUserUseCase } from 'modules/users/application/create-user/create-user-use-case';
 import { ICreateUserRequestDTO } from 'modules/users/application/create-user/create-user-dto';
 import { BodyParser } from 'core/http/utils/parse-body';
-import { reply } from 'core/http/utils/reply';
+import { ReplyResponder } from 'core/http/utils/reply';
 
 class CreateUserController {
   constructor(private createUserUseCase: CreateUserUseCase) {}
@@ -18,7 +18,7 @@ class CreateUserController {
       password,
     });
 
-    reply(response).created(rawBody, '/users/:id');
+    new ReplyResponder(response).created(rawBody, '/users/:id');
   }
 }
 

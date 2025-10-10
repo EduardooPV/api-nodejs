@@ -3,7 +3,7 @@ import { ListUsersUseCase } from 'modules/users/application/list-users/list-user
 import { PaginationHelper } from 'shared/utils/pagination-params';
 import { IListUsersRequestDTO } from 'modules/users/application/list-users/list-users-dto';
 import { QueryParser } from 'core/http/utils/parse-query-params';
-import { reply } from 'core/http/utils/reply';
+import { ReplyResponder } from 'core/http/utils/reply';
 
 class ListUsersController {
   constructor(private listUsersUseCase: ListUsersUseCase) {}
@@ -23,7 +23,7 @@ class ListUsersController {
       orderDirection,
     });
 
-    reply(response).ok({ ...users });
+    new ReplyResponder(response).ok({ ...users });
   }
 }
 

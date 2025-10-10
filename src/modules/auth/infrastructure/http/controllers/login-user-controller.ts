@@ -4,7 +4,7 @@ import { IAuthenticateUserRequestDTO } from 'modules/auth/application/login-user
 import { BodyParser } from 'core/http/utils/parse-body';
 import { env } from 'shared/utils/env';
 import { CookieSerializer } from 'core/http/utils/cookies';
-import { reply } from 'core/http/utils/reply';
+import { ReplyResponder } from 'core/http/utils/reply';
 import { REFRESH_TOKEN_MAX_AGE_SECONDS } from 'shared/constants/auth';
 
 class LoginUserController {
@@ -29,7 +29,7 @@ class LoginUserController {
     });
 
     response.setHeader('Set-Cookie', cookie);
-    reply(response).ok({ message: 'User authenticated successfully', accessToken });
+    new ReplyResponder(response).ok({ message: 'User authenticated successfully', accessToken });
   }
 }
 

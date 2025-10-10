@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { GetUserUseCase } from 'modules/users/application/get-user/get-user-use-case';
-import { reply } from 'core/http/utils/reply';
+import { ReplyResponder } from 'core/http/utils/reply';
 
 class GetUserController {
   constructor(private getUserUseCase: GetUserUseCase) {}
@@ -13,7 +13,7 @@ class GetUserController {
 
     const user = await this.getUserUseCase.execute({ id });
 
-    reply(response).ok({ ...user });
+    new ReplyResponder(response).ok({ ...user });
   }
 }
 

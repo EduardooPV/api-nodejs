@@ -4,7 +4,7 @@ import { CookieParser } from 'core/http/utils/parse-cookie';
 import { InvalidRefreshToken } from 'modules/auth/domain/errors/invalid-refresh-token';
 import { CookieSerializer } from 'core/http/utils/cookies';
 import { env } from 'shared/utils/env';
-import { reply } from 'core/http/utils/reply';
+import { ReplyResponder } from 'core/http/utils/reply';
 import { REFRESH_TOKEN_MAX_AGE_SECONDS } from 'shared/constants/auth';
 
 class RefreshTokenController {
@@ -29,7 +29,7 @@ class RefreshTokenController {
     });
 
     response.setHeader('Set-Cookie', cookie);
-    reply(response).ok({ message: 'Token refreshed successfully', accessToken });
+    new ReplyResponder(response).ok({ message: 'Token refreshed successfully', accessToken });
   }
 }
 

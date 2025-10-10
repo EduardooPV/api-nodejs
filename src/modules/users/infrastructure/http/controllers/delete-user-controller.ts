@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { DeleteUserUseCase } from 'modules/users/application/delete-user/delete-user-use-case';
-import { reply } from 'core/http/utils/reply';
+import { ReplyResponder } from 'core/http/utils/reply';
 
 class DeleteUserController {
   constructor(private deleteUserByIdUseCase: DeleteUserUseCase) {}
@@ -13,7 +13,7 @@ class DeleteUserController {
 
     await this.deleteUserByIdUseCase.execute({ id });
 
-    reply(response).noContent();
+    new ReplyResponder(response).noContent();
   }
 }
 

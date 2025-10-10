@@ -1,56 +1,65 @@
 import { ServerResponse } from 'http';
-import { Headers, Responder } from 'core/http/interfaces/reply-responder';
+import { Headers } from 'core/http/interfaces/reply-responder';
 
-function applyHeaders(res: ServerResponse, headers?: Headers): void {
-  if (headers) for (const [k, v] of Object.entries(headers)) res.setHeader(k, v);
+class HeaderApplier {
+  static apply(res: ServerResponse, headers?: Headers): void {
+    if (!headers) return;
+    for (const [key, value] of Object.entries(headers)) {
+      res.setHeader(key, value);
+    }
+  }
 }
 
-function reply(res: ServerResponse): Responder {
-  return {
-    json<T>(status: number, body: T, headers?: Headers): void {
-      const payload = JSON.stringify(body);
-      res.statusCode = status;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      applyHeaders(res, headers);
-      res.setHeader('Content-Length', Buffer.byteLength(payload).toString());
-      res.end(payload);
-    },
+class ReplyResponder {
+  private readonly res: ServerResponse;
 
-    ok<T>(body: T, headers?: Headers): void {
-      this.json(200, body, headers);
-    },
+  constructor(res: ServerResponse) {
+    this.res = res;
+  }
 
-    created<T>(body: T, location?: string, headers?: Headers): void {
-      if (location != null) {
-        res.setHeader('Location', location);
-      }
-      this.json(201, body, headers);
-    },
+  public json<T>(status: number, body: T, headers?: Headers): void {
+    const payload = JSON.stringify(body);
+    this.res.statusCode = status;
+    this.res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    HeaderApplier.apply(this.res, headers);
+    this.res.setHeader('Content-Length', Buffer.byteLength(payload).toString());
+    this.res.end(payload);
+  }
 
-    noContent(headers?: Headers): void {
-      res.statusCode = 204;
-      applyHeaders(res, headers);
-      res.removeHeader('Content-Type');
-      res.removeHeader('Content-Length');
-      res.end();
-    },
+  public ok<T>(body: T, headers?: Headers): void {
+    this.json(200, body, headers);
+  }
 
-    text(status: number, body: string, headers?: Headers): void {
-      res.statusCode = status;
-      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-      applyHeaders(res, headers);
-      res.setHeader('Content-Length', Buffer.byteLength(body).toString());
-      res.end(body);
-    },
+  public created<T>(body: T, location?: string, headers?: Headers): void {
+    if (location != null) {
+      this.res.setHeader('Location', location);
+    }
+    this.json(201, body, headers);
+  }
 
-    html(status, body, headers): void {
-      res.statusCode = status;
-      res.setHeader('Content-Type', 'text/html; charset=utf-8');
-      applyHeaders(res, headers);
-      res.setHeader('Content-Length', Buffer.byteLength(body).toString());
-      res.end(body);
-    },
-  };
+  public noContent(headers?: Headers): void {
+    this.res.statusCode = 204;
+    HeaderApplier.apply(this.res, headers);
+    this.res.removeHeader('Content-Type');
+    this.res.removeHeader('Content-Length');
+    this.res.end();
+  }
+
+  public text(status: number, body: string, headers?: Headers): void {
+    this.res.statusCode = status;
+    this.res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    HeaderApplier.apply(this.res, headers);
+    this.res.setHeader('Content-Length', Buffer.byteLength(body).toString());
+    this.res.end(body);
+  }
+
+  public html(status: number, body: string, headers?: Headers): void {
+    this.res.statusCode = status;
+    this.res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    HeaderApplier.apply(this.res, headers);
+    this.res.setHeader('Content-Length', Buffer.byteLength(body).toString());
+    this.res.end(body);
+  }
 }
 
-export { reply };
+export { ReplyResponder };

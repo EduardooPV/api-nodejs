@@ -2,7 +2,7 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { IUpdateUserRequestDTO } from 'modules/users/application/update-user/update-user-dto';
 import { UpdateUserUseCase } from 'modules/users/application/update-user/update-user-use-case';
 import { BodyParser } from 'core/http/utils/parse-body';
-import { reply } from 'core/http/utils/reply';
+import { ReplyResponder } from 'core/http/utils/reply';
 import { UpdateUserViewModel } from 'modules/users/application/update-user/update-user-view-model';
 
 class UpdateUserController {
@@ -20,7 +20,7 @@ class UpdateUserController {
     const user = await this.updateUserUseCase.execute({ id, ...body });
     const userHTTP = UpdateUserViewModel.toHTTP(user);
 
-    reply(response).ok(userHTTP);
+    new ReplyResponder(response).ok(userHTTP);
   }
 }
 

@@ -30,7 +30,7 @@ src/
       middlewares/    # logger, ensureAuthenticated, withAuth
       openapi/        # base.ts, spec.ts (merge), merge.ts
       routes/         # rotas + openapi.ts por módulo
-      utils/          # reply, parseBody, parseCookie, etc.
+      utils/          # ReplyResponder, parseBody, parseCookie, etc.
   shared/
     errors/           # AppError
     utils/            # env, paginação, datas

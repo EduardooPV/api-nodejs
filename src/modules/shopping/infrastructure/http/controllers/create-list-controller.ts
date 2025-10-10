@@ -3,7 +3,7 @@ import { CreateListUseCase } from 'modules/shopping/application/create-list/crea
 import { BodyParser } from 'core/http/utils/parse-body';
 import { ICreateListRequestDTO } from 'modules/shopping/application/create-list/create-list-dto';
 import { CreateListViewModel } from 'modules/shopping/application/create-list/create-list-view-model';
-import { reply } from 'core/http/utils/reply';
+import { ReplyResponder } from 'core/http/utils/reply';
 
 class CreateListController {
   constructor(private createListUseCase: CreateListUseCase) {}
@@ -23,7 +23,7 @@ class CreateListController {
     });
     const shoppingListHTTP = CreateListViewModel.toHTTP(shoppingList);
 
-    reply(response).created(shoppingListHTTP);
+    new ReplyResponder(response).created(shoppingListHTTP);
   }
 }
 

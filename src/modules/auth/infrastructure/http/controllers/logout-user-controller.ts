@@ -4,7 +4,7 @@ import { CookieParser } from 'core/http/utils/parse-cookie';
 import { env } from 'shared/utils/env';
 import { InvalidRefreshToken } from 'modules/auth/domain/errors/invalid-refresh-token';
 import { CookieSerializer } from 'core/http/utils/cookies';
-import { reply } from 'core/http/utils/reply';
+import { ReplyResponder } from 'core/http/utils/reply';
 
 class LogoutUserController {
   constructor(private logoutUseCase: LogoutUserUseCase) {}
@@ -25,7 +25,7 @@ class LogoutUserController {
     });
 
     response.setHeader('Set-Cookie', cookie);
-    reply(response).noContent();
+    new ReplyResponder(response).noContent();
   }
 }
 
