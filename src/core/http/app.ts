@@ -1,11 +1,11 @@
 import http, { IncomingMessage, ServerResponse, Server } from 'http';
 import { LoggerMiddleware } from 'core/http/middlewares/logger';
-import { router } from '.';
+import { router } from './';
 import { HttpErrorHandler } from 'core/http/utils/handle-http-error';
 import { MetricsRecorderMiddleware } from 'core/http/middlewares/metrics-recorder';
 import { ErrorMiddleware } from 'core/http/middlewares/error';
 
-export class App {
+class App {
   private server: Server;
 
   constructor() {
@@ -52,3 +52,5 @@ export class App {
     });
   }
 }
+
+export { App };

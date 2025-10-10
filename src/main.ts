@@ -1,6 +1,6 @@
 import { App } from 'core/http/app';
 
-export class Server {
+class Server {
   private readonly app: App;
   private readonly port: number;
 
@@ -13,3 +13,5 @@ export class Server {
     this.app.start(this.port);
   }
 }
+
+export { Server };
