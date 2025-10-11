@@ -3,4 +3,9 @@ interface ICreateListRequestDTO {
   userId?: string;
 }
 
-export { ICreateListRequestDTO };
+interface ICreateListDTO {
+  userId: string;
+  name: string;
+}
+
+export { ICreateListRequestDTO, ICreateListDTO };

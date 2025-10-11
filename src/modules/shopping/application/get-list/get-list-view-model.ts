@@ -1,12 +1,12 @@
 import { ShoppingList } from 'modules/shopping/domain/entities/shopping-list';
 
-interface ICreateListViewModelResponse {
+interface IGetListViewModelResponse {
   name: string;
   id: string;
 }
 
-class CreateListViewModel {
-  static toHTTP(list: ShoppingList): ICreateListViewModelResponse {
+class GetListViewModel {
+  static toHTTP(list: ShoppingList): IGetListViewModelResponse {
     return {
       name: list.name,
       id: list.id,
@@ -14,4 +14,4 @@ class CreateListViewModel {
   }
 }
 
-export { CreateListViewModel };
+export { GetListViewModel };
