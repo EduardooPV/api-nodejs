@@ -3,7 +3,7 @@ import { ShoppingList } from 'modules/shopping/domain/entities/shopping-list';
 import crypto from 'crypto';
 import { IShoppingList } from 'modules/shopping/domain/repositories/shopping-list-repository';
 import { ICreateListDTO } from 'modules/shopping/application/create-list/create-list-dto';
-import { IGetListDTO } from 'modules/shopping/application/get-list/get-list-dto';
+import { IGetAllListsRequestDTO } from 'modules/shopping/application/get-all-lists/get-all-lists-dto';
 
 class PostgresShoppingListRespository implements IShoppingList {
   async create(data: ICreateListDTO): Promise<ShoppingList> {
@@ -16,10 +16,9 @@ class PostgresShoppingListRespository implements IShoppingList {
     });
   }
 
-  async getList(data: IGetListDTO): Promise<ShoppingList | null> {
-    return await prisma.shoppingList.findUnique({
+  async getAllLists(data: IGetAllListsRequestDTO): Promise<ShoppingList[]> {
+    return await prisma.shoppingList.findMany({
       where: {
-        id: data.listId,
         userId: data.userId,
       },
     });

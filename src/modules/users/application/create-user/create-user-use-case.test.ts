@@ -12,7 +12,6 @@ describe('CreateUserUseCase', () => {
     usersRepository = {
       findByEmail: jest.fn(),
       create: jest.fn(),
-      findAllPaginated: jest.fn(),
       findById: jest.fn(),
       deleteById: jest.fn(),
       updateById: jest.fn(),

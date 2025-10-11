@@ -1,27 +1,25 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { GetListUseCase } from 'modules/shopping/application/get-list/get-list-use-case';
+import { GetAllListsUseCase } from 'modules/shopping/application/get-all-lists/get-all-lists-use-case';
 import { ReplyResponder } from 'core/http/utils/reply';
-import { IGetListRequestDTO } from 'modules/shopping/application/get-list/get-list-dto';
-import { GetListViewModel } from 'modules/shopping/application/get-list/get-list-view-model';
+import { GetAllListsViewModel } from 'modules/shopping/application/get-all-lists/get-all-lists-view-model';
 
-class GetListController {
-  constructor(private getListUseCase: GetListUseCase) {}
+class GetAllListsController {
+  constructor(private getAllListsUseCase: GetAllListsUseCase) {}
 
   async handle(
-    request: IncomingMessage & { userId?: string } & { params?: IGetListRequestDTO },
+    request: IncomingMessage & { userId?: string },
     response: ServerResponse,
   ): Promise<void> {
     const userId = request.userId;
-    const listId = request.params?.listId;
 
-    const shoppingList = await this.getListUseCase.execute({
+    const shoppingList = await this.getAllListsUseCase.execute({
       userId,
-      listId,
     });
-    const shoppingListHTTP = GetListViewModel.toHTTP(shoppingList);
 
-    return new ReplyResponder(response).ok({ ...shoppingListHTTP });
+    const shoppingListsHTTP = shoppingList.map(GetAllListsViewModel.toHTTP);
+
+    return new ReplyResponder(response).ok(shoppingListsHTTP);
   }
 }
 
-export { GetListController };
+export { GetAllListsController };
