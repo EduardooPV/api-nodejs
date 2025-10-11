@@ -1,47 +1,40 @@
 # Shopping List API
 
-API REST em Node.js construída sem framework (usando o módulo nativo http).
-O objetivo é entender o funcionamento de baixo nível de uma API: ciclo de vida da requisição/resposta, roteamento manual, middlewares, tratamento centralizado de erros e autenticação com JWT + Refresh Token via cookie HttpOnly.
-A documentação é feita com OpenAPI 3 e renderizada no Scalar em /docs.
+API REST em Node.js construída **sem framework** (usando o módulo nativo `http`), agora totalmente estruturada em **classes e princípios de POO**.  
+O objetivo é compreender o funcionamento de baixo nível de uma API: ciclo de vida da requisição/resposta, roteamento manual, middlewares, tratamento centralizado de erros e autenticação com JWT + Refresh Token via cookie HttpOnly.  
+A documentação é feita com OpenAPI 3 e renderizada no Scalar em `/docs`.
 
 ## Stack
 
-- Node.js 18+, TypeScript
-- HTTP nativo (http)
-- Prisma + PostgreSQL
-- Jest
-- ESLint + Prettier + Husky
-- Github Actions
-- Docker Compose (Postgres, Prometheus, Grafana)
-- OpenAPI 3.0 + Scalar (UI em /docs)
-- Observabilidade com Prometheus e Grafana
+- Node.js 18+ com TypeScript  
+- HTTP nativo (`http`)  
+- Prisma + PostgreSQL  
+- Jest  
+- ESLint + Prettier + Husky  
+- GitHub Actions  
+- Docker Compose (Postgres, Prometheus, Grafana)  
+- OpenAPI 3.0 + Scalar (UI em `/docs`)  
+- Observabilidade com Prometheus e Grafana  
 
-## Estrutura
+## Wireframes e fluxos
 
-```
-src/
-  application/        # use cases (regras de orquestração)
-  domains/            # entidades, erros e portas (repos)
-  infra/
-    database/         # prismaClient e repositórios
-    http/
-      core/           # Router, Route, server, registerRoutes
-      controllers/    # controllers (auth, users, docs)
-      middlewares/    # logger, ensureAuthenticated, withAuth
-      openapi/        # base.ts, spec.ts (merge), merge.ts
-      routes/         # rotas + openapi.ts por módulo
-      utils/          # ReplyResponder, parseBody, parseCookie, etc.
-  shared/
-    errors/           # AppError
-    utils/            # env, paginação, datas
-main.ts
-```
+O wireframe abaixo representa o fluxo de telas do aplicativo de lista de compras
+e as rotas da API associadas.
+
+### Login e Registro
+![Wireflow do app](./docs/wireframes/login.png)
+
+### Lista de compras
+![Wireflow do app](./docs/wireframes/list.png)
+
+### Items da lista
+![Wireflow do app](./docs/wireframes/list-items.png)
 
 ## Scripts
 
 -`dev` – desenvolvimento (watch)
 
--`build` – compila para dist/
+-`build` – compila para `dist/`
 
 -`start` – roda a build
 
@@ -56,8 +49,6 @@ main.ts
 - UI: `GET /docs`
 - Spec: `GET /openapi.json`
 
-Cada módulo exporta seu PathsObject (ex.: infra/http/routes/user/openapi.ts) e o spec.ts faz o merge.
-
 ## Observabilidade (Métricas Prometheus e Grafana)
 
 A API expõe métricas em formato Prometheus em `GET /metrics`.
@@ -66,8 +57,8 @@ A API expõe métricas em formato Prometheus em `GET /metrics`.
 - `http_request_duration_seconds_*{method,route,status}` — histograma de latência (serve para p50/p95/p99).
 - `api_*` — métricas automáticas do processo Node (CPU, memória, GC, event loop), via `collectDefaultMetrics`.
 
-**Prometheus:** Interface disponível em [http://localhost:9090](http://localhost:9090)  
-**Grafana:** Interface disponível em [http://localhost:3000](http://localhost:3000)
+**Prometheus:**: [http://localhost:9090](http://localhost:9090)  
+**Grafana:**: [http://localhost:3000](http://localhost:3000)
 
 ## Como rodar
 
