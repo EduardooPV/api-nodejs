@@ -10,6 +10,8 @@ class AppError extends Error {
     this.details = details;
 
     Object.setPrototypeOf(this, new.target.prototype);
+
+    Error.captureStackTrace(this, this.constructor);
   }
 }
 

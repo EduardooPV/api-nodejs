@@ -4,14 +4,6 @@ import { AppError } from 'shared/errors/app-error';
 import { HttpErrorMapper } from 'core/http/errors/translator';
 
 class HttpErrorHandler {
-  private static sendJson(res: ServerResponse, status: number, body: unknown): void {
-    const payload = JSON.stringify(body);
-    res.statusCode = status;
-    res.setHeader('Content-Type', 'application/json; charset=utf-8');
-    res.setHeader('Content-Length', Buffer.byteLength(payload).toString());
-    res.end(payload);
-  }
-
   public static handle(error: unknown, res: ServerResponse): void {
     const { status, body } = HttpErrorMapper.toHttp(error);
 
@@ -19,7 +11,11 @@ class HttpErrorHandler {
       (body as { error: { stack?: string } }).error.stack = (error as Error).stack ?? '';
     }
 
-    this.sendJson(res, status, body);
+    const json = JSON.stringify(body);
+    res.statusCode = status;
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    res.setHeader('Content-Length', Buffer.byteLength(json).toString());
+    res.end(json);
   }
 }
 

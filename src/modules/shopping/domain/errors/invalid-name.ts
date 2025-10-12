@@ -1,9 +1,9 @@
 import { AppError } from 'shared/errors/app-error';
 
-class InvalidName extends AppError {
+class InvalidListName extends AppError {
   constructor(details?: { reason: 'missing' | 'format' }) {
-    super('INVALID_NAME', 'Invalid name.', details);
+    super('INVALID_LIST_NAME', 'Invalid name.', details);
   }
 }
 
-export { InvalidName };
+export { InvalidListName };

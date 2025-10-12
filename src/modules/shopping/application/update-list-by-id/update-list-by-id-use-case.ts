@@ -1,5 +1,5 @@
 import { ShoppingList } from 'modules/shopping/domain/entities/shopping-list';
-import { InvalidName } from 'modules/shopping/domain/errors/invalid-name';
+import { InvalidListName } from 'modules/shopping/domain/errors/invalid-name';
 import { ListNotFound } from 'modules/shopping/domain/errors/list-not-found';
 import { IShoppingList } from 'modules/shopping/domain/repositories/shopping-list-repository';
 import { IUpdateListByIdDTO } from './update-list-by-id-dto';
@@ -13,7 +13,7 @@ class UpdateListByIdUseCase {
     if (listExist === null) throw new ListNotFound();
 
     if (!data.name || data.name.trim().length === 0) {
-      throw new InvalidName({ reason: 'missing' });
+      throw new InvalidListName({ reason: 'missing' });
     }
 
     const updatedList = await this.shoppingListRepository.updateListById(data);
