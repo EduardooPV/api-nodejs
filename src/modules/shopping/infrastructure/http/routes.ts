@@ -6,6 +6,8 @@ import { Router } from 'core/http/router';
 import { EnsureAuthenticatedMiddleware } from 'modules/auth/infrastructure/http/middlewares/ensure-authenticated';
 import { GetAllListsUseCase } from 'modules/shopping/application/get-all-lists/get-all-lists-use-case';
 import { GetAllListsController } from './controllers/get-list.controller';
+import { DeleteListByIdUseCase } from 'modules/shopping/application/delete-list-by-id/delete-list-by-id-use-case';
+import { DeleteListByIdController } from './controllers/delete-list-by-id-controller';
 
 class ShoppingRoutes {
   private static shoppingListRepository = new PostgresShoppingListRespository();
@@ -16,6 +18,12 @@ class ShoppingRoutes {
   private static getAllListsController = new GetAllListsController(
     ShoppingRoutes.getAllListsUsecase,
   );
+  private static deleteListByIdUsecase = new DeleteListByIdUseCase(
+    ShoppingRoutes.shoppingListRepository,
+  );
+  private static deleteListByIdController = new DeleteListByIdController(
+    ShoppingRoutes.deleteListByIdUsecase,
+  );
 
   static register(router: Router): void {
     router.register({
@@ -25,12 +33,21 @@ class ShoppingRoutes {
       handler: (req: IncomingMessage, res: ServerResponse) =>
         ShoppingRoutes.createListController.handle(req, res),
     });
+
     router.register({
       method: 'GET',
       path: '/lists',
       middlewares: [EnsureAuthenticatedMiddleware.handle],
       handler: (req: IncomingMessage, res: ServerResponse) =>
         ShoppingRoutes.getAllListsController.handle(req, res),
+    });
+
+    router.register({
+      method: 'DELETE',
+      path: '/lists/:id',
+      middlewares: [EnsureAuthenticatedMiddleware.handle],
+      handler: (req: IncomingMessage, res: ServerResponse) =>
+        ShoppingRoutes.deleteListByIdController.handle(req, res),
     });
   }
 }

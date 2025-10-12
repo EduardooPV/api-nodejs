@@ -4,6 +4,7 @@ import crypto from 'crypto';
 import { IShoppingList } from 'modules/shopping/domain/repositories/shopping-list-repository';
 import { ICreateListDTO } from 'modules/shopping/application/create-list/create-list-dto';
 import { IGetAllListsRequestDTO } from 'modules/shopping/application/get-all-lists/get-all-lists-dto';
+import { IDeleteListByIdDTO } from 'modules/shopping/application/delete-list-by-id/delete-list-by-id-dto';
 
 class PostgresShoppingListRespository implements IShoppingList {
   async create(data: ICreateListDTO): Promise<ShoppingList> {
@@ -20,6 +21,15 @@ class PostgresShoppingListRespository implements IShoppingList {
     return await prisma.shoppingList.findMany({
       where: {
         userId: data.userId,
+      },
+    });
+  }
+
+  async deleteListById(data: IDeleteListByIdDTO): Promise<void> {
+    await prisma.shoppingList.delete({
+      where: {
+        userId: data.userId,
+        id: data.id,
       },
     });
   }
