@@ -7,6 +7,7 @@ interface IShoppingList {
   create(data: ICreateListRequestDTO): Promise<ShoppingList>;
   getAllLists(data: IGetAllListsRequestDTO): Promise<ShoppingList[]>;
   deleteListById(data: IDeleteListByIdDTO): Promise<void>;
+  updateListById(data: Partial<ShoppingList>): Promise<ShoppingList>;
 }
 
 export { IShoppingList };

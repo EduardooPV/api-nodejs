@@ -5,6 +5,7 @@ import { IShoppingList } from 'modules/shopping/domain/repositories/shopping-lis
 import { ICreateListDTO } from 'modules/shopping/application/create-list/create-list-dto';
 import { IGetAllListsRequestDTO } from 'modules/shopping/application/get-all-lists/get-all-lists-dto';
 import { IDeleteListByIdDTO } from 'modules/shopping/application/delete-list-by-id/delete-list-by-id-dto';
+import { IUpdateListByIdDTO } from '../../application/update-list-by-id/update-list-by-id-dto';
 
 class PostgresShoppingListRespository implements IShoppingList {
   async create(data: ICreateListDTO): Promise<ShoppingList> {
@@ -30,6 +31,18 @@ class PostgresShoppingListRespository implements IShoppingList {
       where: {
         userId: data.userId,
         id: data.id,
+      },
+    });
+  }
+
+  async updateListById(data: IUpdateListByIdDTO): Promise<ShoppingList> {
+    return await prisma.shoppingList.update({
+      where: {
+        id: data.listId,
+        userId: data.userId,
+      },
+      data: {
+        name: data.name,
       },
     });
   }

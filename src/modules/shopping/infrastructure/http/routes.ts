@@ -8,6 +8,8 @@ import { GetAllListsUseCase } from 'modules/shopping/application/get-all-lists/g
 import { GetAllListsController } from './controllers/get-list.controller';
 import { DeleteListByIdUseCase } from 'modules/shopping/application/delete-list-by-id/delete-list-by-id-use-case';
 import { DeleteListByIdController } from './controllers/delete-list-by-id-controller';
+import { UpdateListByIdUseCase } from '../../application/update-list-by-id/update-list-by-id-use-case';
+import { UpdateListByIdController } from './controllers/update-list-by-id';
 
 class ShoppingRoutes {
   private static shoppingListRepository = new PostgresShoppingListRespository();
@@ -23,6 +25,12 @@ class ShoppingRoutes {
   );
   private static deleteListByIdController = new DeleteListByIdController(
     ShoppingRoutes.deleteListByIdUsecase,
+  );
+  private static updateListByIdUsecase = new UpdateListByIdUseCase(
+    ShoppingRoutes.shoppingListRepository,
+  );
+  private static updateListByIdController = new UpdateListByIdController(
+    ShoppingRoutes.updateListByIdUsecase,
   );
 
   static register(router: Router): void {
@@ -48,6 +56,14 @@ class ShoppingRoutes {
       middlewares: [EnsureAuthenticatedMiddleware.handle],
       handler: (req: IncomingMessage, res: ServerResponse) =>
         ShoppingRoutes.deleteListByIdController.handle(req, res),
+    });
+
+    router.register({
+      method: 'PUT',
+      path: '/lists/:id',
+      middlewares: [EnsureAuthenticatedMiddleware.handle],
+      handler: (req: IncomingMessage, res: ServerResponse) =>
+        ShoppingRoutes.updateListByIdController.handle(req, res),
     });
   }
 }
