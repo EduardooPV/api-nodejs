@@ -5,7 +5,9 @@ import { IShoppingList } from 'modules/shopping/domain/repositories/shopping-lis
 import { ICreateListDTO } from 'modules/shopping/application/create-list/create-list-dto';
 import { IGetAllListsRequestDTO } from 'modules/shopping/application/get-all-lists/get-all-lists-dto';
 import { IDeleteListByIdDTO } from 'modules/shopping/application/delete-list-by-id/delete-list-by-id-dto';
-import { IUpdateListByIdDTO } from '../../application/update-list-by-id/update-list-by-id-dto';
+import { IUpdateListByIdDTO } from 'modules/shopping/application/update-list-by-id/update-list-by-id-dto';
+import { IPaginatedResponse } from 'shared/interfaces/paginated-response';
+import { Pagination } from 'shared/utils/pagination-response';
 
 class PostgresShoppingListRespository implements IShoppingList {
   async create(data: ICreateListDTO): Promise<ShoppingList> {
@@ -18,12 +20,35 @@ class PostgresShoppingListRespository implements IShoppingList {
     });
   }
 
-  async getAllLists(data: IGetAllListsRequestDTO): Promise<ShoppingList[]> {
-    return await prisma.shoppingList.findMany({
+  async getListById(id?: string): Promise<ShoppingList | null> {
+    return await prisma.shoppingList.findUnique({
       where: {
-        userId: data.userId,
+        id,
       },
     });
+  }
+
+  async getAllLists({
+    page = 1,
+    perPage = 10,
+    userId,
+  }: IGetAllListsRequestDTO): Promise<IPaginatedResponse<ShoppingList>> {
+    const skip = (page - 1) * perPage;
+
+    const [lists, total] = await Promise.all([
+      prisma.shoppingList.findMany({
+        where: {
+          userId: userId,
+        },
+        skip,
+        take: perPage,
+      }),
+      prisma.shoppingList.count({
+        where: { userId },
+      }),
+    ]);
+
+    return Pagination.build({ items: lists, total, page, perPage });
   }
 
   async deleteListById(data: IDeleteListByIdDTO): Promise<void> {
