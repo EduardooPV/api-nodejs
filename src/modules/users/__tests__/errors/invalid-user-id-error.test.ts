@@ -1,4 +1,4 @@
-import { InvalidUserIdError } from './invalid-user-id-error';
+import { InvalidUserIdError } from '../../domain/errors/invalid-user-id-error';
 import { AppError } from 'shared/errors/app-error';
 
 describe('InvalidUserIdError', () => {

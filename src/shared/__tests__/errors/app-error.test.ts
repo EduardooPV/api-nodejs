@@ -1,4 +1,4 @@
-import { AppError } from './app-error';
+import { AppError } from 'shared/errors/app-error';
 
 describe('AppError', () => {
   it('should create an instance of AppError with correct properties', () => {

@@ -12,18 +12,23 @@ const EnvSchema = z.object({
 });
 
 const parsed = EnvSchema.safeParse(process.env);
+
 if (!parsed.success) {
-  console.error('Invalid environment variables:', parsed.error.flatten().fieldErrors);
-  process.exit(1);
+  if (process.env.NODE_ENV !== 'test') {
+    console.error('Invalid environment variables:', parsed.error.flatten().fieldErrors);
+    process.exit(1);
+  }
 }
 
 const env = Object.freeze({
-  nodeEnv: parsed.data.NODE_ENV,
-  port: parsed.data.PORT,
-  secretJwt: parsed.data.SECRET_JWT,
-  accessTokenExpiration: parsed.data.ACCESS_TOKEN_EXPIRATION,
-  refreshSecretJwt: parsed.data.REFRESH_SECRET_JWT,
-  refreshTokenExpiration: parsed.data.REFRESH_TOKEN_EXPIRATION,
+  nodeEnv: parsed.success ? parsed.data.NODE_ENV : 'test',
+  port: parsed.success ? parsed.data.PORT : 3000,
+  secretJwt: parsed.success ? parsed.data.SECRET_JWT : 'test_secret_jwt_123456789012345',
+  accessTokenExpiration: parsed.success ? parsed.data.ACCESS_TOKEN_EXPIRATION : '15m',
+  refreshSecretJwt: parsed.success
+    ? parsed.data.REFRESH_SECRET_JWT
+    : 'test_refresh_secret_jwt_123456789012345',
+  refreshTokenExpiration: parsed.success ? parsed.data.REFRESH_TOKEN_EXPIRATION : '7d',
 });
 
 export { env };

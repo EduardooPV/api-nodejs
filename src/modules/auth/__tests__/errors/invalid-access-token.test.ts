@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { InvalidAccessToken } from './invalid-access-token';
+import { InvalidAccessToken } from '../../domain/errors/invalid-access-token';
 
 describe('InvalidAccessToken Error', () => {
   it('should create an error with default message and code', () => {

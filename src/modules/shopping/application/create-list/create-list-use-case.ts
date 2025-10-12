@@ -1,5 +1,5 @@
 import { ICreateListRequestDTO } from './create-list-dto';
-import { InvalidListName } from 'modules/shopping/domain/errors/invalid-name';
+import { InvalidListName } from 'modules/shopping/domain/errors/invalid-list-name';
 import { ShoppingList } from 'modules/shopping/domain/entities/shopping-list';
 import { InvalidUserIdError } from 'modules/users/domain/errors/invalid-user-id-error';
 import { PostgresShoppingListRespository } from 'modules/shopping/infrastructure/database/postgres-shopping-list-repository';

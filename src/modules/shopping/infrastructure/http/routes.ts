@@ -5,11 +5,11 @@ import { CreateListController } from './controllers/create-list-controller';
 import { Router } from 'core/http/router';
 import { EnsureAuthenticatedMiddleware } from 'modules/auth/infrastructure/http/middlewares/ensure-authenticated';
 import { GetAllListsUseCase } from 'modules/shopping/application/get-all-lists/get-all-lists-use-case';
-import { GetAllListsController } from './controllers/get-list.controller';
+import { GetAllListsController } from './controllers/get-all-list-controller';
 import { DeleteListByIdUseCase } from 'modules/shopping/application/delete-list-by-id/delete-list-by-id-use-case';
 import { DeleteListByIdController } from './controllers/delete-list-by-id-controller';
 import { UpdateListByIdUseCase } from '../../application/update-list-by-id/update-list-by-id-use-case';
-import { UpdateListByIdController } from './controllers/update-list-by-id';
+import { UpdateListByIdController } from './controllers/update-list-by-id-controller';
 
 class ShoppingRoutes {
   private static shoppingListRepository = new PostgresShoppingListRespository();

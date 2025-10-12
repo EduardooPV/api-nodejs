@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { InvalidCredentials } from './invalid-credentials';
+import { InvalidCredentials } from '../../domain/errors/invalid-credentials';
 
 describe('InvalidCredentials Error', () => {
   it('should create an error with correct code and message', () => {

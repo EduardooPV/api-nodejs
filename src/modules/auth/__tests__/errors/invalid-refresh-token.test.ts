@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { InvalidRefreshToken } from './invalid-refresh-token';
+import { InvalidRefreshToken } from '../../domain/errors/invalid-refresh-token';
 
 describe('InvalidRefreshToken Error', () => {
   it('should create an error with correct code and message', () => {

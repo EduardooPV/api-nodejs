@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { MissingAuthHeader } from './missing-auth-header';
+import { MissingAuthHeader } from '../../domain/errors/missing-auth-header';
 
 describe('MissingAuthHeader Error', () => {
   it('should create an error with correct code and message', () => {

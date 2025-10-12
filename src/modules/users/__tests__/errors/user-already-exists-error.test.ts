@@ -1,4 +1,4 @@
-import { UserAlreadyExistsError } from './user-already-exists-error';
+import { UserAlreadyExistsError } from '../../domain/errors/user-already-exists-error';
 import { AppError } from 'shared/errors/app-error';
 
 describe('UserAlreadyExistsError', () => {

@@ -1,5 +1,5 @@
 import { ShoppingList } from 'modules/shopping/domain/entities/shopping-list';
-import { InvalidListName } from 'modules/shopping/domain/errors/invalid-name';
+import { InvalidListName } from 'modules/shopping/domain/errors/invalid-list-name';
 import { ListNotFound } from 'modules/shopping/domain/errors/list-not-found';
 import { IShoppingList } from 'modules/shopping/domain/repositories/shopping-list-repository';
 import { IUpdateListByIdDTO } from './update-list-by-id-dto';

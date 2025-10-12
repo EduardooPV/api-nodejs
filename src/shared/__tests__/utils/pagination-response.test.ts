@@ -1,7 +1,7 @@
 import { describe, it, beforeEach, expect } from '@jest/globals';
-import { buildPaginationResponse } from './pagination-response';
+import { Pagination } from 'shared/utils/pagination-response';
 
-describe('buildPaginationResponse', () => {
+describe('Pagination', () => {
   let items: string[];
 
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('buildPaginationResponse', () => {
     const page = 1;
     const perPage = 3;
 
-    const response = buildPaginationResponse(items, total, page, perPage);
+    const response = Pagination.build({ items, total, page, perPage });
 
     expect(response).toHaveProperty('items', items);
     expect(response.pagination.total).toBe(total);
@@ -29,7 +29,7 @@ describe('buildPaginationResponse', () => {
     const page = 2;
     const perPage = 5;
 
-    const response = buildPaginationResponse(items, total, page, perPage);
+    const response = Pagination.build({ items, total, page, perPage });
 
     expect(response.pagination.hasPreviousPage).toBe(true);
     expect(response.pagination.hasNextPage).toBe(true);
@@ -40,7 +40,7 @@ describe('buildPaginationResponse', () => {
     const page = 2;
     const perPage = 5;
 
-    const response = buildPaginationResponse(items, total, page, perPage);
+    const response = Pagination.build({ items, total, page, perPage });
 
     expect(response.pagination.hasNextPage).toBe(false);
     expect(response.pagination.hasPreviousPage).toBe(true);
@@ -51,7 +51,7 @@ describe('buildPaginationResponse', () => {
     const page = 1;
     const perPage = 5;
 
-    const response = buildPaginationResponse(items, total, page, perPage);
+    const response = Pagination.build({ items, total, page, perPage });
 
     expect(response.pagination.totalPages).toBe(1);
     expect(response.pagination.hasNextPage).toBe(false);
@@ -59,7 +59,7 @@ describe('buildPaginationResponse', () => {
   });
 
   it('should handle empty items array correctly', () => {
-    const response = buildPaginationResponse([], 0, 1, 10);
+    const response = Pagination.build({ items: [], total: 0, page: 1, perPage: 10 });
 
     expect(response.items).toEqual([]);
     expect(response.pagination.total).toBe(0);

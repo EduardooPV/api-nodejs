@@ -1,4 +1,4 @@
-import { UserNotFound } from './user-not-found';
+import { UserNotFound } from '../../domain/errors/user-not-found';
 import { AppError } from 'shared/errors/app-error';
 
 describe('UserNotFound', () => {
