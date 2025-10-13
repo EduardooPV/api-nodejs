@@ -1,11 +1,11 @@
-import type { OpenAPIV3_1 } from 'openapi-types';
+import type { OpenAPI } from 'shared/types/openapi';
 
 class OpenApiPathMerger {
   static merge(
-    target: OpenAPIV3_1.PathsObject,
-    ...sources: OpenAPIV3_1.PathsObject[]
-  ): OpenAPIV3_1.PathsObject {
-    const output: OpenAPIV3_1.PathsObject = { ...target };
+    target: OpenAPI.PathsObject,
+    ...sources: OpenAPI.PathsObject[]
+  ): OpenAPI.PathsObject {
+    const output: OpenAPI.PathsObject = { ...target };
 
     for (const source of sources) {
       for (const [path, item] of Object.entries(source)) {

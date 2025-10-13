@@ -1,16 +1,25 @@
-import type { OpenAPIV3_1 } from 'openapi-types';
+import type { OpenAPI } from 'shared/types/openapi';
 import { baseDoc } from './base';
 import { OpenApiPathMerger } from './merge';
 
-class OpenApiSpecBuilder {
-  private static cached: OpenAPIV3_1.Document | null = null;
+import { createUserDocs } from 'modules/users/infrastructure/http/docs/create-user-docs';
+import { deleteUserDocs } from 'modules/users/infrastructure/http/docs/delete-user-docs';
+import { getUserDocs } from 'modules/users/infrastructure/http/docs/get-user-docs';
+import { updateUserDocs } from 'modules/users/infrastructure/http/docs/update-user-docs';
 
-  static async build(): Promise<OpenAPIV3_1.Document> {
+const allDocsModules = [createUserDocs, deleteUserDocs, getUserDocs, updateUserDocs];
+
+class OpenApiSpecBuilder {
+  private static cached: OpenAPI.Document | null = null;
+
+  static async build(): Promise<OpenAPI.Document> {
     if (this.cached) return this.cached;
+
+    const mergedPaths = OpenApiPathMerger.merge(baseDoc.paths ?? {}, ...allDocsModules);
 
     this.cached = {
       ...baseDoc,
-      paths: OpenApiPathMerger.merge(baseDoc.paths ?? {}),
+      paths: mergedPaths,
     };
 
     return this.cached;
