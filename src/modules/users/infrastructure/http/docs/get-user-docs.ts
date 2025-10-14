@@ -1,29 +1,30 @@
-import type { OpenAPIV3_1 } from 'openapi-types';
+import { OpenApiRouteBuilder } from 'shared/docs/openapi-builder';
 
-export const getUserDocs: OpenAPIV3_1.PathsObject = {
-  '/users': {
-    get: {
-      tags: ['Users'],
-      summary: 'Get authenticated user profile',
-      operationId: 'getAuthenticatedUser',
-      security: [
-        {
-          bearerAuth: [],
-        },
-      ],
-      responses: {
-        200: {
-          description: 'Authenticated user retrieved successfully',
-          content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/GetUserRequest' },
+const getUserDocs = OpenApiRouteBuilder.build({
+  path: '/users',
+  method: 'get',
+  tags: ['Users'],
+  summary: 'Get a exist user',
+  security: [{ bearerAuth: [] }],
+  responses: {
+    201: {
+      description: 'Get user successfully',
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            properties: {
+              name: { type: 'string', example: 'Lorem' },
+              email: { type: 'string', example: 'lorem@lorem.com' },
             },
           },
         },
-        401: { $ref: '#/components/responses/Unauthorized' },
-        404: { $ref: '#/components/responses/NotFound' },
-        500: { $ref: '#/components/responses/InternalError' },
       },
     },
+    401: { $ref: '#/components/responses/Unauthorized' },
+    404: { $ref: '#/components/responses/NotFound' },
+    500: { $ref: '#/components/responses/InternalError' },
   },
-};
+});
+
+export { getUserDocs };

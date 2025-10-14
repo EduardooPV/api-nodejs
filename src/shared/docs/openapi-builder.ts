@@ -1,6 +1,6 @@
 import type { OpenAPI } from 'shared/types/openapi';
 
-export class OpenApiRouteBuilder {
+class OpenApiRouteBuilder {
   static build({
     path,
     method,
@@ -8,6 +8,8 @@ export class OpenApiRouteBuilder {
     summary,
     requestBody,
     responses,
+    security,
+    parameters,
   }: {
     path: string;
     method: 'get' | 'post' | 'put' | 'delete';
@@ -15,17 +17,23 @@ export class OpenApiRouteBuilder {
     summary: string;
     requestBody?: OpenAPI.RequestBodyObject;
     responses: OpenAPI.ResponsesObject;
+    security?: OpenAPI.SecurityRequirementObject[];
+    parameters?: OpenAPI.ParameterObject[];
   }): OpenAPI.PathsObject {
     const route: OpenAPI.PathsObject = {
       [path]: {
         [method]: {
           tags,
           summary,
+          security,
           requestBody,
           responses,
+          parameters,
         },
       },
     };
     return route;
   }
 }
+
+export { OpenApiRouteBuilder };

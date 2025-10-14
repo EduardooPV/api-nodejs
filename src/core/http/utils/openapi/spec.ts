@@ -6,8 +6,27 @@ import { createUserDocs } from 'modules/users/infrastructure/http/docs/create-us
 import { deleteUserDocs } from 'modules/users/infrastructure/http/docs/delete-user-docs';
 import { getUserDocs } from 'modules/users/infrastructure/http/docs/get-user-docs';
 import { updateUserDocs } from 'modules/users/infrastructure/http/docs/update-user-docs';
+import { createListDocs } from 'modules/shopping/infrastructure/http/docs/create-list-docs';
+import { deleteListByIdDocs } from 'modules/shopping/infrastructure/http/docs/delete-list-by-id-docs';
+import { getAllListsDocs } from 'modules/shopping/infrastructure/http/docs/get-all-list-docs';
+import { updateListByIdDocs } from 'modules/shopping/infrastructure/http/docs/update-list-by-id-docs';
+import { loginUserDocs } from '../../../../modules/auth/infrastructure/http/docs/login-user-docs';
+import { logoutUserDocs } from '../../../../modules/auth/infrastructure/http/docs/logout-user-docs';
+import { refreshTokenDocs } from '../../../../modules/auth/infrastructure/http/docs/refresh-token-docs';
 
-const allDocsModules = [createUserDocs, deleteUserDocs, getUserDocs, updateUserDocs];
+const allDocsModules = [
+  createUserDocs,
+  deleteUserDocs,
+  getUserDocs,
+  updateUserDocs,
+  createListDocs,
+  deleteListByIdDocs,
+  getAllListsDocs,
+  updateListByIdDocs,
+  loginUserDocs,
+  logoutUserDocs,
+  refreshTokenDocs,
+];
 
 class OpenApiSpecBuilder {
   private static cached: OpenAPI.Document | null = null;

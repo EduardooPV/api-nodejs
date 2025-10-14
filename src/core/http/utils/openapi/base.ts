@@ -4,11 +4,8 @@ const baseDoc: OpenAPI.Document = {
   openapi: '3.0.3',
   info: { title: 'API - Dudu', version: '1.0.0' },
   servers: [{ url: 'http://localhost:3333' }],
-  tags: [{ name: 'Auth' }, { name: 'Users' }],
+  tags: [{ name: 'Auth' }, { name: 'Users' }, { name: 'Shopping' }],
   components: {
-    securitySchemes: {
-      bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
-    },
     schemas: {
       ErrorResponse: {
         type: 'object',
@@ -51,21 +48,59 @@ const baseDoc: OpenAPI.Document = {
         description: 'Internal Server Error',
         content: { 'application/json': { schema: { $ref: '#/components/schemas/ErrorResponse' } } },
       },
-    },
-    parameters: {
-      PageParam: {
-        name: 'page',
-        in: 'query',
-        required: false,
-        description: 'Página (>= 1).',
-        schema: { type: 'integer', minimum: 1, default: 1 },
+      InvalidCredentials: {
+        description: 'Invalid credentials',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                error: {
+                  type: 'string',
+                  example: 'InvalidCredentialsError',
+                },
+                message: {
+                  type: 'string',
+                  example: 'Invalid email or password.',
+                },
+              },
+            },
+          },
+        },
       },
-      PerPageParam: {
-        name: 'perPage',
-        in: 'query',
-        required: false,
-        description: 'Itens por página (1..50).',
-        schema: { type: 'integer', minimum: 1, maximum: 50, default: 10 },
+      InvalidRefreshToken: {
+        description: 'Missing or invalid refresh token',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                error: {
+                  type: 'string',
+                  example: 'InvalidRefreshToken',
+                },
+                message: {
+                  type: 'string',
+                  example: 'The provided refresh token is invalid or expired.',
+                },
+              },
+            },
+          },
+        },
+      },
+      UserNotFound: {
+        description: 'User not found (token sub not associated with any user)',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                error: { type: 'string', example: 'UserNotFound' },
+                message: { type: 'string', example: 'User not found.' },
+              },
+            },
+          },
+        },
       },
     },
   },

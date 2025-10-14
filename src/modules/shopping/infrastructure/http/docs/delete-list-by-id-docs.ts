@@ -1,20 +1,20 @@
 import { OpenApiRouteBuilder } from 'shared/docs/openapi-builder';
 
-const deleteUserDocs = OpenApiRouteBuilder.build({
-  path: '/users',
+const deleteListByIdDocs = OpenApiRouteBuilder.build({
+  path: '/lists/{id}',
   method: 'delete',
-  tags: ['Users'],
-  summary: 'Delete a exist user',
+  tags: ['Shopping'],
+  summary: 'Delete a shopping list by ID',
   security: [{ bearerAuth: [] }],
-
   responses: {
     204: {
-      description: 'User deleted successfully (no content)',
+      description: 'Shopping list deleted successfully',
     },
+    400: { $ref: '#/components/responses/BadRequest' },
     401: { $ref: '#/components/responses/Unauthorized' },
     404: { $ref: '#/components/responses/NotFound' },
     500: { $ref: '#/components/responses/InternalError' },
   },
 });
 
-export { deleteUserDocs };
+export { deleteListByIdDocs };
