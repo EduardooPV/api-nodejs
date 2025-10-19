@@ -3,7 +3,7 @@ import { InvalidListName } from 'modules/shopping/domain/errors/invalid-list-nam
 import { ListNotFound } from 'modules/shopping/domain/errors/list-not-found';
 import { IShoppingList } from 'modules/shopping/domain/repositories/shopping-list-repository';
 import { IUpdateListByIdDTO } from './update-list-by-id-dto';
-import { NoPermission } from '../../../../shared/errors/no-permission';
+import { NoPermission } from 'shared/errors/no-permission';
 
 class UpdateListByIdUseCase {
   constructor(private shoppingListRepository: IShoppingList) {}

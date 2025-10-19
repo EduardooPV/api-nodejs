@@ -2,7 +2,7 @@ import { InvalidUserIdError } from 'modules/users/domain/errors/invalid-user-id-
 import { PostgresShoppingListRespository } from 'modules/shopping/infrastructure/database/postgres-shopping-list-repository';
 import { IDeleteListByIdDTO } from './delete-list-by-id-dto';
 import { ListNotFound } from 'modules/shopping/domain/errors/list-not-found';
-import { NoPermission } from '../../../../shared/errors/no-permission';
+import { NoPermission } from 'shared/errors/no-permission';
 
 class DeleteListByIdUseCase {
   constructor(private shoppingListRepository: PostgresShoppingListRespository) {}
