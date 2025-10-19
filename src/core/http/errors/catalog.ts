@@ -16,7 +16,14 @@ class HttpStatusMapper {
     INVALID_LIST_NAME: 422,
     LIST_NOT_FOUND: 404,
 
+    // --- Items ---
+    INVALID_ITEM_ID: 400,
+    INVALID_SHOPPING_LIST_ID: 400,
+    INVALID_ITEM_NAME: 422,
+    ITEM_NOT_FOUND: 404,
+
     // --- Generic ---
+    FORBIDDEN: 403,
     BAD_REQUEST: 400,
     VALIDATION_ERROR: 422,
     INTERNAL_ERROR: 500,
