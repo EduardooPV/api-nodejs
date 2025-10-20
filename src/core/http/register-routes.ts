@@ -4,6 +4,7 @@ import { DocsRoutes } from 'core/http/routes/docs';
 import { MetricsRoutes } from 'core/http/routes/metrics';
 import { UserRoutes } from 'modules/users/infrastructure/http/routes';
 import { ShoppingRoutes } from 'modules/shopping/infrastructure/http/routes';
+import { ItemRoutes } from 'modules/item/infrastructure/http/routes';
 
 class RouteRegister {
   constructor(private readonly router: Router) {}
@@ -14,6 +15,7 @@ class RouteRegister {
     this.registerDocsRoutes();
     this.registerMetricsRoutes();
     this.registerShoppingListRoutes();
+    this.registerItemListRoutes();
   }
 
   private registerUserRoutes(): void {
@@ -34,6 +36,10 @@ class RouteRegister {
 
   private registerShoppingListRoutes(): void {
     ShoppingRoutes.register(this.router);
+  }
+
+  private registerItemListRoutes(): void {
+    ItemRoutes.register(this.router);
   }
 }
 

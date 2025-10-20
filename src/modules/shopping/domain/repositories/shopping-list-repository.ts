@@ -10,6 +10,9 @@ interface IShoppingList {
   getAllLists(data: IGetAllListsRequestDTO): Promise<IPaginatedResponse<ShoppingList>>;
   deleteListById(data: IDeleteListByIdDTO): Promise<void>;
   updateListById(data: Partial<ShoppingList>): Promise<ShoppingList>;
+  getSumAmountItemsById(id?: string): Promise<number>;
+  getDoneItemsById(id?: string): Promise<number>;
+  getPendingItemsById(id?: string): Promise<number>;
 }
 
 export { IShoppingList };

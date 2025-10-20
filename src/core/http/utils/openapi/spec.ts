@@ -10,9 +10,13 @@ import { createListDocs } from 'modules/shopping/infrastructure/http/docs/create
 import { deleteListByIdDocs } from 'modules/shopping/infrastructure/http/docs/delete-list-by-id-docs';
 import { getAllListsDocs } from 'modules/shopping/infrastructure/http/docs/get-all-list-docs';
 import { updateListByIdDocs } from 'modules/shopping/infrastructure/http/docs/update-list-by-id-docs';
-import { loginUserDocs } from '../../../../modules/auth/infrastructure/http/docs/login-user-docs';
-import { logoutUserDocs } from '../../../../modules/auth/infrastructure/http/docs/logout-user-docs';
-import { refreshTokenDocs } from '../../../../modules/auth/infrastructure/http/docs/refresh-token-docs';
+import { loginUserDocs } from 'modules/auth/infrastructure/http/docs/login-user-docs';
+import { logoutUserDocs } from 'modules/auth/infrastructure/http/docs/logout-user-docs';
+import { refreshTokenDocs } from 'modules/auth/infrastructure/http/docs/refresh-token-docs';
+import { createItemDocs } from 'modules/item/infrastructure/http/docs/create-item-docs';
+import { getAllItemsByShoppingIdDocs } from 'modules/item/infrastructure/http/docs/get-all-items-by-shopping-id-docs';
+import { deleteItemByIdDocs } from 'modules/item/infrastructure/http/docs/delete-item-by-id-docs';
+import { updateItemByIdDocs } from 'modules/item/infrastructure/http/docs/update-item-by-id-docs';
 
 const allDocsModules = [
   createUserDocs,
@@ -26,6 +30,10 @@ const allDocsModules = [
   loginUserDocs,
   logoutUserDocs,
   refreshTokenDocs,
+  createItemDocs,
+  deleteItemByIdDocs,
+  getAllItemsByShoppingIdDocs,
+  updateItemByIdDocs,
 ];
 
 class OpenApiSpecBuilder {

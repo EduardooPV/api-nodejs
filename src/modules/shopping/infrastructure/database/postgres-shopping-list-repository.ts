@@ -71,6 +71,37 @@ class PostgresShoppingListRespository implements IShoppingList {
       },
     });
   }
+
+  async getSumAmountItemsById(shoppingListId?: string): Promise<number> {
+    const result = await prisma.itemList.aggregate({
+      where: {
+        shoppingListId,
+      },
+      _sum: {
+        amount: true,
+      },
+    });
+
+    return result._sum?.amount ?? 0;
+  }
+
+  async getDoneItemsById(shoppingListId?: string): Promise<number> {
+    return await prisma.itemList.count({
+      where: {
+        shoppingListId,
+        status: 'done',
+      },
+    });
+  }
+
+  async getPendingItemsById(shoppingListId?: string): Promise<number> {
+    return await prisma.itemList.count({
+      where: {
+        shoppingListId,
+        status: 'pending',
+      },
+    });
+  }
 }
 
 export { PostgresShoppingListRespository };

@@ -10,6 +10,8 @@ import { DeleteListByIdUseCase } from 'modules/shopping/application/delete-list-
 import { DeleteListByIdController } from './controllers/delete-list-by-id-controller';
 import { UpdateListByIdUseCase } from '../../application/update-list-by-id/update-list-by-id-use-case';
 import { UpdateListByIdController } from './controllers/update-list-by-id-controller';
+import { GetResumeByIdUseCase } from '../../application/get-resume-list-by-id/get-resume-list-by-id-use-case';
+import { GetResumeByIdController } from './controllers/get-resume-list-by-id-controller';
 
 class ShoppingRoutes {
   private static shoppingListRepository = new PostgresShoppingListRespository();
@@ -31,6 +33,13 @@ class ShoppingRoutes {
   );
   private static updateListByIdController = new UpdateListByIdController(
     ShoppingRoutes.updateListByIdUsecase,
+  );
+
+  public static getResumeByIdUseCase = new GetResumeByIdUseCase(
+    ShoppingRoutes.shoppingListRepository,
+  );
+  public static getResumeByIdController = new GetResumeByIdController(
+    ShoppingRoutes.getResumeByIdUseCase,
   );
 
   static register(router: Router): void {
@@ -64,6 +73,14 @@ class ShoppingRoutes {
       middlewares: [EnsureAuthenticatedMiddleware.handle],
       handler: (req: IncomingMessage, res: ServerResponse) =>
         ShoppingRoutes.updateListByIdController.handle(req, res),
+    });
+
+    router.register({
+      method: 'GET',
+      path: '/lists/:id/resume',
+      middlewares: [EnsureAuthenticatedMiddleware.handle],
+      handler: (req: IncomingMessage, res: ServerResponse) =>
+        ShoppingRoutes.getResumeByIdController.handle(req, res),
     });
   }
 }
