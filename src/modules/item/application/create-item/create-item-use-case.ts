@@ -30,11 +30,16 @@ class CreateItemUseCase {
       throw new NoPermission();
     }
 
-    return await this.itemListRepository.create({
-      name: data.name.trim(),
-      shoppingListId: data.shoppingListId,
-      userId: data.userId,
-    });
+    const item = new ItemList(
+      data.name,
+      data.status,
+      data.quantity,
+      data.amount,
+      new Date(),
+      new Date(),
+    );
+
+    return await this.itemListRepository.create(item, data.shoppingListId);
   }
 }
 

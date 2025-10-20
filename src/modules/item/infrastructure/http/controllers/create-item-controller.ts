@@ -16,12 +16,15 @@ class CreateItemController {
     const shoppingListId = request.params?.shoppingListId;
     const userId = request.userId;
 
-    const { name } = rawBody as ICreateItemRequestDTO;
+    const { name, quantity, amount, status } = rawBody as ICreateItemRequestDTO;
 
     const item = await this.createItemUseCase.execute({
       name,
       shoppingListId,
       userId,
+      status,
+      quantity,
+      amount,
     });
     const itemHTTP = CreateItemViewModel.toHTTP(item);
 

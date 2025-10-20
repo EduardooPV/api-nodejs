@@ -2,7 +2,6 @@ import { prisma } from 'core/database/prisma-client';
 import { ShoppingList } from 'modules/shopping/domain/entities/shopping-list';
 import crypto from 'crypto';
 import { IShoppingList } from 'modules/shopping/domain/repositories/shopping-list-repository';
-import { ICreateListDTO } from 'modules/shopping/application/create-list/create-list-dto';
 import { IGetAllListsRequestDTO } from 'modules/shopping/application/get-all-lists/get-all-lists-dto';
 import { IDeleteListByIdDTO } from 'modules/shopping/application/delete-list-by-id/delete-list-by-id-dto';
 import { IUpdateListByIdDTO } from 'modules/shopping/application/update-list-by-id/update-list-by-id-dto';
@@ -10,7 +9,7 @@ import { IPaginatedResponse } from 'shared/interfaces/paginated-response';
 import { Pagination } from 'shared/utils/pagination-response';
 
 class PostgresShoppingListRespository implements IShoppingList {
-  async create(data: ICreateListDTO): Promise<ShoppingList> {
+  async create(data: ShoppingList): Promise<ShoppingList> {
     return await prisma.shoppingList.create({
       data: {
         userId: data.userId,

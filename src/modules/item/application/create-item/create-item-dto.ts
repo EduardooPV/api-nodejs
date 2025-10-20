@@ -2,12 +2,9 @@ interface ICreateItemRequestDTO {
   name: string;
   shoppingListId?: string;
   userId?: string;
+  status: string;
+  quantity: number;
+  amount: number;
 }
 
-interface ICreateItemDTO {
-  name: string;
-  shoppingListId: string;
-  userId: string;
-}
-
-export { ICreateItemRequestDTO, ICreateItemDTO };
+export { ICreateItemRequestDTO };

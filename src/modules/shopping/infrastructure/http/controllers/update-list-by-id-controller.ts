@@ -1,9 +1,9 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { UpdateListByIdUseCase } from '../../../application/update-list-by-id/update-list-by-id-use-case';
-import { BodyParser } from '../../../../../core/http/utils/parse-body';
-import { IUpdateListByIdRequestDTO } from '../../../application/update-list-by-id/update-list-by-id-dto';
-import { ReplyResponder } from '../../../../../core/http/utils/reply';
-import { UpdateListByIdViewModel } from '../../../application/update-list-by-id/update-list-by-id-view-model';
+import { UpdateListByIdUseCase } from 'modules/shopping/application/update-list-by-id/update-list-by-id-use-case';
+import { BodyParser } from 'core/http/utils/parse-body';
+import { IUpdateListByIdRequestDTO } from 'modules/shopping/application/update-list-by-id/update-list-by-id-dto';
+import { ReplyResponder } from 'core/http/utils/reply';
+import { UpdateListByIdViewModel } from 'modules/shopping/application/update-list-by-id/update-list-by-id-view-model';
 
 class UpdateListByIdController {
   constructor(private updateListByIdUseCase: UpdateListByIdUseCase) {}

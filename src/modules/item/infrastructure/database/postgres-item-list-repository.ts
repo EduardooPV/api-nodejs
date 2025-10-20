@@ -2,19 +2,18 @@ import crypto from 'crypto';
 import { prisma } from 'core/database/prisma-client';
 import { ItemList } from 'modules/item/domain/entities/item-list';
 import { IItemList } from 'modules/item/domain/repositories/item-list-repository';
-import { ICreateItemDTO } from 'modules/item/application/create-item/create-item-dto';
 import { IGetAllItemsByShoppingIdDTO } from 'modules/item/application/get-all-items-by-shopping-id/get-all-items-by-shopping-id-dto';
 import { IDeleteItemByIdDTO } from 'modules/item/application/delete-item-by-id/delete-item-by-id-dto';
 import { IGetItemByIdDTO } from 'modules/item/application/get-item-by-id/get-item-by-id-dto';
 import { IUpdateItemByIdDTO } from '../../application/update-item-by-id/update-item-by-id-dto';
 
 class PostgresItemListRepository implements IItemList {
-  async create(data: ICreateItemDTO): Promise<ItemList> {
+  async create(data: ItemList, shoppingListId: string): Promise<ItemList> {
     return await prisma.itemList.create({
       data: {
         name: data.name,
         status: 'pending',
-        shoppingListId: data.shoppingListId,
+        shoppingListId: shoppingListId,
         amount: 0,
         id: crypto.randomUUID(),
       },
